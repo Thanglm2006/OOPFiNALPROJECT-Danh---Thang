@@ -19,12 +19,12 @@ public class TestTakingDataFromSQLServer {
             System.out.println(connection_String);
             c=DriverManager.getConnection(connection_String);
             Statement s=c.createStatement();
-            ResultSet res= s.executeQuery("select FilePath From AudioForVocab" +"\n"+
+            ResultSet res= s.executeQuery("select FilePath,Meaning From AudioForVocab" +"\n"+
                     " join Vocabulary on Vocabulary.WordID=AudioForVocab.WordID" +"\n"+
-                    " where Vocabulary.Word='mother';");
+                    " where Vocabulary.Word like 'a%';");
            while(res.next()) {
                String sf = res.getNString("FilePath");
-               System.out.println(sf);
+               System.out.printf("%s %n %s %n",sf, res.getNString("Meaning"));
                playAudio(sf);
            }
 
