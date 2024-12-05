@@ -13,10 +13,8 @@ public class TestTakingDataFromSQLServer {
     FileInputStream fis=null;
     public TestTakingDataFromSQLServer() {
         try {
-            File f= new File("src/Res/Connection.txt");
-            f.getParentFile().mkdirs();
-            fis= new FileInputStream(f);
-            BufferedReader r= new BufferedReader(new FileReader(f));
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream("Connection.txt");
+            BufferedReader r= new BufferedReader(new InputStreamReader(inputStream));
             String connection_String= r.readLine();
             System.out.println(connection_String);
             c=DriverManager.getConnection(connection_String);
