@@ -7,7 +7,7 @@ import java.sql.*;
 public class SQLQueries {
     Connection c=null;
     Statement st=null;
-    String search="select Word,Pronunciation,FilePath,Meaning From AudioForVocab" +"\n"+
+    String search="select Word,Pronunciation,FilePath,Meaning,CategoryName From AudioForVocab" +"\n"+
             " join Vocabulary on Vocabulary.WordID=AudioForVocab.WordID" +"\n"+
             " where Vocabulary.Word like ";
     public SQLQueries() {

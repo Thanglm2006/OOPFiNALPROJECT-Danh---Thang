@@ -107,13 +107,14 @@ public class DictionaryFrame extends JPanel{
         add(cr,BorderLayout.CENTER);
     }
     public class Item{
-        private String Word,Pronunciation,Meaning,FilePath;
+        private String Word,Pronunciation,Meaning,FilePath,Cate;
 
-        public Item(String word, String pronunciation, String meaning,String FilePath) {
+        public Item(String word, String pronunciation, String meaning,String FilePath,String CategoryName) {
             Word = word;
             Pronunciation = pronunciation;
             Meaning = meaning;
             this.FilePath=FilePath;
+            Cate=CategoryName;
         }
 
         @Override
@@ -137,13 +138,13 @@ public class DictionaryFrame extends JPanel{
         }
         ResultSet res1 =sql.Search(txt);
         if(!res1.next()){
-            Mlist.addElement(new Item("NotFound!","","",""));
+            Mlist.addElement(new Item("NotFound!","","","",""));
         }
         ResultSet res= sql.Search(txt);
             try {
                 while (res.next()) {
                     System.out.println(res.getNString("Word"));
-                    Item tmp = new Item(res.getNString("Word"), res.getNString("Pronunciation"), res.getNString("Meaning"), res.getNString("FilePath"));
+                    Item tmp = new Item(res.getNString("Word"), res.getNString("Pronunciation"), res.getNString("Meaning"), res.getNString("FilePath"),res.getNString("CategoryName"));
                     Mlist.addElement(tmp);
                 }
             } catch (SQLException e) {
@@ -183,7 +184,7 @@ public class DictionaryFrame extends JPanel{
 
         @Override
         public Component getListCellRendererComponent(JList<? extends Item> list, Item value, int index, boolean isSelected, boolean cellHasFocus) {
-            Word.setText(value.Word);
+            Word.setText(value.Word+"   ("+value.Cate+")");
             Pronunciation.setText(value.Pronunciation);
             Meaning.setText(value.Meaning);
             if(value.FilePath.equalsIgnoreCase("")) Au.setVisible(false);
