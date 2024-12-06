@@ -8,8 +8,11 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Array;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+
 import static Res.MP3Mplayer.playAudio;
 
 public class DictionaryFrame extends JPanel{
@@ -51,23 +54,25 @@ public class DictionaryFrame extends JPanel{
         });
 
         cr= new JScrollPane(searchDatas);
-        cr.setSize(550,600);
+        cr.setSize(900,600);
         cr.setVisible(true);
         cr.setBorder(new EtchedBorder());
         cr.setRowHeader(new JViewport());
         cr.setEnabled(true);
-        JButton exit= new JButton("Thoát");
-        exit.setFont(new Font("Times New Roman",Font.PLAIN,10));
-        exit.setSize(100,29);
-        exit.setLocation(450,0);
-        exit.addActionListener(e -> {
-            cr.setVisible(false);
+        JButton ok= new JButton("Tìm Kiếm");
+        ok.setFont(new Font("Times New Roman",Font.PLAIN,10));
+        ok.setSize(100,30);
+        ok.setLocation(800,0);
+        ok.addActionListener(e ->{
+            try{
+                search();
+            } catch (SQLException ex) {
+
+            }
         });
-
-
         searchBar = new JTextField("Từ điển");
         searchBar.setForeground(Color.gray);
-        searchBar.setSize(450, 30);
+        searchBar.setSize(800, 30);
         searchBar.setLocation(0,0);
         searchBar.setFont(new Font("Times New Roman", Font.PLAIN, 27));
         searchBar.addActionListener(e -> {
@@ -81,7 +86,11 @@ public class DictionaryFrame extends JPanel{
                     searchBar.setForeground(Color.BLACK);
                 }else if(e.getKeyChar()==KeyEvent.VK_ENTER){
                     cr.setVisible(true);
-                    search();
+                    try{
+                        search();
+                    } catch (SQLException ex) {
+
+                    }
                 }
             }
         });
@@ -89,11 +98,11 @@ public class DictionaryFrame extends JPanel{
         setLayout(new BorderLayout());
         sP= new JPanel();
         sP.setLayout(null);
-        sP.setPreferredSize(new Dimension(550,30));
+        sP.setPreferredSize(new Dimension(900,30));
         sP.add(searchBar);
-        sP.add(exit);
-        setSize(550,700);
-        setLocation(365,0);
+        sP.add(ok);
+        setSize(900,700);
+        setLocation(140,0);
         add(sP,BorderLayout.NORTH);
         add(cr,BorderLayout.CENTER);
     }
@@ -117,30 +126,44 @@ public class DictionaryFrame extends JPanel{
         }
     }
 
-    public void search(){
+    public void search() throws SQLException {
         Mlist.clear();
         String txt=searchBar.getText();
-        ResultSet res =sql.Search(txt);
-        try{
-            while(res.next()){
-                System.out.println(res.getNString("Word"));
-                Item tmp=  new Item(res.getNString("Word"),res.getNString("Pronunciation"), res.getNString("Meaning"),res.getNString("FilePath"));
-                Mlist.addElement(tmp);
-            }
-        } catch (SQLException e) {
-
+        while(txt.charAt(txt.length()-1)==' '){
+            txt=txt.substring(0,txt.length()-1);
         }
+        while(txt.charAt(0)==' '){
+            txt=txt.substring(1);
+        }
+        ResultSet res1 =sql.Search(txt);
+        if(!res1.next()){
+            Mlist.addElement(new Item("NotFound!","","",""));
+        }
+        ResultSet res= sql.Search(txt);
+            try {
+                while (res.next()) {
+                    System.out.println(res.getNString("Word"));
+                    Item tmp = new Item(res.getNString("Word"), res.getNString("Pronunciation"), res.getNString("Meaning"), res.getNString("FilePath"));
+                    Mlist.addElement(tmp);
+                }
+            } catch (SQLException e) {
+
+            }
 
     }
     static class Render extends JPanel implements ListCellRenderer<Item>{
         private JLabel Word, Pronunciation, Meaning;
         private JButton Au;
+        public Render takeRender(){
+            return this;
+        }
+        public JButton takeAu(){
+            return Au;
+        }
         public Render() {
             setLayout( new BorderLayout());
             Au= new JButton(ic);
             Au.setBounds(0,0,20,20);
-            Au.setFocusable(false);
-            Au.setOpaque(true);
             Word =new JLabel("");
             Word.setFont(new Font("Arial",Font.BOLD,20));
 
@@ -156,10 +179,6 @@ public class DictionaryFrame extends JPanel{
             add(Word,BorderLayout.NORTH);
             add(Pronunciation,BorderLayout.CENTER);
             add(Meaning,BorderLayout.SOUTH);
-
-            Au.addActionListener(e -> {
-                System.out.println("Play button clicked");
-            });
         }
 
         @Override
@@ -167,7 +186,10 @@ public class DictionaryFrame extends JPanel{
             Word.setText(value.Word);
             Pronunciation.setText(value.Pronunciation);
             Meaning.setText(value.Meaning);
-
+            if(value.FilePath.equalsIgnoreCase("")) Au.setVisible(false);
+            else{
+                Au.setVisible(true);
+            }
             if (isSelected) {
                 setBackground(list.getSelectionBackground());
                 setForeground(list.getSelectionForeground());
@@ -179,5 +201,17 @@ public class DictionaryFrame extends JPanel{
             setOpaque(true);
             return this;
         }
+    }
+
+    public static void main(String[] args) {
+        DictionaryFrame se;
+        JFrame f= new JFrame();
+        f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        f.setLayout(null);
+        f.setSize(1280,700);
+        f.setLocationRelativeTo(null);
+        se= new DictionaryFrame();
+        f.add(se);
+        f.setVisible(true);
     }
 }
