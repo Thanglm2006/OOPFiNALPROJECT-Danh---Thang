@@ -1,12 +1,11 @@
 
-import javazoom.jl.decoder.JavaLayerException;
-import javazoom.jl.player.Player;
 
 import java.io.*;
 import java.sql.*;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import static Res.MP3Mplayer.playAudio;
 
 public class TestTakingDataFromSQLServer {
     Connection c= null;
@@ -21,7 +20,7 @@ public class TestTakingDataFromSQLServer {
             Statement s=c.createStatement();
             ResultSet res= s.executeQuery("select FilePath,Meaning From AudioForVocab" +"\n"+
                     " join Vocabulary on Vocabulary.WordID=AudioForVocab.WordID" +"\n"+
-                    " where Vocabulary.Word like 'a%';");
+                    " where Vocabulary.Word like 'hello';");
            while(res.next()) {
                String sf = res.getNString("FilePath");
                System.out.printf("%s %n %s %n",sf, res.getNString("Meaning"));
@@ -47,16 +46,7 @@ public class TestTakingDataFromSQLServer {
         }
 
     }
-    public void playAudio(String sf) {
-        Player p = null;
-        try {
-            p = new Player(new FileInputStream(sf));
-            p.play();
-        } catch (JavaLayerException | FileNotFoundException e) {
 
-            System.out.println("error!");
-        }
-    }
     public static void main(String[] args) {
         new TestTakingDataFromSQLServer();
     }

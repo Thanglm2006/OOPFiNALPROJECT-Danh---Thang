@@ -21,19 +21,19 @@ public class MainPageForTeacher extends JFrame {
         ImageIcon scaledIcon = new ImageIcon(scaledImg); //
         MenuButton.setIcon(scaledIcon);
         MenuButton.setBorderPainted(false);
-        MenuButton.addActionListener(e -> {
-            MenuButton.setBorderPainted(true);
-            Timer t= new Timer(0, new ActionListener() {
-                int i=0;
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    i++;
-                    while(i<T) i++;
-                    MenuButton.setBorderPainted(false);
-                }
-            });
-            t.start();
-        });
+//        MenuButton.addActionListener(e -> {
+//            MenuButton.setBorderPainted(true);
+//            Timer t= new Timer(0, new ActionListener() {
+//                int i=0;
+//                @Override
+//                public void actionPerformed(ActionEvent e) {
+//                    i++;
+//                    while(i<T) i++;
+//                    MenuButton.setBorderPainted(false);
+//                }
+//            });
+//            t.start();
+//        });
         MenuButton.setSize(50,50);
         MenuButton.setLocation(0,0);
         p.add(MenuButton);
