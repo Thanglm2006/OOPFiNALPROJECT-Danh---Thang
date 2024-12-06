@@ -81,11 +81,10 @@ public class DictionaryFrame extends JPanel{
         searchBar.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
-                if (searchBar.getText().equals("Từ điển")) {
+                if (searchBar.getText().equalsIgnoreCase("Từ điển")) {
                     searchBar.setText("");
                     searchBar.setForeground(Color.BLACK);
                 }else if(e.getKeyChar()==KeyEvent.VK_ENTER){
-                    cr.setVisible(true);
                     try{
                         search();
                     } catch (SQLException ex) {
