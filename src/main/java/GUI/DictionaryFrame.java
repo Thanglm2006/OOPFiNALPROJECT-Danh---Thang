@@ -41,8 +41,6 @@ public class DictionaryFrame extends JPanel{
                 if (index != -1) {
                     Rectangle cellBounds = searchDatas.getCellBounds(index, index);
                     Point clickPoint = e.getPoint();
-
-
                     if (cellBounds.contains(clickPoint)) {
                         Item item = Mlist.getElementAt(index);
                         playAudio(item.FilePath);
