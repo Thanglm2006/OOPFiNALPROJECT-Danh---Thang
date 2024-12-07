@@ -45,8 +45,6 @@ public class DictionaryFrame extends JPanel{
 
                     if (cellBounds.contains(clickPoint)) {
                         Item item = Mlist.getElementAt(index);
-                        System.out.println(item.Word);
-                        System.out.println(item.FilePath);
                         playAudio(item.FilePath);
                     }
                 }
@@ -142,7 +140,6 @@ public class DictionaryFrame extends JPanel{
         ResultSet res= sql.Search(txt);
             try {
                 while (res.next()) {
-                    System.out.println(res.getNString("Word"));
                     Item tmp = new Item(res.getNString("Word"), res.getNString("Pronunciation"), res.getNString("Meaning"), res.getNString("FilePath"),res.getNString("CategoryName"));
                     Mlist.addElement(tmp);
                 }
