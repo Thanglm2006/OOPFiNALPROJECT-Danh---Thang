@@ -1,2 +1,0 @@
-jdbc:sqlserver://THE-CONQUEROR\SQLEXPRESST;Database=data;IntegratedSecurity=true;encrypt=true;trustServerCertificate=true
-
