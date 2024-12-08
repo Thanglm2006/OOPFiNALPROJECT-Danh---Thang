@@ -1,4 +1,4 @@
-package GUI;
+package Res;
 import java.io.*;
 import java.sql.*;
 public class SQLQueries {

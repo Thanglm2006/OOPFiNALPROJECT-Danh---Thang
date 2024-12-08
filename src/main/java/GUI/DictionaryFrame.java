@@ -1,4 +1,6 @@
 package GUI;
+import Res.SQLQueries;
+
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
