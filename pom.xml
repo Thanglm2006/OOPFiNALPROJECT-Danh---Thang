@@ -24,6 +24,12 @@
             <scope>system</scope>
             <systemPath>${project.basedir}/libs/jl1.0.1.jar</systemPath>
         </dependency>
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>1.6.2</version>
+        </dependency>
+
     </dependencies>
     <build>
         <plugins>
