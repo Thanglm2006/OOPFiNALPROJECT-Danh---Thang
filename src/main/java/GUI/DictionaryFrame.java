@@ -52,8 +52,6 @@ public class DictionaryFrame extends JPanel{
         cr= new JScrollPane(searchDatas);
         cr.setSize(900,600);
         cr.setVisible(true);
-        cr.setBorder(new EtchedBorder());
-        cr.setRowHeader(new JViewport());
         cr.setEnabled(true);
         JButton ok= new JButton("Tìm Kiếm");
         ok.setFont(new Font("Times New Roman",Font.PLAIN,10));
