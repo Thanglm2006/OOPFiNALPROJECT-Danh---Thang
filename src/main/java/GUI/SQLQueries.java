@@ -9,7 +9,7 @@ public class SQLQueries {
     Statement st=null;
     String search="select Word,Pronunciation,FilePath,Meaning,CategoryName From AudioForVocab" +"\n"+
             " join Vocabulary on Vocabulary.WordID=AudioForVocab.WordID" +"\n"+
-            " where Vocabulary.Word like ";
+            " where Vocabulary.Word like '%s' or Vocabulary.Meaning like '%s';";
     public SQLQueries() {
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream("Connection.txt");
         BufferedReader r= new BufferedReader(new InputStreamReader(inputStream));
@@ -27,7 +27,8 @@ public class SQLQueries {
         ResultSet res=null;
         try {
             st=c.createStatement();
-            res=st.executeQuery(search+"'"+txt+"%';");
+            String text= String.format(search,txt+"%",txt+"%");
+            res=st.executeQuery(text);
         } catch (SQLException e) {
 
         }
@@ -36,7 +37,7 @@ public class SQLQueries {
 
     public static void main(String[] args) throws SQLException {
         SQLQueries a= new SQLQueries();
-        ResultSet res=a.Search("hello");
+        ResultSet res=a.Search("xin chào");
         while(res.next()){
             System.out.println(res.getNString("Word"));
         }

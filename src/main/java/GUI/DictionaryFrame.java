@@ -89,7 +89,6 @@ public class DictionaryFrame extends JPanel{
                 }
             }
         });
-
         setLayout(new BorderLayout());
         sP= new JPanel();
         sP.setLayout(null);
