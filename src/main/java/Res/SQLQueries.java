@@ -1,6 +1,7 @@
 package Res;
 import java.io.*;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.sql.*;
 
 public class SQLQueries {
@@ -27,45 +28,29 @@ public class SQLQueries {
             "from Teacher join TeacherAccount on TeacherAccount.TeacherID= Teacher.TeacherId\n" +
             "where Account='%s' or Email='%s'";
     public SQLQueries() {
-        FileInputStream f=null;
-        ObjectInputStream ois=null;
+        String connectionS = null;
         try {
-            URL resourceUrl = getClass().getClassLoader().getResource("ConnectionToSQL.dat");
+            URL resourceUrl = getClass().getClassLoader().getResource("ConnectionToSQL1.dat");
             if (resourceUrl == null) {
-                throw new FileNotFoundException("Resource 'ConnectionToSQL.dat' not found.");
+                throw new FileNotFoundException("Resource 'ConnectionToSQL1.dat' not found.");
             }
-            File tempFile = File.createTempFile("ConnectionToSQL", ".dat");
-            try (InputStream in = resourceUrl.openStream();
-                 OutputStream out = new FileOutputStream(tempFile)) {
+            try (InputStream in = resourceUrl.openStream()) {
                 byte[] buffer = new byte[1024];
                 int bytesRead;
+                ByteArrayOutputStream byteCollector = new ByteArrayOutputStream();
+
                 while ((bytesRead = in.read(buffer)) != -1) {
-                    out.write(buffer, 0, bytesRead);
+                    byteCollector.write(buffer, 0, bytesRead);
                 }
+                byte[] fullBytes = byteCollector.toByteArray();
+                 connectionS  = new String(fullBytes, "UTF-8");
+                 connectionS=connectionS.substring(7);
             }
-             f = new FileInputStream(tempFile);
-             ois= new ObjectInputStream(f);
-             s =(String) ois.readObject();
-            System.out.println(s);
-             this.c=DriverManager.getConnection(s);
+            System.out.println(connectionS);
+             this.c=DriverManager.getConnection(connectionS);
             st=c.createStatement();
-        } catch (IOException | ClassNotFoundException | SQLException e) {
+        } catch (IOException | SQLException e) {
             e.printStackTrace();
-        } finally{
-            if(f!=null) {
-                try {
-                    f.close();
-                } catch (IOException e) {
-
-                }
-            }
-            if(ois!=null){
-                try {
-                    ois.close();
-                } catch (IOException e) {
-
-                }
-            }
         }
     }
     public String[] getTeacherMail(String Acc){
