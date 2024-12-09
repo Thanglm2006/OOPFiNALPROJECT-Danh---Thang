@@ -1,6 +1,9 @@
 package Res;
 import java.io.*;
+import java.net.URL;
 import java.sql.*;
+import java.util.Properties;
+
 public class SQLQueries {
     private Connection c=null;
     private Statement st=null;
@@ -28,13 +31,26 @@ public class SQLQueries {
         FileInputStream f=null;
         ObjectInputStream ois=null;
         try {
-             f= new FileInputStream(getClass().getClassLoader().getResource("Connection.dat").getPath());
+            URL resourceUrl = getClass().getClassLoader().getResource("Connection.dat");
+            if (resourceUrl == null) {
+                throw new FileNotFoundException("Resource 'Connection.dat' not found.");
+            }
+            File tempFile = File.createTempFile("Connection", ".dat");
+            try (InputStream in = resourceUrl.openStream();
+                 OutputStream out = new FileOutputStream(tempFile)) {
+                byte[] buffer = new byte[1024];
+                int bytesRead;
+                while ((bytesRead = in.read(buffer)) != -1) {
+                    out.write(buffer, 0, bytesRead);
+                }
+            }
+            f = new FileInputStream(tempFile);
              ois= new ObjectInputStream(f);
              s =(String) ois.readObject();
-             this.c=DriverManager.getConnection(s);
+            this.c=DriverManager.getConnection(s);
             st=c.createStatement();
         } catch (IOException | ClassNotFoundException | SQLException e) {
-
+            e.printStackTrace();
         } finally{
             if(f!=null) {
                 try {
@@ -175,5 +191,10 @@ public class SQLQueries {
         return true;
     }
     public static void main(String[] args) throws SQLException {
+        SQLQueries s=new SQLQueries();
+        ResultSet res= s.Search("hello");
+        while(res.next()){
+            System.out.println(res.getNString("Word"));
+        }
     }
 }
