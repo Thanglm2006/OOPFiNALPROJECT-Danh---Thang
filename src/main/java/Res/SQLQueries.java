@@ -30,11 +30,11 @@ public class SQLQueries {
         FileInputStream f=null;
         ObjectInputStream ois=null;
         try {
-            URL resourceUrl = getClass().getClassLoader().getResource("Connection.dat");
+            URL resourceUrl = getClass().getClassLoader().getResource("ConnectionToSQL.dat");
             if (resourceUrl == null) {
-                throw new FileNotFoundException("Resource 'Connection.dat' not found.");
+                throw new FileNotFoundException("Resource 'ConnectionToSQL.dat' not found.");
             }
-            File tempFile = File.createTempFile("Connection", ".dat");
+            File tempFile = File.createTempFile("ConnectionToSQL", ".dat");
             try (InputStream in = resourceUrl.openStream();
                  OutputStream out = new FileOutputStream(tempFile)) {
                 byte[] buffer = new byte[1024];
@@ -43,7 +43,7 @@ public class SQLQueries {
                     out.write(buffer, 0, bytesRead);
                 }
             }
-            f = new FileInputStream(tempFile);
+             f = new FileInputStream(tempFile);
              ois= new ObjectInputStream(f);
              s =(String) ois.readObject();
             System.out.println(s);
