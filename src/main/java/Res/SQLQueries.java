@@ -2,7 +2,6 @@ package Res;
 import java.io.*;
 import java.net.URL;
 import java.sql.*;
-import java.util.Properties;
 
 public class SQLQueries {
     private Connection c=null;
@@ -47,7 +46,8 @@ public class SQLQueries {
             f = new FileInputStream(tempFile);
              ois= new ObjectInputStream(f);
              s =(String) ois.readObject();
-            this.c=DriverManager.getConnection(s);
+            System.out.println(s);
+             this.c=DriverManager.getConnection(s);
             st=c.createStatement();
         } catch (IOException | ClassNotFoundException | SQLException e) {
             e.printStackTrace();
