@@ -1,13 +1,12 @@
+package Res;
+
 import javax.mail.*;
 import javax.mail.internet.*;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.Properties;
-public class mailTest {
+public class AutomticMail {
     private  String Sender;
     private  String Pass;
     private  Properties props = new Properties();
@@ -38,7 +37,7 @@ public  void sendmail(String recipient, String Title,String Text){
 
     }
 
-    public mailTest() {
+    public AutomticMail() {
         FileInputStream f1=null;
         ObjectInputStream ois1=null;
         FileInputStream f2=null;
@@ -89,7 +88,7 @@ public  void sendmail(String recipient, String Title,String Text){
 
 
     public static void main(String[] args) {
-        mailTest m= new mailTest();
+        AutomticMail m= new AutomticMail();
         m.sendmail("thanglm.24ai@vku.udn.vn","Hello","hi");
     }
 }

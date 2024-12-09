@@ -11,11 +11,19 @@ public class SQLQueries {
     private String registerForStudent="insert into StudentAccount (Account, Password)" +"\n"+
             " values ('%s', '%s');"+"\n"+
             "insert into Student (StudentID,StudentName, Email, BirthDate) "+"\n"+
-            "values (%d,'%s', '%s','%s')";
+            "values (%d,N'%s', '%s','%s')";
     private String registerForTeacher="insert into TeacherAccount (Account, Password)" +"\n"+
             " values ('%s', '%s');"+"\n"+
             "insert into Teacher (TeacherID,TeacherName, Email, BirthDate) "+"\n"+
-            "values (%d,'%s', '%s', '%s')";
+            "values (%d,N'%s', '%s', '%s')";
+    private String loginStudent="select Account,Password from StudentAccount where Account='%s'";
+    private String loginTeacher="select Account,Password from TeacherAccount where Account='%s'";
+    private String sendStudent="select Email, Password\n" +
+            "from Student join StudentAccount on StudentAccount.StudentID= Student.StudentId\n" +
+            "where Account='%s' or Email='%s'";
+    private String sendTeacher="select Email,Password\n" +
+            "from Teacher join TeacherAccount on TeacherAccount.TeacherID= Teacher.TeacherId\n" +
+            "where Account='%s' or Email='%s'";
     public SQLQueries() {
         FileInputStream f=null;
         ObjectInputStream ois=null;
@@ -44,8 +52,46 @@ public class SQLQueries {
             }
         }
     }
-
-
+    public String[] getTeacherMail(String Acc){
+        try {
+            String txt=String.format(sendTeacher,Acc,Acc);
+            String[] tmp= new String[2];
+            ResultSet res= st.executeQuery(txt);
+            if(!res.next()){
+                tmp[0]="no email";
+                return tmp;
+            }
+            ResultSet res1= st.executeQuery(txt);
+            while(res1.next()){
+                tmp[0]=res1.getNString("Email");
+                tmp[1]=res1.getNString("Password");
+                return tmp;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public String[] getStudentMail(String Acc){
+        try {
+            String txt=String.format(sendStudent,Acc,Acc);
+            String[] tmp= new String[2];
+            ResultSet res= st.executeQuery(txt);
+            if(!res.next()){
+                tmp[0]="no email";
+                return tmp;
+            }
+            ResultSet res1= st.executeQuery(txt);
+            while(res1.next()){
+                tmp[0]=res1.getNString("Email");
+                tmp[1]=res1.getNString("Password");
+                return tmp;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     public ResultSet  Search(String txt){
         ResultSet res=null;
         try {
@@ -55,6 +101,36 @@ public class SQLQueries {
 
         }
         return res;
+    }
+    public String LoginStudent(String Acc){
+        try {
+            ResultSet res= st.executeQuery(String.format(loginStudent,Acc));
+            if(!res.next()){
+                return "no acc";
+            }
+            ResultSet res1= st.executeQuery(String.format(loginStudent,Acc));
+            while(res1.next()){
+                return res1.getNString("Password");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public String LoginTeacher(String Acc){
+        try {
+            ResultSet res= st.executeQuery(String.format(loginTeacher,Acc));
+            if(!res.next()){
+                return "no acc";
+            }
+            ResultSet res1= st.executeQuery(String.format(loginTeacher,Acc));
+            while(res1.next()){
+                return res1.getNString("Password");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
     public boolean insertTeacher(String acc, String pass, String name, String email, String birth){
         int id=0;
