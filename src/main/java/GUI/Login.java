@@ -155,7 +155,7 @@ public class Login extends javax.swing.JPanel {
 
         forget.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
         forget.setForeground(new java.awt.Color(30, 122, 236));
-        forget.setText("Bạn đã quên mật khẩu ư?");
+        forget.setText("Quên mật khẩu?");
         forget.setCursor(new Cursor(Cursor.HAND_CURSOR));
         forget.addMouseListener(new MouseAdapter() {
             @Override
@@ -166,11 +166,17 @@ public class Login extends javax.swing.JPanel {
                     String pass=res[1];
                     if(getAcc().isEmpty()){
                         m1.setText("Nhập tài khoản hoặc email trước!");
+                        m1.setForeground(Color.RED);
+
                     }
                     else if(email==null||email.equals("no email")){
                         m1.setText("Tài khoản không tồn tại!");
+                        m1.setForeground(Color.RED);
+
                     }else{
                         m1.setText("");
+                        m1.setForeground(Color.GREEN);
+
                         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                         SwingWorker<Void, Void> w= new SwingWorker<Void, Void>() {
                             @Override
@@ -193,11 +199,15 @@ public class Login extends javax.swing.JPanel {
                     String pass=res[1];
                     if(getAcc().isEmpty()){
                         m1.setText("Nhập tài khoản hoặc email trước!");
+                        m1.setForeground(Color.RED);
                     }
                     else if(email==null||email.equals("no email")){
                         m1.setText("Tài khoản không tồn tại!");
+                        m1.setForeground(Color.RED);
+
                     }else{
-                        m1.setText("");
+                        m1.setText("Mật khẩu đã được gửi về gmail của bạn!");
+                        m1.setForeground(Color.GREEN);
                         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                         SwingWorker<Void, Void> w= new SwingWorker<Void, Void>() {
                             @Override

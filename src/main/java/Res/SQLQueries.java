@@ -7,7 +7,6 @@ import java.sql.*;
 public class SQLQueries {
     private Connection c=null;
     private Statement st=null;
-    private String s;
     private String search="select Word,Pronunciation,FilePath,Meaning,CategoryName From AudioForVocab" +"\n"+
             " join Vocabulary on Vocabulary.WordID=AudioForVocab.WordID" +"\n"+
             " where Vocabulary.Word like '%s' or Vocabulary.Meaning like '%s';";
@@ -28,7 +27,7 @@ public class SQLQueries {
             "from Teacher join TeacherAccount on TeacherAccount.TeacherID= Teacher.TeacherId\n" +
             "where Account='%s' or Email='%s'";
     public SQLQueries() {
-        String connectionS = null;
+        String connectionS;
         try {
             URL resourceUrl = getClass().getClassLoader().getResource("ConnectionToSQL1.dat");
             if (resourceUrl == null) {
