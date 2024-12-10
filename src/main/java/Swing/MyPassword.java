@@ -1,5 +1,6 @@
 package Swing;
 
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -13,6 +14,7 @@ public class MyPassword extends JPasswordField {
         this.prefixIcon = prefixIcon;
         initBorder();
     }
+
     public Icon getSuffixIcon() {
         return suffixIcon;
     }
@@ -20,9 +22,6 @@ public class MyPassword extends JPasswordField {
     public void setSuffixIcon(Icon suffixIcon) {
         this.suffixIcon = suffixIcon;
         initBorder();
-    }
-    public  String getText(){
-        return String.valueOf(this.getPassword());
     }
 
     private Icon prefixIcon;

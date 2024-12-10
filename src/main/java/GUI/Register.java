@@ -3,20 +3,19 @@ package GUI;
 
 import Res.SQLQueries;
 import Swing.MyButton;
-import Swing.MyPassword;
-import Swing.MyTextField;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+
+import Swing.MyPassword;
+import Swing.MyTextField;
 import raven.datetime.component.date.DateEvent;
 import raven.datetime.component.date.DatePicker;
 import raven.datetime.component.date.DateSelectionListener;
-import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.EtchedBorder;
 
 
 public class Register extends javax.swing.JPanel {

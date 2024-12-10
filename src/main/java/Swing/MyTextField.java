@@ -1,5 +1,6 @@
 package Swing;
 
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -27,7 +28,7 @@ public class MyTextField extends JTextField {
     private Icon suffixIcon;
 
     public MyTextField() {
-        setBorder(javax.swing.BorderFactory.createEmptyBorder(7, 5, 7, 5));
+        setBorder(BorderFactory.createEmptyBorder(7, 5, 7, 5));
     }
 
     @Override
@@ -72,6 +73,6 @@ public class MyTextField extends JTextField {
             //  suffix is right
             right = suffixIcon.getIconWidth() + 5;
         }
-        setBorder(javax.swing.BorderFactory.createEmptyBorder(7, left, 7, right));
+        setBorder(BorderFactory.createEmptyBorder(7, left, 7, right));
     }
 }

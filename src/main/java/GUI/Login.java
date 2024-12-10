@@ -5,7 +5,6 @@ import Res.AutomticMail;
 import Res.SQLQueries;
 import Swing.MyButton;
 import Swing.MyPassword;
-import Swing.MyTextField;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +17,7 @@ public class Login extends javax.swing.JPanel {
     private JLabel jLabel1,jLabel2,jLabel3,m1;
     private MyButton myButton1;
     private MyPassword txtPass;
-    private MyTextField txtUser;
+    private MyPassword txtUser;
     private AutomticMail mail;
     public Login() {
         initComponents();
@@ -40,7 +39,7 @@ public class Login extends javax.swing.JPanel {
     private void initComponents() {
         sql= new SQLQueries();
         mail= new AutomticMail();
-        txtUser = new MyTextField();
+        txtUser = new MyPassword();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         txtPass = new MyPassword();

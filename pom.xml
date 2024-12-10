@@ -18,12 +18,11 @@
             <version>12.8.1.jre11</version>
         </dependency>
         <dependency>
-            <groupId>com.javazoom</groupId>
+            <groupId>javazoom</groupId>
             <artifactId>jlayer</artifactId>
             <version>1.0.1</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/libs/jl1.0.1.jar</systemPath>
         </dependency>
+
         <dependency>
             <groupId>com.sun.mail</groupId>
             <artifactId>javax.mail</artifactId>
@@ -39,7 +38,21 @@
             <artifactId>swing-datetime-picker</artifactId>
             <version>1.4.1</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.swinglabs</groupId>
+            <artifactId>swing-layout</artifactId>
+            <version>1.0.3</version>
+        </dependency>
+        <dependency>
+            <groupId>net.java.timingframework</groupId>
+            <artifactId>timingframework-swing</artifactId>
+            <version>4.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.kenai.nbpwr</groupId>
+            <artifactId>org-jdesktop-animation-timing</artifactId>
+            <version>1.0-201002281504</version>
+        </dependency>
 
     </dependencies>
     <build>
