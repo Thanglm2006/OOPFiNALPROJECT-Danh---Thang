@@ -2,9 +2,8 @@ package Res;
 
 import javax.mail.*;
 import javax.mail.internet.*;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
+import java.io.*;
+import java.net.URL;
 import java.util.Properties;
 public class AutomticMail {
     private  String Sender;
@@ -38,53 +37,52 @@ public  void sendmail(String recipient, String Title,String Text){
     }
 
     public AutomticMail() {
-        FileInputStream f1=null;
-        ObjectInputStream ois1=null;
-        FileInputStream f2=null;
-        ObjectInputStream ois2=null;
+
+
         try {
-            f1= new FileInputStream(getClass().getClassLoader().getResource("email.dat").getPath());
-            ois1= new ObjectInputStream(f1);
-            f2= new FileInputStream(getClass().getClassLoader().getResource("pass.dat").getPath());
-            ois2= new ObjectInputStream(f2);
-            Sender=(String)ois1.readObject();
-            Pass= (String)ois2.readObject();
+            URL resourceUrl = getClass().getClassLoader().getResource("email.dat");
+            if (resourceUrl == null) {
+                throw new FileNotFoundException("Resource 'email.dat' not found.");
+            }
+            try (InputStream in = resourceUrl.openStream()) {
+                byte[] buffer = new byte[1024];
+                int bytesRead;
+                ByteArrayOutputStream byteCollector = new ByteArrayOutputStream();
+
+                while ((bytesRead = in.read(buffer)) != -1) {
+                    byteCollector.write(buffer, 0, bytesRead);
+                }
+                byte[] fullBytes = byteCollector.toByteArray();
+                Sender  = new String(fullBytes, "UTF-8");
+                Sender=Sender.substring(7);
+            }
+
         } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
-        } finally{
-            if(f1!=null) {
-                try {
-                    f1.close();
-                } catch (IOException e) {
-
-                }
+        try {
+            URL resourceUrl = getClass().getClassLoader().getResource("pass.dat");
+            if (resourceUrl == null) {
+                throw new FileNotFoundException("Resource 'pass.dat' not found.");
             }
-            if(ois1!=null){
-                try {
-                    ois1.close();
-                } catch (IOException e) {
+            try (InputStream in = resourceUrl.openStream()) {
+                byte[] buffer = new byte[1024];
+                int bytesRead;
+                ByteArrayOutputStream byteCollector = new ByteArrayOutputStream();
 
+                while ((bytesRead = in.read(buffer)) != -1) {
+                    byteCollector.write(buffer, 0, bytesRead);
                 }
+                byte[] fullBytes = byteCollector.toByteArray();
+                Pass  = new String(fullBytes, "UTF-8");
+                Pass=Pass.substring(7);
             }
-            if(f2!=null) {
-                try {
-                    f2.close();
-                } catch (IOException e) {
 
-                }
-            }
-            if(ois2!=null){
-                try {
-                    ois2.close();
-                } catch (IOException e) {
-
-                }
-            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
-
 
 
     public static void main(String[] args) {

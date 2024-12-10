@@ -194,7 +194,7 @@ public class Login extends javax.swing.JPanel {
                         //
                     }
                 }else{
-                    String[] res =sql.getStudentMail(getAcc());
+                    String[] res =sql.getTeacherMail(getAcc());
                     String email= res[0];
                     String pass=res[1];
                     if(getAcc().isEmpty()){
@@ -204,7 +204,6 @@ public class Login extends javax.swing.JPanel {
                     else if(email==null||email.equals("no email")){
                         m1.setText("Tài khoản không tồn tại!");
                         m1.setForeground(Color.RED);
-
                     }else{
                         m1.setText("Mật khẩu đã được gửi về gmail của bạn!");
                         m1.setForeground(Color.GREEN);
