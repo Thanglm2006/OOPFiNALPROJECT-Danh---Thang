@@ -204,7 +204,7 @@ public class Register extends javax.swing.JPanel {
         });
         cmdBackLogin.setFont(new java.awt.Font("sansserif", 1, 12));
         cmdBackLogin.setForeground(new java.awt.Color(30, 122, 236));
-        cmdBackLogin.setText("Bạn đã có tài khoản ư?");
+        cmdBackLogin.setText("Bạn đã có tài khoản?");
         cmdBackLogin.setContentAreaFilled(false);
         cmdBackLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 

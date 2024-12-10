@@ -39,6 +39,12 @@ public class Main extends javax.swing.JFrame {
                 login.login();
             }
         });
+        login.addEventLogin(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
     }
 
 
@@ -62,7 +68,7 @@ public class Main extends javax.swing.JFrame {
         slide.setLayout(slideLayout);
         slideLayout.setHorizontalGroup(
                 slideLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 373, Short.MAX_VALUE)
+                        .addGap(0, 400, Short.MAX_VALUE)
         );
         slideLayout.setVerticalGroup(
                 slideLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

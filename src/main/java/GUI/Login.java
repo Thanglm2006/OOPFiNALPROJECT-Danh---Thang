@@ -5,6 +5,7 @@ import Res.AutomticMail;
 import Res.SQLQueries;
 import Swing.MyButton;
 import Swing.MyPassword;
+import Swing.MyTextField;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,8 +18,9 @@ public class Login extends javax.swing.JPanel {
     private JLabel jLabel1,jLabel2,jLabel3,m1;
     private MyButton myButton1;
     private MyPassword txtPass;
-    private MyPassword txtUser;
+    private MyTextField txtUser;
     private AutomticMail mail;
+    private ActionListener ac;
     public Login() {
         initComponents();
     }
@@ -30,6 +32,7 @@ public class Login extends javax.swing.JPanel {
     public void addEventRegister(ActionListener event) {
         cmdRegister.addActionListener(event);
     }
+    public void addEventLogin(ActionListener event){ac=event;}
     public String getAcc(){
         return txtUser.getText();
     }
@@ -39,7 +42,7 @@ public class Login extends javax.swing.JPanel {
     private void initComponents() {
         sql= new SQLQueries();
         mail= new AutomticMail();
-        txtUser = new MyPassword();
+        txtUser = new MyTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         txtPass = new MyPassword();
@@ -68,31 +71,49 @@ public class Login extends javax.swing.JPanel {
         myButton1.addActionListener(e -> {
             if(getAcc().matches("SV\\S+")){
                 String pass=sql.LoginStudent(getAcc());
+                if(getAcc().isEmpty()){
+                    m1.setText("Nhập tài khoản hoặc email!");
+                    m1.setForeground(Color.RED);
+                }
+                else
                 if(pass==null||pass.equals("no acc")){
                     m1.setText("Tài khoản không tồn tại!");
                 }else if(!pass.equals(getPass())){
                     m1.setText("Sai mật khẩu!");
                 }else{
                     m1.setText("");
+                    myButton1.addActionListener(ac);
+                    myButton1.doClick();
                     //
                 }
             }else{
                 String pass=sql.LoginTeacher(getAcc());
+                if(getAcc().isEmpty()){
+                    m1.setText("Nhập tài khoản hoặc email!");
+                    m1.setForeground(Color.RED);
+                }
+                else
                 if(pass==null||pass.equals("no acc")){
                     m1.setText("Tài khoản không tồn tại!");
                 }else if(!pass.equals(getPass())){
                     m1.setText("Sai mật khẩu!");
                 }else{
                     m1.setText("");
+                    myButton1.addActionListener(ac);
+                    myButton1.doClick();
                     //
                 }
             }
         });
-        myButton1.addKeyListener(new KeyAdapter() {
+        this.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
                 if(e.getKeyChar()==KeyEvent.VK_ENTER){
-                    if(getAcc().matches("SV\\S+")){
+                    if(getAcc().isEmpty()){
+                        m1.setText("Nhập tài khoản hoặc email!");
+                        m1.setForeground(Color.RED);
+                    }
+                    else if(getAcc().matches("SV\\S+")){
                         String pass=sql.LoginStudent(getAcc());
                         if(pass==null||pass.equals("no acc")){
                             m1.setText("Tài khoản không tồn tại!");
@@ -100,16 +121,25 @@ public class Login extends javax.swing.JPanel {
                             m1.setText("Sai mật khẩu!");
                         }else{
                             m1.setText("");
+                            myButton1.addActionListener(ac);
+                            myButton1.doClick();
                             //
                         }
                     }else{
                         String pass=sql.LoginTeacher(getAcc());
+                        if(getAcc().isEmpty()){
+                            m1.setText("Nhập tài khoản hoặc email!");
+                            m1.setForeground(Color.RED);
+                        }
+                        else
                         if(pass==null||pass.equals("no acc")){
                             m1.setText("Tài khoản không tồn tại!");
                         }else if(!pass.equals(getPass())){
                             m1.setText("Sai mật khẩu!");
                         }else{
                             m1.setText("");
+                            myButton1.addActionListener(ac);
+                            myButton1.doClick();
                             //
                         }
                     }
@@ -122,22 +152,35 @@ public class Login extends javax.swing.JPanel {
                 if(e.getKeyChar()==KeyEvent.VK_ENTER){
                     if(getAcc().matches("SV\\S+")){
                         String pass=sql.LoginStudent(getAcc());
-                        if(pass==null||pass.equals("no acc")){
+                        if(getAcc().isEmpty()){
+                            m1.setText("Nhập tài khoản hoặc email!");
+                            m1.setForeground(Color.RED);
+                        }
+                        else if(pass==null||pass.equals("no acc")){
                             m1.setText("Tài khoản không tồn tại!");
                         }else if(!pass.equals(getPass())){
                             m1.setText("Sai mật khẩu!");
                         }else{
                             m1.setText("");
+                            myButton1.addActionListener(ac);
+                            myButton1.doClick();
                             //
                         }
                     }else{
                         String pass=sql.LoginTeacher(getAcc());
+                        if(getAcc().isEmpty()){
+                            m1.setText("Nhập tài khoản hoặc email!");
+                            m1.setForeground(Color.RED);
+                        }
+                        else
                         if(pass==null||pass.equals("no acc")){
                             m1.setText("Tài khoản không tồn tại!");
                         }else if(!pass.equals(getPass())){
                             m1.setText("Sai mật khẩu!");
                         }else{
                             m1.setText("");
+                            myButton1.addActionListener(ac);
+                            myButton1.doClick();
                             //
                         }
                     }
@@ -171,7 +214,6 @@ public class Login extends javax.swing.JPanel {
                     else if(email==null||email.equals("no email")){
                         m1.setText("Tài khoản không tồn tại!");
                         m1.setForeground(Color.RED);
-
                     }else{
                         m1.setText("");
                         m1.setForeground(Color.GREEN);
@@ -247,7 +289,7 @@ public class Login extends javax.swing.JPanel {
                                 .addContainerGap(50, Short.MAX_VALUE))
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(forget, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(forget, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(103, 103, 103))
         );
         layout.setVerticalGroup(
