@@ -29,9 +29,9 @@ public class SQLQueries {
     public SQLQueries() {
         String connectionS;
         try {
-            URL resourceUrl = getClass().getClassLoader().getResource("ConnectionToSQL1.dat");
+            URL resourceUrl = getClass().getClassLoader().getResource("ConnectionToSQL.dat");
             if (resourceUrl == null) {
-                throw new FileNotFoundException("Resource 'ConnectionToSQL1.dat' not found.");
+                throw new FileNotFoundException("Resource 'ConnectionToSQL.dat' not found.");
             }
             try (InputStream in = resourceUrl.openStream()) {
                 byte[] buffer = new byte[1024];
