@@ -45,7 +45,6 @@ public class SQLQueries {
                  connectionS  = new String(fullBytes, "UTF-8");
                  connectionS=connectionS.substring(7);
             }
-            System.out.println(connectionS);
              this.c=DriverManager.getConnection(connectionS);
             st=c.createStatement();
         } catch (IOException | SQLException e) {

@@ -190,6 +190,8 @@ public class Login extends javax.swing.JPanel {
                             }
                         } ;
                         w.execute();
+                        m1.setText("Mật khẩu đã được gửi về gmail của bạn!");
+                        m1.setForeground(Color.GREEN);
                         //
                     }
                 }else{
@@ -204,9 +206,7 @@ public class Login extends javax.swing.JPanel {
                         m1.setText("Tài khoản không tồn tại!");
                         m1.setForeground(Color.RED);
                     }else{
-                        m1.setText("Mật khẩu đã được gửi về gmail của bạn!");
-                        m1.setForeground(Color.GREEN);
-                        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                         SwingWorker<Void, Void> w= new SwingWorker<Void, Void>() {
                             @Override
                             protected Void doInBackground() throws Exception {
@@ -220,6 +220,9 @@ public class Login extends javax.swing.JPanel {
                             }
                         } ;
                         w.execute();
+                        m1.setText("Mật khẩu đã được gửi về gmail của bạn!");
+                        m1.setForeground(Color.GREEN);
+
                         //
                     }
                 }
