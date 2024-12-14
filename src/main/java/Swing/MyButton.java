@@ -19,6 +19,10 @@ public class MyButton extends JButton {
         return color;
     }
 
+    public void setColorClick(Color colorClick) {
+        this.colorClick = colorClick;
+    }
+
     public void setColor(Color color) {
         this.color = color;
     }
@@ -32,6 +36,7 @@ public class MyButton extends JButton {
         colorOver = new Color(181, 242, 254);
         color = new Color(125, 224, 237);
         colorClick = new Color(158, 212, 237);
+
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent me) {

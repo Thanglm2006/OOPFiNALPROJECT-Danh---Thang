@@ -25,7 +25,7 @@ public class DictionaryFrame extends JPanel{
     public DictionaryFrame() {
         ImageIcon i1 = new ImageIcon(DictionaryFrame.class.getResource("/volumeIcon.png"));
         img = i1.getImage(); // Get the original image
-        img = img.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        img = img.getScaledInstance(20, 20, Image.SCALE_FAST);
         ic= new ImageIcon(img);
         sql= new SQLQueries();
 
@@ -67,9 +67,6 @@ public class DictionaryFrame extends JPanel{
         searchBar.setSize(800, 30);
         searchBar.setLocation(0,0);
         searchBar.setFont(new Font("Times New Roman", Font.PLAIN, 27));
-        searchBar.addActionListener(e -> {
-            cr.setVisible(true);
-        });
         searchBar.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {

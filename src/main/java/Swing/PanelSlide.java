@@ -48,6 +48,15 @@ public class PanelSlide extends javax.swing.JPanel {
             show.setLocation(0, 0);
         }
     }
+    public void init(Component com) {
+        list.add(com);
+        com.setSize(getSize());
+        com.setVisible(false);
+        this.add(com);
+        Component show = list.get(0);
+        show.setVisible(true);
+        show.setLocation(0, 0);
+    }
 
     public void show(int index) {
         if (!timer.isRunning()) {
@@ -88,8 +97,6 @@ public class PanelSlide extends javax.swing.JPanel {
             }
         }
     }
-
-    @SuppressWarnings("unchecked")
 
     private void initComponents() {
 

@@ -22,6 +22,11 @@
             <artifactId>jlayer</artifactId>
             <version>1.0.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.mpatric</groupId>
+            <artifactId>mp3agic</artifactId>
+            <version>0.9.0</version>
+        </dependency>
 
         <dependency>
             <groupId>com.sun.mail</groupId>
@@ -53,7 +58,6 @@
             <artifactId>org-jdesktop-animation-timing</artifactId>
             <version>1.0-201002281504</version>
         </dependency>
-
     </dependencies>
     <build>
         <plugins>
