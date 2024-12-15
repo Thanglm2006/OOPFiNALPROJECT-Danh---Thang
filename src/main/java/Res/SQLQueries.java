@@ -1,7 +1,6 @@
 package Res;
 import java.io.*;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +13,7 @@ public class SQLQueries {
             " where  AssignmentID=%d and StudentID=%d;" +
             " insert into StudentProgress(AssignmentID,StudentID,Score)" +
             " values (%d,%d,%.2f)";
-    private String search="select Word,Pronunciation,FilePath,Meaning,CategoryName From AudioForVocab" +"\n"+
+    private String search="select Top 200 Word,Pronunciation,FilePath,Meaning,CategoryName From AudioForVocab" +"\n"+
             " join Vocabulary on Vocabulary.WordID=AudioForVocab.WordID" +"\n"+
             " where Vocabulary.Word like '%s' or Vocabulary.Meaning like '%s';";
     private String registerForStudent="insert into StudentAccount (Account, Password)" +"\n"+
@@ -25,8 +24,8 @@ public class SQLQueries {
             " values ('%s', '%s');"+"\n"+
             "insert into Teacher (TeacherID,TeacherName, Email, BirthDate) "+"\n"+
             "values (%d,N'%s', '%s', '%s')";
-    private String loginStudent="select Account,Password from StudentAccount where Account='%s'";
-    private String loginTeacher="select Account,Password from TeacherAccount where Account='%s'";
+    private String loginStudent="select StudentID,Account,Password from StudentAccount where Account='%s'";
+    private String loginTeacher="select TeacherID,Account,Password from TeacherAccount where Account='%s'";
     private String sendStudent="select Email, Password\n" +
             "from Student join StudentAccount on StudentAccount.StudentID= Student.StudentId\n" +
             "where Account='%s' or Email='%s'";
@@ -134,7 +133,7 @@ public class SQLQueries {
     public SQLQueries() {
         String connectionS;
         try {
-            URL resourceUrl = getClass().getClassLoader().getResource("ConnectionToSQL.dat");
+            URL resourceUrl = getClass().getClassLoader().getResource("Security/ConnectionToSQL.dat");
             if (resourceUrl == null) {
                 throw new FileNotFoundException("Resource 'ConnectionToSQL.dat' not found.");
             }
@@ -209,31 +208,27 @@ public class SQLQueries {
         }
         return res;
     }
-    public String LoginStudent(String Acc){
+    public ResultSet LoginStudent(String Acc){
         try {
             ResultSet res= sta.executeQuery(String.format(loginStudent,Acc));
             if(!res.next()){
-                return "no acc";
+                return null;
             }
             ResultSet res1= sta.executeQuery(String.format(loginStudent,Acc));
-            while(res1.next()){
-                return res1.getNString("Password");
-            }
+           return res1;
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
     }
-    public String LoginTeacher(String Acc){
+    public ResultSet LoginTeacher(String Acc){
         try {
             ResultSet res= sta.executeQuery(String.format(loginTeacher,Acc));
             if(!res.next()){
-                return "no acc";
+                return null;
             }
             ResultSet res1= sta.executeQuery(String.format(loginTeacher,Acc));
-            while(res1.next()){
-                return res1.getNString("Password");
-            }
+           return res1;
         } catch (SQLException e) {
             e.printStackTrace();
         }

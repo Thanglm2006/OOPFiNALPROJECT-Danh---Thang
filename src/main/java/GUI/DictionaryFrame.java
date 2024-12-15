@@ -1,6 +1,8 @@
 package GUI;
 
 import Res.SQLQueries;
+import com.sun.jdi.connect.spi.Connection;
+
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
@@ -22,13 +24,12 @@ public class DictionaryFrame extends JPanel{
     private JPanel sP;
     private static ImageIcon ic;
     static Image img;
-    public DictionaryFrame() {
+    public DictionaryFrame(int h, SQLQueries sql) {
         ImageIcon i1 = new ImageIcon(DictionaryFrame.class.getResource("/volumeIcon.png"));
         img = i1.getImage(); // Get the original image
         img = img.getScaledInstance(20, 20, Image.SCALE_FAST);
         ic= new ImageIcon(img);
-        sql= new SQLQueries();
-
+        this.sql=sql;
         Mlist= new DefaultListModel<>();
         searchDatas= new JList<>(Mlist);
         searchDatas.setCellRenderer(new Render());
@@ -48,7 +49,7 @@ public class DictionaryFrame extends JPanel{
         });
 
         cr= new JScrollPane(searchDatas);
-        cr.setSize(900,600);
+        cr.setSize(900,getHeight()-100);
         cr.setVisible(true);
         cr.setEnabled(true);
         JButton ok= new JButton("Tìm Kiếm");
@@ -88,7 +89,7 @@ public class DictionaryFrame extends JPanel{
         sP.setPreferredSize(new Dimension(900,30));
         sP.add(searchBar);
         sP.add(ok);
-        setSize(900,700);
+        setSize(900,h);
         setLocation(140,0);
         add(sP,BorderLayout.NORTH);
         add(cr,BorderLayout.CENTER);
@@ -197,7 +198,7 @@ public class DictionaryFrame extends JPanel{
         f.setLayout(null);
         f.setSize(1280,700);
         f.setLocationRelativeTo(null);
-        se= new DictionaryFrame();
+        se= new DictionaryFrame(700, new SQLQueries());
         f.add(se);
         f.setVisible(true);
     }

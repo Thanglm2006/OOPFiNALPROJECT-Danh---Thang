@@ -40,7 +40,7 @@ public  void sendmail(String recipient, String Title,String Text){
 
 
         try {
-            URL resourceUrl = getClass().getClassLoader().getResource("email.dat");
+            URL resourceUrl = getClass().getClassLoader().getResource("Security/email.dat");
             if (resourceUrl == null) {
                 throw new FileNotFoundException("Resource 'email.dat' not found.");
             }
@@ -62,7 +62,7 @@ public  void sendmail(String recipient, String Title,String Text){
         }
 
         try {
-            URL resourceUrl = getClass().getClassLoader().getResource("pass.dat");
+            URL resourceUrl = getClass().getClassLoader().getResource("Security/pass.dat");
             if (resourceUrl == null) {
                 throw new FileNotFoundException("Resource 'pass.dat' not found.");
             }
