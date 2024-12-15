@@ -151,7 +151,7 @@ public class SQLQueries {
                  connectionS=connectionS.substring(7);
             }
 
-             this.c=DriverManager.getConnection(connectionS);
+            this.c=DriverManager.getConnection(connectionS);
             this.sta= c.createStatement();
         } catch (IOException | SQLException e) {
             e.printStackTrace();
