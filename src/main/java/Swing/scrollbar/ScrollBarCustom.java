@@ -1,4 +1,4 @@
-package dashboard.swing.scrollbar;
+package Swing.scrollbar;
 
 import javax.swing.*;
 import java.awt.*;

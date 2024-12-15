@@ -1,4 +1,4 @@
-package dashboard.swing;
+package Swing.scrollbar;
 
 import org.jdesktop.animation.timing.Animator; // Điều khiển hoạt ảnh thường là 400ms
 import org.jdesktop.animation.timing.TimingTarget; // Xây dựng hoạt ảnh

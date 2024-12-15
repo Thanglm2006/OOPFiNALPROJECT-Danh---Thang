@@ -1,6 +1,6 @@
-package dashboard.swing;
+package Swing;
 
-import dashboard.event.EventMenuSelected;
+import event.EventMenuSelected;
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;

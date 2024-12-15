@@ -1,15 +1,15 @@
-package dashboard.main;
+package GUI;
 
-import dashboard.component.Header;
-import dashboard.component.Menu;
-import dashboard.event.EventMenuSelected;
-import dashboard.event.EventShowPopupMenu;
+import Swing.Header;
+import Swing.Menu;
+import event.EventMenuSelected;
+import event.EventShowPopupMenu;
 
-import dashboard.form.Form1;
-import dashboard.form.Form2;
-import dashboard.form.MainForm;
-import dashboard.swing.MenuItem;
-import dashboard.swing.PopupMenu;
+import Swing.form.Form1;
+import Swing.form.Form2;
+import Swing.form.MainForm;
+import Swing.MenuItem;
+import Swing.PopupMenu;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -20,9 +20,8 @@ import org.jdesktop.animation.timing.TimingTarget;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
 
 import javax.swing.*;
-import javax.tools.Tool;
 
-public class Main extends JFrame {
+public class Home extends JFrame {
 
     private MigLayout layout;
     private Menu menu;
@@ -31,7 +30,7 @@ public class Main extends JFrame {
     private MainForm main;
 
 
-    public Main() {
+    public Home() {
         initComponents();
         init();
         setSize(Toolkit.getDefaultToolkit().getScreenSize());
@@ -62,9 +61,9 @@ public class Main extends JFrame {
             @Override
             public void showPopup(Component com) {
                 MenuItem item = (MenuItem) com;
-                PopupMenu popup = new PopupMenu(Main.this, item.getIndex(), item.getEventSelected(), item.getMenu().getSubMenu());
-                int x = Main.this.getX() + 52;
-                int y = Main.this.getY() + com.getY() + 86;
+                PopupMenu popup = new PopupMenu(Home.this, item.getIndex(), item.getEventSelected(), item.getMenu().getSubMenu());
+                int x = Home.this.getX() + 52;
+                int y = Home.this.getY() + com.getY() + 86;
                 popup.setLocation(x, y);
                 popup.setVisible(true);
             }
@@ -161,19 +160,19 @@ public class Main extends JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new Main().setVisible(true);
+                new Home().setVisible(true);
 
             }
         });

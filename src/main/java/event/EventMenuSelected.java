@@ -1,4 +1,4 @@
-package dashboard.event;
+package event;
 
 public interface EventMenuSelected {
 

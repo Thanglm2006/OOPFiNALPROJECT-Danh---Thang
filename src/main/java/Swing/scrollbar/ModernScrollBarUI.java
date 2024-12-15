@@ -1,4 +1,4 @@
-package dashboard.swing.scrollbar;
+package Swing.scrollbar;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicScrollBarUI;

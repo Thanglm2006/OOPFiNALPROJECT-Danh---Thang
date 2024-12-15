@@ -1,8 +1,7 @@
-package dashboard.swing;
+package Swing;
 
-import dashboard.event.EventMenu;
-import dashboard.event.EventMenuSelected;
-import dashboard.model.ModelMenu;
+import event.EventMenu;
+import event.EventMenuSelected;
 import net.miginfocom.swing.MigLayout;
 
 import java.awt.*;

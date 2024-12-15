@@ -1,4 +1,4 @@
-package dashboard.form;
+package Swing.form;
 
 import javax.swing.*;
 import java.awt.*;

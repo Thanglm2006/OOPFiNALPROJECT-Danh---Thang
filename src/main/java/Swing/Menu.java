@@ -1,12 +1,10 @@
-package dashboard.component;
+package Swing;
 
-import dashboard.event.EventMenu;
-import dashboard.event.EventMenuSelected;
-import dashboard.event.EventShowPopupMenu;
-import dashboard.model.ModelMenu;
-import dashboard.swing.MenuAnimation;
-import dashboard.swing.MenuItem;
-import dashboard.swing.scrollbar.ScrollBarCustom;
+import event.EventMenu;
+import event.EventMenuSelected;
+import event.EventShowPopupMenu;
+
+import Swing.scrollbar.ScrollBarCustom;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.GradientPaint;
@@ -55,12 +53,12 @@ public class Menu extends JPanel {
     }
 
     public void initMenuItem() {
-        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/dashboard/icon/home.png")), "Trang chủ"));
-        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/dashboard/icon/5.png")), "Thông tin cá nhân","Lý lịch","Chỉnh sửa thông tin cá nhân","Đổi mật khẩu"));
-        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/dashboard/icon/star.png")), "Kết quả học tập","Điểm học phần","Kết quả học vụ","Xếp hạng"));
-        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/dashboard/icon/7.png")), "Bài tập"));
-        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/dashboard/icon/dictionary.png")), "Từ điển"));
-        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/dashboard/icon/logout3.png")), "Đăng xuất"));
+        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/Image/icon/home.png")), "Trang chủ"));
+        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/Image/icon/5.png")), "Thông tin cá nhân","Lý lịch","Chỉnh sửa thông tin cá nhân","Đổi mật khẩu"));
+        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/Image/icon/star.png")), "Kết quả học tập","Điểm học phần","Kết quả học vụ","Xếp hạng"));
+        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/Image/icon/7.png")), "Bài tập"));
+        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/Image/icon/dictionary.png")), "Từ điển"));
+        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/Image/icon/logout3.png")), "Đăng xuất"));
 
     }
 

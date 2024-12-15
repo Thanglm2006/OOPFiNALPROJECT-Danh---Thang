@@ -1,4 +1,4 @@
-package dashboard.swing;
+package Swing;
 
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.animation.timing.Animator;

@@ -1,4 +1,4 @@
-package dashboard.swing;
+package Swing;
 
 import javax.swing.*;
 import java.awt.*;

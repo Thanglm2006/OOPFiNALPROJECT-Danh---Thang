@@ -1,4 +1,4 @@
-package dashboard.model;
+package Swing;
 
 import javax.swing.*;
 

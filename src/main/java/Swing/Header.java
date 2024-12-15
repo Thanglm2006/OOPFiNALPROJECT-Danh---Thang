@@ -1,4 +1,6 @@
-package dashboard.component;
+package Swing;
+
+import Swing.scrollbar.Button;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
@@ -15,19 +17,19 @@ public class Header extends JPanel {
 
     private void initComponents() {
 
-        cmdMenu = new dashboard.swing.Button();
-        pic = new dashboard.swing.ImageAvatar();
+        cmdMenu = new Button();
+        pic = new ImageAvatar();
         lbUserName = new JLabel();
         lbRole = new JLabel();
         jSeparator1 = new JSeparator();
-        buttonBadges1 = new dashboard.swing.ButtonBadges();
-        buttonBadges2 = new dashboard.swing.ButtonBadges();
+        buttonBadges1 = new ButtonBadges();
+        buttonBadges2 = new ButtonBadges();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
-        cmdMenu.setIcon(new ImageIcon(getClass().getResource("/dashboard/icon/menu.png"))); // NOI18N
+        cmdMenu.setIcon(new ImageIcon(getClass().getResource("/Image/icon/menu.png"))); // NOI18N
 //
-        pic.setIcon(new ImageIcon(getClass().getResource("/dashboard/icon/danhhanma.jpg"))); // NOI18N
+        pic.setIcon(new ImageIcon(getClass().getResource("/Image/icon/danhhanma.jpg"))); // NOI18N
 
         lbUserName.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
         lbUserName.setForeground(new java.awt.Color(127, 127, 127));
@@ -39,11 +41,11 @@ public class Header extends JPanel {
         jSeparator1.setOrientation(SwingConstants.VERTICAL);
 
         buttonBadges1.setForeground(new java.awt.Color(250, 49, 49));
-        buttonBadges1.setIcon(new ImageIcon(getClass().getResource("/dashboard/icon/notification.png"))); // NOI18N
+        buttonBadges1.setIcon(new ImageIcon(getClass().getResource("/Image/icon/notification.png"))); // NOI18N
         buttonBadges1.setBadges(12);
 
         buttonBadges2.setForeground(new java.awt.Color(63, 178, 232));
-        buttonBadges2.setIcon(new ImageIcon(getClass().getResource("/dashboard/icon/message.png"))); // NOI18N
+        buttonBadges2.setIcon(new ImageIcon(getClass().getResource("/Image/icon/message.png"))); // NOI18N
         buttonBadges2.setBadges(5);
 
         GroupLayout layout = new GroupLayout(this);
@@ -98,13 +100,13 @@ public class Header extends JPanel {
         frame.setVisible(true); // Hiển thị giao diện
     }
 
-    private dashboard.swing.ButtonBadges buttonBadges1;
-    private dashboard.swing.ButtonBadges buttonBadges2;
-    private dashboard.swing.Button cmdMenu;
+    private ButtonBadges buttonBadges1;
+    private ButtonBadges buttonBadges2;
+    private Button cmdMenu;
     private JSeparator jSeparator1;
     private JLabel lbRole;
     private JLabel lbUserName;
-    private dashboard.swing.ImageAvatar pic;
+    private ImageAvatar pic;
 
 }
 
