@@ -16,6 +16,18 @@ public class EnglishLearningApp extends javax.swing.JFrame {
     private ActionEvent acc;
     
     public EnglishLearningApp() {
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException |
+                 UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(EnglishLearningApp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+
         initComponents();
         setSize(Toolkit.getDefaultToolkit().getScreenSize());
         Login login = new Login();
@@ -125,19 +137,6 @@ public class EnglishLearningApp extends javax.swing.JFrame {
     }
 
     public static void main(String args[]) {
-
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException |
-                 UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(EnglishLearningApp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new EnglishLearningApp().setVisible(true);

@@ -7,15 +7,15 @@ import java.awt.event.ActionListener;
 
 public class Header extends JPanel {
 
-    public Header(String user) {
-        initComponents(user);
+    public Header(String user,String Type) {
+        initComponents(user,Type);
     }
 
     public void addMenuEvent(ActionListener event) {
         cmdMenu.addActionListener(event);
     }
 
-    private void initComponents(String user) {
+    private void initComponents(String user,String Type) {
 
         cmdMenu = new Button();
         pic = new ImageAvatar();
@@ -32,7 +32,7 @@ public class Header extends JPanel {
 
         lbUserName.setFont(new java.awt.Font("sansserif", 1, 12));
         lbUserName.setForeground(new java.awt.Color(127, 127, 127));
-        lbUserName.setText("User Name");
+        lbUserName.setText(Type);
 
         lbRole.setForeground(new java.awt.Color(127, 127, 127));
         lbRole.setText(user);
@@ -90,7 +90,7 @@ public class Header extends JPanel {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
-        Header header = new Header("Danh hanma");
+        Header header = new Header("Danh hanma","User");
         frame.add(header);
 
 

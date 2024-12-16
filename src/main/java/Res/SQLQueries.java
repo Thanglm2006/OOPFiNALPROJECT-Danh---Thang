@@ -8,6 +8,12 @@ import java.util.HashMap;
 public class SQLQueries {
     private Connection c=null;
     private Statement sta=null;
+    private String getAllAssignmentOfAStudent="select assignment.AssignmentID,assignment.AssignmentName\n" +
+            "from Student student\n" +
+            "join ClassAndStudent classStudent on classStudent.StudentID=student.StudentID\n" +
+            "join ClassAssignment classAssignment on classAssignment.ClassID=classStudent.ClassID\n" +
+            "join Assignment assignment on assignment.AssignmentID=classAssignment.AssignmentID\n" +
+            "where student.StudentID=%d";
     private String getScore="select Score from StudentProgress where StudentID=%d and AssignmentId=%d;";
     private String score="delete StudentProgress" +
             " where  AssignmentID=%d and StudentID=%d;" +
@@ -15,7 +21,10 @@ public class SQLQueries {
             " values (%d,%d,%.2f)";
     private String search="select Top 200 Word,Pronunciation,FilePath,Meaning,CategoryName From AudioForVocab" +"\n"+
             " join Vocabulary on Vocabulary.WordID=AudioForVocab.WordID" +"\n"+
-            " where Vocabulary.Word like '%s' or Vocabulary.Meaning like '%s';";
+            " where Vocabulary.Word like '%s';";
+    private String search2="select Top 200 Word,Pronunciation,FilePath,Meaning,CategoryName From AudioForVocab" +"\n"+
+            " join Vocabulary on Vocabulary.WordID=AudioForVocab.WordID" +"\n"+
+            " where Vocabulary.Meaning like '%s';";
     private String registerForStudent="insert into StudentAccount (Account, Password)" +"\n"+
             " values ('%s', '%s');"+"\n"+
             "insert into Student (StudentID,StudentName, Email, BirthDate) "+"\n"+
@@ -24,8 +33,12 @@ public class SQLQueries {
             " values ('%s', '%s');"+"\n"+
             "insert into Teacher (TeacherID,TeacherName, Email, BirthDate) "+"\n"+
             "values (%d,N'%s', '%s', '%s')";
-    private String loginStudent="select StudentID,Account,Password from StudentAccount where Account='%s'";
-    private String loginTeacher="select TeacherID,Account,Password from TeacherAccount where Account='%s'";
+    private String loginStudent="select StudentAccount.StudentID,Account,Password,StudentName\n" +
+            "from StudentAccount join Student on Student.StudentID=StudentAccount.StudentID\n" +
+            "where StudentAccount.Account='%s'";
+    private String loginTeacher="select TeacherAccount.TeacherID,Account,Password,TeacherName\n" +
+            "from TeacherAccount join Teacher on Teacher.TeacherID=TeacherAccount.TeacherID\n" +
+            "where TeacherAccount.Account='%s'";
     private String sendStudent="select Email, Password\n" +
             "from Student join StudentAccount on StudentAccount.StudentID= Student.StudentId\n" +
             "where Account='%s' or Email='%s'";
@@ -47,7 +60,129 @@ public class SQLQueries {
             "from BigQuestion \n" +
             "left join AudioForBigQuestion on AudioForBigQuestion.BQuestionID=BigQuestion.BQuestionID \n" +
             "where AssignmentID=%d\n";
+    private String getNotFinish="select studentprogress.AssignmentID\n" +
+            "from Student student\n" +
+            "join ClassAndStudent classStudent on classStudent.StudentID=student.StudentID\n" +
+            "join ClassAssignment classAssignment on classAssignment.ClassID=classStudent.ClassID\n" +
+            "join Assignment assignment on assignment.AssignmentID=classAssignment.AssignmentID\n" +
+            "join StudentProgress studentprogress on studentprogress.StudentID=student.StudentID\n" +
+            "where studentprogress.Score=0.0 and studentprogress.StudentID=%d;";
+    private String allStudent="select \n" +
+            "\tstudent.StudentName,\n" +
+            "\tstudent.StudentID,\n" +
+            "\tround(sum(stp.Score),2) as score\n" +
+            "from \n" +
+            "\t\tStudent student\n" +
+            "join\tStudentProgress stp on stp.StudentID=student.StudentID\n" +
+            "group by student.StudentName,student.StudentID;\n";
+    private String TInfor="select * from Teacher join TeacherAccount on TeacherAccount.TeacherID= Teacher.TeacherID where Teacher.TeacherID=%d;";
 
+    private String stInfor="select * from Student join StudentAccount on StudentAccount.StudentID= Student.StudentID where Student.StudentID=%d;";
+    private String resetPassST="update StudentAccount" +
+            " set PassWord='%s' where StudentID=%d";
+    private String resetPassTe="update TeacherAccount" +
+            " set PassWord='%s' where TeacherID=%d";
+    private String updateSTEmail="update Student set Email='%s' where StudentID=%d";
+    private String updateTEmail="update Teacher set Email='%s' where TeacherID=%d";
+    public boolean updateSTEmail(String email, int id){
+        try {
+
+            PreparedStatement st=c.prepareStatement(String.format(updateSTEmail,email,id));
+            int r= st.executeUpdate();
+            if(r==1) return true;
+        } catch (SQLException e) {
+
+        }
+        return false;
+    }
+    public boolean updateTEmail(String email, int id){
+        try {
+            PreparedStatement st=c.prepareStatement(String.format(updateTEmail,email,id));
+            int r= st.executeUpdate();
+            if(r==1) return true;
+        } catch (SQLException e) {
+
+        }
+        return false;
+    }
+    public boolean resetStudentPass(String pass, int id){
+        try {
+
+            PreparedStatement st=c.prepareStatement(String.format(resetPassST,pass,id));
+            int r= st.executeUpdate();
+            if(r==1) return true;
+        } catch (SQLException e) {
+
+        }
+       return false;
+    }
+    public boolean resetTeacherPass(String pass, int id){
+        try {
+            PreparedStatement st=c.prepareStatement(String.format(resetPassTe,pass,id));
+            int r= st.executeUpdate();
+            if(r==1) return true;
+        } catch (SQLException e) {
+
+        }
+        return false;
+    }
+    public ResultSet stInfor(int id){
+        try {
+            PreparedStatement st=c.prepareStatement(String.format(stInfor,id));
+            return st.executeQuery();
+        } catch (SQLException e) {
+
+        }
+        return null;
+    }
+    public ResultSet TInfor(int id){
+        try {
+            PreparedStatement st=c.prepareStatement(String.format(stInfor,id));
+            return st.executeQuery();
+        } catch (SQLException e) {
+
+        }
+        return null;
+    }
+    public ResultSet allStudent(){
+        try{
+            PreparedStatement st= c.prepareStatement(allStudent);
+            ResultSet res= st.executeQuery();
+            return res;
+        } catch (SQLException e) {
+
+        }
+        return null;
+    }
+    public ArrayList<Integer> getNotFinished(int id){
+        try{
+            PreparedStatement st= c.prepareStatement(String.format(getNotFinish,id));
+            ResultSet res= st.executeQuery();
+            ArrayList<Integer> ans= new ArrayList<>();
+            while(res.next()){
+                ans.add(res.getInt("AssignmentID"));
+            }
+            return ans;
+        } catch (SQLException e) {
+
+        }
+        return null;
+    }
+    public HashMap<Integer,String> getStudentAssignment(int stID){
+        try{
+            PreparedStatement st= c.prepareStatement(String.format(getAllAssignmentOfAStudent,stID));
+            ResultSet res= st.executeQuery();
+           HashMap<Integer,String> ans= new HashMap<>();
+
+            while(res.next()){
+                ans.put(res.getInt("AssignmentID"),res.getNString("AssignmentName"));
+            }
+            return ans;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
    public ResultSet getallBQ(int AssignmentID){
        try {
            PreparedStatement st= c.prepareStatement(String.format(GetallBQ,AssignmentID));
@@ -201,7 +336,17 @@ public class SQLQueries {
     public ResultSet  Search(String txt){
         ResultSet res=null;
         try {
-            String text= String.format(search,txt+"%",txt+"%");
+            String text= String.format(search,txt+"%");
+            res=sta.executeQuery(text);
+        } catch (SQLException e) {
+
+        }
+        return res;
+    }
+    public ResultSet  Search2(String txt){
+        ResultSet res=null;
+        try {
+            String text= String.format(search2,txt+"%");
             res=sta.executeQuery(text);
         } catch (SQLException e) {
 

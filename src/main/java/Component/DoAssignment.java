@@ -93,8 +93,9 @@ public class DoAssignment extends JPanel {
             p.add(BQList[i++]);
         }
 
-        BQs= new JScrollPane(p);
+        BQs= new JScrollPane(p,ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         BQs.setBounds(0,0,200,getHeight());
+
         centerPanel= new JPanel();
         centerPanel.setLayout( new BorderLayout());
         title= new JLabel("Bài "+(currentQ+1),JLabel.CENTER);
@@ -120,7 +121,7 @@ public class DoAssignment extends JPanel {
                     pa[idx] = new BQuestionPanel(id, fp,sql);
                     JScrollPane scr= new JScrollPane(pa[idx]);
                     scr.getVerticalScrollBar().setUnitIncrement(15);
-                     scr.setPreferredSize(new Dimension(800,600));
+                     scr.setPreferredSize(new Dimension(800,y-100));
                     pa1[idx]= new JPanel();
                     pa1[idx].setLayout(new BorderLayout());
                     audiobar= new AudioBar(700,fp);
@@ -132,7 +133,7 @@ public class DoAssignment extends JPanel {
                         pa[idx] = new BQuestionPanel(id,sql);
                         JScrollPane scr= new JScrollPane(pa[idx]);
                      scr.getVerticalScrollBar().setUnitIncrement(15);
-                        scr.setPreferredSize(new Dimension(800,600));
+                        scr.setPreferredSize(new Dimension(800,y-100));
                         pa1[idx]= new JPanel();
 
                         pa1[idx].setLayout(new BorderLayout());

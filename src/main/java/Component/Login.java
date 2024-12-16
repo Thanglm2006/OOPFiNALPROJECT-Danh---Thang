@@ -77,10 +77,12 @@ public class Login extends javax.swing.JPanel {
                         res=sql.LoginStudent(getAcc());
                 String pass=null;
                 int id=0;
+                String Name=null;
                 if(res!=null)try{
                     while(res.next()){
                         pass=res.getNString("PassWord");
                         id=res.getInt("StudentID");
+                        Name=res.getNString("StudentName");
                     }
                 } catch (SQLException ex) {
 
@@ -96,7 +98,7 @@ public class Login extends javax.swing.JPanel {
                     m1.setText("Sai mật khẩu!");
                 }else{
                     m1.setText("");
-                    FrameForStudent f=new FrameForStudent(id,getAcc());
+                    FrameForStudent f=new FrameForStudent(id,Name);
                     f.setVisible(true);
                     Window win= SwingUtilities.getWindowAncestor(this);
                     win.setVisible(false);
@@ -145,10 +147,12 @@ public class Login extends javax.swing.JPanel {
                     res=sql.LoginStudent(getAcc());
                     String pass=null;
                     int id=0;
+                    String Name=null;
                     if(res!=null)try{
                         while(res.next()){
                             pass=res.getNString("PassWord");
                             id=res.getInt("StudentID");
+                            Name=res.getNString("StudentName");
                         }
                     } catch (SQLException ex) {
 
@@ -164,7 +168,7 @@ public class Login extends javax.swing.JPanel {
                         m1.setText("Sai mật khẩu!");
                     }else{
                         m1.setText("");
-                        FrameForStudent f=new FrameForStudent(id,getAcc());
+                        FrameForStudent f=new FrameForStudent(id,Name);
                         f.setVisible(true);
                         Window win= SwingUtilities.getWindowAncestor(This);
                         win.setVisible(false);
@@ -174,6 +178,8 @@ public class Login extends javax.swing.JPanel {
                                 win.setVisible(true);
                             }
                         });
+
+                        //
                     }
                 }else{
                     ResultSet res=null;res=sql.LoginTeacher(getAcc());
@@ -212,10 +218,12 @@ public class Login extends javax.swing.JPanel {
                     res=sql.LoginStudent(getAcc());
                     String pass=null;
                     int id=0;
+                    String Name=null;
                     if(res!=null)try{
                         while(res.next()){
                             pass=res.getNString("PassWord");
                             id=res.getInt("StudentID");
+                            Name=res.getNString("StudentName");
                         }
                     } catch (SQLException ex) {
 
@@ -231,7 +239,7 @@ public class Login extends javax.swing.JPanel {
                         m1.setText("Sai mật khẩu!");
                     }else{
                         m1.setText("");
-                        FrameForStudent f=new FrameForStudent(id,getAcc());
+                        FrameForStudent f=new FrameForStudent(id,Name);
                         f.setVisible(true);
                         Window win= SwingUtilities.getWindowAncestor(This);
                         win.setVisible(false);
@@ -242,6 +250,7 @@ public class Login extends javax.swing.JPanel {
                             }
                         });
 
+                        //
                     }
                 }else{
                     ResultSet res=null;res=sql.LoginTeacher(getAcc());

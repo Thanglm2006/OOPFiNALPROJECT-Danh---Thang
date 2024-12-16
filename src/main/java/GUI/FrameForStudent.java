@@ -2,19 +2,25 @@ package GUI;
 
 import Component.Header;
 import Component.Menu;
+import Component.ProfilePanel;
 import Res.SQLQueries;
 import event.EventMenuSelected;
 import event.EventShowPopupMenu;
 import Component.DoAssignment;
 import Component.form.Form1;
-import Component.form.Form2;
 import Component.form.MainForm;
 import Component.MenuItem;
 import Component.PopupMenu;
-
+import Component.ChangePass;
+import Component.changeEmail;
+import Component.DictionaryFrame;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;
@@ -34,9 +40,11 @@ public class FrameForStudent extends JFrame {
     private String [] assignments;
     private int StudentID;
     private String user;
-    public FrameForStudent(int id, String user) {
+    private JPanel[] PF= new JPanel[3];
+    private HashMap<Integer,String> allAssignment;
+    public FrameForStudent(int id, String name) {
         StudentID=id;
-        this.user=user;
+        this.user=name;
         try {
             for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -56,6 +64,7 @@ public class FrameForStudent extends JFrame {
         initComponents();
         init();
         setSize(Toolkit.getDefaultToolkit().getScreenSize());
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
     private void init() {
@@ -63,26 +72,72 @@ public class FrameForStudent extends JFrame {
         layout = new MigLayout("fill", "0[]0[100%, fill]0", "0[fill, top]0");
         bg.setLayout(layout);
         menu = new Menu();
+        PF[0] = new ProfilePanel(StudentID,sql);
+        PF[1]= new ChangePass("SV",StudentID,sql);
+        PF[2]= new changeEmail("SV",StudentID,sql);
         //
-        assignments=new String[1];
-        assignments[0]="Bài Tập Nghe Cơ Bản";
-        header = new Header(user);
+        allAssignment=sql.getStudentAssignment(StudentID);
+        ArrayList<Integer> assID= new ArrayList<>();
+        allAssignment.forEach((k,v)->{
+            assID.add(k);
+        });
+        ArrayList<Integer> notFinish= new ArrayList<>();
+        notFinish=sql.getNotFinished(StudentID);
+
+        assignments=new String[notFinish.size()];
+        int idx=0;
+        DoAssignment assignment[]= new DoAssignment[notFinish.size()];
+        for(Integer x: notFinish){
+            assignments[idx]=allAssignment.get(x);
+            assignment[idx]=new DoAssignment(idx,StudentID,getHeight()-100,sql);
+        }
+        idx=0;
+        String[] all= new String[allAssignment.size()];
+        AtomicInteger finalIdx = new AtomicInteger(0);
+        DoAssignment allAss[]= new DoAssignment[allAssignment.size()];
+        allAssignment.forEach((k,v)->{
+            all[finalIdx.get()]=v;
+            allAss[finalIdx.getAndAdd(1)]= new DoAssignment(k,StudentID,getHeight()-100,sql);
+
+        });
+        header = new Header(user,"Sinh Viên");
         main = new MainForm();
-        DoAssignment assignment= new DoAssignment(1,StudentID,getHeight()-80,sql);
-        dictionnary= new DictionaryFrame(getHeight()-20,sql);
+        AtomicInteger finalIdx1 = new AtomicInteger(0);
+        //
+        dictionnary= new DictionaryFrame(getWidth(),getHeight()-20,sql);
         menu.addEvent(new EventMenuSelected() {
             @Override
             public void menuSelected(int menuIndex, int subMenuIndex) {
                 System.out.println("Menu Index : " + menuIndex + " SubMenu Index " + subMenuIndex);
                 if(menuIndex==0 && subMenuIndex==-1){
                     main.showForm(new Form1());
+                }
+//                if(menuIndex==1 && subMenuIndex==0) main.showForm(new Form2());
+//                if(menuIndex==3&& subMenuIndex==0) main.showForm(assignment);
+//                if(menuIndex==4&& subMenuIndex==-1) main.showForm(dictionnary);
+//                if(menuIndex==5) dispose();
+                switch(menuIndex){
+                    case 1-> {
+                        if(subMenuIndex!=-1)
+                            main.showForm(PF[subMenuIndex]);
+                    }
+                    case 2->{
 
+                    }
+                    case 3->{
+                        main.showForm(assignment[subMenuIndex]);
+                    }
+                    case 4 ->{
+                        main.showForm(allAss[subMenuIndex]);
+                    }
+                    case 5->{
+                        main.showForm(dictionnary);
+                    }
+                    case 6->{
+                        dispose();
+                    }
 
                 }
-                if(menuIndex==1 && subMenuIndex==0) main.showForm(new Form2());
-                if(menuIndex==3&& subMenuIndex==0) main.showForm(assignment);
-                if(menuIndex==4&& subMenuIndex==-1) main.showForm(dictionnary);
-                if(menuIndex==5) dispose();
             }
         });
         menu.addEventShowPopup(new EventShowPopupMenu() {
@@ -96,7 +151,8 @@ public class FrameForStudent extends JFrame {
                 popup.setVisible(true);
             }
         });
-        menu.initMenuItem(assignments);
+        menu.initMenuItem(assignments,all);
+
         bg.add(menu, "w 230!, spany 2");
         bg.add(header, "h 50!, wrap");
         bg.add(main, "w 100%, h 100%");
