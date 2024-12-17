@@ -33,7 +33,11 @@ public class ProfilePanel extends JPanel {
         } catch (SQLException e) {
 
         }
-        ID= new JLabel("ID: "+String.valueOf(id));
+        if(id<10)ID= new JLabel("ID: ELN00"+String.valueOf(id));
+        else if(id<100)ID= new JLabel("ID: ELN0"+String.valueOf(id));
+
+        else ID= new JLabel("ID: ELN"+String.valueOf(id));
+
         ID.setPreferredSize(new Dimension(200,50));
         Name= new JLabel("Họ và tên: "+name);
         Name.setPreferredSize(new Dimension(200,50));

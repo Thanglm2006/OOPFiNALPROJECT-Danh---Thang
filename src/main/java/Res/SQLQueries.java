@@ -72,14 +72,15 @@ public class SQLQueries {
             "join Assignment assignment on assignment.AssignmentID=classAssignment.AssignmentID\n" +
             "join StudentProgress studentprogress on studentprogress.StudentID=student.StudentID\n" +
             "where classStudent.StudentID=%d and not exists (select * from studentProgress where assignment.AssignmentID=studentprogress.AssignmentID);\n";
-    private String allStudent="select \n" +
+    private String allStudent="select " +
             "\tstudent.StudentName,\n" +
             "\tstudent.StudentID,\n" +
             "\tround(sum(stp.Score),2) as score\n" +
             "from \n" +
             "\t\tStudent student\n" +
             "join\tStudentProgress stp on stp.StudentID=student.StudentID\n" +
-            "group by student.StudentName,student.StudentID;\n";
+            "group by student.StudentName,student.StudentID\n" +
+            "order by score desc \n";
     private String TInfor="select * from Teacher join TeacherAccount on TeacherAccount.TeacherID= Teacher.TeacherID where Teacher.TeacherID=%d;";
 
     private String stInfor="select * from Student join StudentAccount on StudentAccount.StudentID= Student.StudentID where Student.StudentID=%d;";
@@ -160,6 +161,7 @@ public class SQLQueries {
     }
     public ResultSet allStudent(){
         try{
+
             PreparedStatement st= c.prepareStatement(allStudent);
             ResultSet res= st.executeQuery();
             return res;

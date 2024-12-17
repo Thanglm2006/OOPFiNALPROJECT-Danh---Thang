@@ -64,7 +64,7 @@ public class Login extends JPanel {
             @Override
             public void keyTyped(KeyEvent e) {
                 if(e.getKeyChar()==KeyEvent.VK_ENTER){
-                    if (getAcc().matches("SV\\S+")) {
+                    if (getAcc().matches("SV\\S+")||getAcc().matches("sv\\S+")) {
                         ResultSet res = null;
                         res = sql.LoginStudent(getAcc());
                         String pass = null;
@@ -152,7 +152,7 @@ public class Login extends JPanel {
         login.setFont(new Font("SansSerif", 1, 15));
 
         login.addActionListener(e -> {
-            if (getAcc().matches("SV\\S+")) {
+            if (getAcc().matches("SV\\S+")||getAcc().matches("sv\\S+")) {
                 ResultSet res = null;
                 res = sql.LoginStudent(getAcc());
                 String pass = null;
