@@ -41,11 +41,18 @@ public class Header extends JPanel {
 
         buttonBadges1.setForeground(new java.awt.Color(250, 49, 49));
         buttonBadges1.setIcon(new ImageIcon(getClass().getResource("/Image/icon/notification.png")));
-        buttonBadges1.setBadges(12);
+        buttonBadges1.setBadges(0);
 
         buttonBadges2.setForeground(new java.awt.Color(63, 178, 232));
         buttonBadges2.setIcon(new ImageIcon(getClass().getResource("/Image/icon/message.png")));
-        buttonBadges2.setBadges(5);
+        buttonBadges1.addActionListener(e->{
+            JOptionPane.showMessageDialog(null,"There is nothing to see!","Notification",JOptionPane.INFORMATION_MESSAGE);
+        });
+        buttonBadges2.addActionListener(e->{
+            JOptionPane.showMessageDialog(null,"There is no message yet!","Notificaiton",JOptionPane.INFORMATION_MESSAGE);
+        });
+
+        buttonBadges2.setBadges(0);
 
         GroupLayout layout = new GroupLayout(this);
         this.setLayout(layout);

@@ -149,24 +149,30 @@ public class DoAssignment extends JPanel {
             if(j!=0)pa1[j].setVisible(false);
             centerPanel.add(pa1[j], BorderLayout.CENTER);
         }
+
         JPanel sub= new JPanel();
         sub.setLayout(new BorderLayout());
 
         MyButton submit= new MyButton("Nộp bài");
         submit.setPreferredSize(new Dimension(30,50));
-        submit.addActionListener(e -> {
-            boolean check=sql.updateProgress(Assignment,Student,getScore());
-            if(!check){
-                JOptionPane.showMessageDialog(null,"Your last score is higher than or equal this time result("+getScore()+" ) , so this result will not be recorded.","Inform",JOptionPane.INFORMATION_MESSAGE);
-            }else{
-                JOptionPane.showMessageDialog(null,"Your average score is "+getScore()+"\n"+"the result is recorded.","Inform",JOptionPane.INFORMATION_MESSAGE);
 
-            }
-        });
-        sub.add(submit,BorderLayout.CENTER);
-        centerPanel.add(sub,BorderLayout.SOUTH);
-        add(BQs); add(centerPanel);
-        but(BQList[0]);
+        if(numOfBQ>0) {
+            submit.addActionListener(e -> {
+                boolean check = sql.updateProgress(Assignment, Student, getScore());
+                if (!check) {
+                    JOptionPane.showMessageDialog(null, "Your last score is higher than or equal this time result(" + getScore() + " ) , so this result will not be recorded.", "Inform", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Your average score is " + getScore() + "\n" + "the result is recorded.", "Inform", JOptionPane.INFORMATION_MESSAGE);
+
+                }
+            });
+
+            sub.add(submit, BorderLayout.CENTER);
+            centerPanel.add(sub, BorderLayout.SOUTH);
+            add(BQs);
+            add(centerPanel);
+            but(BQList[0]);
+        }
     }
 
     public static void main(String[] args) {

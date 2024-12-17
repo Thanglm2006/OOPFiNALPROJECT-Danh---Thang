@@ -15,6 +15,11 @@ public class SQLQueries {
             "join Assignment assignment on assignment.AssignmentID=classAssignment.AssignmentID\n" +
             "where student.StudentID=%d";
     private String getScore="select Score from StudentProgress where StudentID=%d and AssignmentId=%d;";
+    private String result="use data;\n" +
+            "select  ass.AssignmentName,pr.Score\n" +
+            "from StudentProgress pr \n" +
+            "join Assignment ass on ass.AssignmentID=pr.AssignmentID \n" +
+            "where StudentID =%d and pr.Score>0.0";
     private String score="delete StudentProgress" +
             " where  AssignmentID=%d and StudentID=%d;" +
             " insert into StudentProgress(AssignmentID,StudentID,Score)" +
@@ -60,13 +65,13 @@ public class SQLQueries {
             "from BigQuestion \n" +
             "left join AudioForBigQuestion on AudioForBigQuestion.BQuestionID=BigQuestion.BQuestionID \n" +
             "where AssignmentID=%d\n";
-    private String getNotFinish="select studentprogress.AssignmentID\n" +
+    private String getNotFinish="select classAssignment.AssignmentID\n" +
             "from Student student\n" +
             "join ClassAndStudent classStudent on classStudent.StudentID=student.StudentID\n" +
             "join ClassAssignment classAssignment on classAssignment.ClassID=classStudent.ClassID\n" +
             "join Assignment assignment on assignment.AssignmentID=classAssignment.AssignmentID\n" +
             "join StudentProgress studentprogress on studentprogress.StudentID=student.StudentID\n" +
-            "where studentprogress.Score=0.0 and studentprogress.StudentID=%d;";
+            "where classStudent.StudentID=%d and not exists (select * from studentProgress where assignment.AssignmentID=studentprogress.AssignmentID);\n";
     private String allStudent="select \n" +
             "\tstudent.StudentName,\n" +
             "\tstudent.StudentID,\n" +
@@ -84,6 +89,15 @@ public class SQLQueries {
             " set PassWord='%s' where TeacherID=%d";
     private String updateSTEmail="update Student set Email='%s' where StudentID=%d";
     private String updateTEmail="update Teacher set Email='%s' where TeacherID=%d";
+    public ResultSet getSTResult(int id){
+        try{
+            PreparedStatement st= c.prepareStatement(String.format(result,id));
+            return st.executeQuery();
+        } catch (SQLException e) {
+
+        }
+        return null;
+    }
     public boolean updateSTEmail(String email, int id){
         try {
 
@@ -156,6 +170,7 @@ public class SQLQueries {
     }
     public ArrayList<Integer> getNotFinished(int id){
         try{
+
             PreparedStatement st= c.prepareStatement(String.format(getNotFinish,id));
             ResultSet res= st.executeQuery();
             ArrayList<Integer> ans= new ArrayList<>();
@@ -380,18 +395,14 @@ public class SQLQueries {
         return null;
     }
     public boolean insertTeacher(String acc, String pass, String name, String email, String birth){
-        int id=0;
-        try {
-            ResultSet res= sta.executeQuery("select top 1 TeacherID from Teacher order by TeacherID DESC");
-            while(res.next()){
-                id=res.getInt("TeacherID");
-            }
-        } catch (SQLException e) {
 
-        }
-        id++;
-        String txt= String.format(registerForTeacher,acc,pass,id,name,email, birth);
         try {
+            int id=0;
+            ResultSet res=sta.executeQuery("SELECT IDENT_CURRENT('TeacherAccount') + 1 AS next;");
+            while(res.next()){
+                id=res.getInt("next");
+            }
+            String txt= String.format(registerForTeacher,acc,pass,id,name,email, birth);
             PreparedStatement pp= c.prepareStatement(txt);
             pp.executeUpdate();
         } catch (SQLException e) {
@@ -401,18 +412,14 @@ public class SQLQueries {
         return true;
     }
     public boolean insertStudent(String acc, String pass, String name, String email, String birth){
-        int id=0;
-        try {
-            ResultSet res= sta.executeQuery("select top 1 StudentID from Student order by StudentID DESC");
-            while(res.next()){
-                id=res.getInt("StudentID");
-            }
-        } catch (SQLException e) {
 
-        }
-        id++;
-        String txt= String.format(registerForStudent,acc,pass,id,name,email, birth);
         try {
+            int id=0;
+            ResultSet res=sta.executeQuery("SELECT IDENT_CURRENT('StudentAccount') + 1 AS next;");
+            while(res.next()){
+                id=res.getInt("next");
+            }
+            String txt= String.format(registerForStudent,acc,pass,id,name,email, birth);
             PreparedStatement pp= c.prepareStatement(txt);
             pp.executeUpdate();
         } catch (SQLException e) {

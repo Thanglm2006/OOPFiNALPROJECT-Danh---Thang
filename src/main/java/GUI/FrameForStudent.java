@@ -14,10 +14,13 @@ import Component.PopupMenu;
 import Component.ChangePass;
 import Component.changeEmail;
 import Component.DictionaryFrame;
+import Component.ResultOfStudent;
+import Component.Ranking;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -37,11 +40,11 @@ public class FrameForStudent extends JFrame {
     private MainForm main;
     private DictionaryFrame dictionnary;
     private SQLQueries sql;
-    private String [] assignments;
     private int StudentID;
     private String user;
     private JPanel[] PF= new JPanel[3];
     private HashMap<Integer,String> allAssignment;
+    private ResultOfStudent rs;
     public FrameForStudent(int id, String name) {
         StudentID=id;
         this.user=name;
@@ -76,6 +79,9 @@ public class FrameForStudent extends JFrame {
         PF[1]= new ChangePass("SV",StudentID,sql);
         PF[2]= new changeEmail("SV",StudentID,sql);
         //
+        rs= new ResultOfStudent(StudentID,sql);
+        Ranking rank= new Ranking(sql);
+//        JScrollPane cont= new JScrollPane(rs,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER,ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         allAssignment=sql.getStudentAssignment(StudentID);
         ArrayList<Integer> assID= new ArrayList<>();
         allAssignment.forEach((k,v)->{
@@ -83,16 +89,17 @@ public class FrameForStudent extends JFrame {
         });
         ArrayList<Integer> notFinish= new ArrayList<>();
         notFinish=sql.getNotFinished(StudentID);
-
-        assignments=new String[notFinish.size()];
+        int num= notFinish.size();
+        String[] assignments=new String[num];
         int idx=0;
-        DoAssignment assignment[]= new DoAssignment[notFinish.size()];
+        ArrayList<DoAssignment> assignment= new ArrayList<DoAssignment>();
         for(Integer x: notFinish){
             assignments[idx]=allAssignment.get(x);
-            assignment[idx]=new DoAssignment(idx,StudentID,getHeight()-100,sql);
+           assignment.add(new DoAssignment(x,StudentID,getHeight()-100,sql)) ;
+            idx++;
         }
         idx=0;
-        String[] all= new String[allAssignment.size()];
+        System.out.println(allAssignment.size());        String[] all= new String[allAssignment.size()];
         AtomicInteger finalIdx = new AtomicInteger(0);
         DoAssignment allAss[]= new DoAssignment[allAssignment.size()];
         allAssignment.forEach((k,v)->{
@@ -122,13 +129,16 @@ public class FrameForStudent extends JFrame {
                             main.showForm(PF[subMenuIndex]);
                     }
                     case 2->{
-
+                        if(subMenuIndex==0) main.showForm(rank);
+                        if(subMenuIndex==1) main.showForm(rs);
                     }
                     case 3->{
-                        main.showForm(assignment[subMenuIndex]);
+                        if(subMenuIndex!=-1)
+                            main.showForm(assignment.get(subMenuIndex));
                     }
                     case 4 ->{
-                        main.showForm(allAss[subMenuIndex]);
+                        if(subMenuIndex!=-1)
+                            main.showForm(allAss[subMenuIndex]);
                     }
                     case 5->{
                         main.showForm(dictionnary);
@@ -235,7 +245,9 @@ public class FrameForStudent extends JFrame {
     }
 
     public static void main(String args[]) {
-                new FrameForStudent(1,"Thanglm2006").setVisible(true);
+        SwingUtilities.invokeLater(() -> {
+            new FrameForStudent(1, "Thanglm2006").setVisible(true);
+        });
 
 }
 }

@@ -1,4 +1,3 @@
-
 package Component;
 
 import Res.SQLQueries;
@@ -13,83 +12,87 @@ import raven.datetime.component.date.DatePicker;
 import raven.datetime.component.date.DateSelectionListener;
 
 import javax.swing.*;
+import net.miginfocom.swing.MigLayout;  // Import MigLayout
 
-
-public class Register extends javax.swing.JPanel {
+public class Register extends JPanel {
     private SQLQueries sql;
-    private JButton cmdBackLogin;
-    private JLabel jLabel1,jLabel2,jLabel3,jLabel4,jLabel5,jLabel6,jLabel7,jLabel8,jLabel9,m1,m2,m3,m4,m5,m6,m7;
-    private MyButton myButton_Register;
-    private MyPassword txtPass,txtPass1;
-    private MyTextField txtUser;
-    private MyTextField txtEmail,txtFullName;
-    private JFormattedTextField Birth;
+    private JButton backlogin;
+    private JLabel  l2, l3, l4, l6, l7;
+    Message m;
+    private Button register;
+    private PasswordField pass, pass1;
+    private TextField username;
+    private TextField email, fullName;
+    private DateField Birth;
     private DatePicker birth;
-    private JRadioButton jRadioButton_Student,jRadioButton_Teacher;
+    private JRadioButton jRadioButton_Student, jRadioButton_Teacher;
     private ButtonGroup buttonGroup;
     private String birthdate;
+
     public Register() {
         initComponents();
     }
 
     public void register() {
-        txtUser.grabFocus();
-    }
-    private ActionListener ac;
-    public void addEventBackLogin(ActionListener event) {
-        cmdBackLogin.addActionListener(event);
-        ac=event;
+        username.grabFocus();
     }
 
-    public String getUser(){
-        return txtUser.getText();
+    private ActionListener ac;
+
+    public void addEventBackLogin(ActionListener event) {
+        backlogin.addActionListener(event);
+        ac = event;
     }
-    public String getPass1(){
-        return txtPass1.getText();
+
+    public String getUser() {
+        return username.getText();
     }
-    public String getEmail(){
-        return txtEmail.getText();
+
+    public String getPass1() {
+        return pass1.getText();
     }
-    public String getFullName(){
-        return txtFullName.getText();
+
+    public String getEmail() {
+        return email.getText();
     }
+
+    public String getFullName() {
+        return fullName.getText();
+    }
+
     public String getBirth() {
         return birthdate;
     }
+
     private void initComponents() {
-        sql= new SQLQueries();
-        birth= new DatePicker();
-        txtUser = new MyTextField();
-        jLabel1 = new javax.swing.JLabel();
-        m1= new JLabel(); m1.setForeground(Color.RED);
-        jLabel2 = new javax.swing.JLabel();
-        txtPass = new MyPassword();
-        jLabel3 = new javax.swing.JLabel();
-        myButton_Register = new MyButton();
-        cmdBackLogin = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
-        txtPass1 = new MyPassword();
-        txtEmail = new MyTextField();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel8= new JLabel();
-        jLabel9 = new JLabel();
-        txtFullName= new MyTextField();
-        Birth= new JFormattedTextField();
+
+        sql = new SQLQueries();
+        birth = new DatePicker();
+        username = new TextField();
+
+        m = new Message(new Frame(),false);
+
+        l2 = new JLabel();
+        pass = new PasswordField();
+        pass.setLabelText("Mật khẩu");
+        l3 = new JLabel();
+        register = new Button();
+        backlogin = new Button();
+        l4 = new JLabel();
+        pass1 = new PasswordField();
+        pass1.setLabelText("Nhập lại mật khẩu");
+        email = new TextField();
+        email.setLabelText("Email");
+
+        l6 = new JLabel();
+        fullName = new TextField();
+        fullName.setLabelText("Họ và tên");
+        Birth = new DateField();
         jRadioButton_Student = new JRadioButton();
         jRadioButton_Teacher = new JRadioButton();
-        jLabel7 = new JLabel();
-        m2= new JLabel();
-        m2.setForeground(Color.RED);
-        m3= new JLabel();
-        m3.setForeground(Color.RED);
-        m4= new JLabel();
-        m4.setForeground(Color.RED);
-        m5= new JLabel();
-        m5.setForeground(Color.RED);
-        m7= new JLabel();
-        m7.setForeground(Color.GREEN);
-        m6= new JLabel("( theo định dạng dd-mm-yyyy)");
+        l7 = new JLabel();
+
+
 
         birth.setEditor(Birth);
 
@@ -97,10 +100,9 @@ public class Register extends javax.swing.JPanel {
 
             @Override
             public void dateSelected(DateEvent dateEvent) {
-                LocalDate dates =birth.getSelectedDate();
-                DateTimeFormatter df=DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                if(dates!=null) {
-
+                LocalDate dates = birth.getSelectedDate();
+                DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                if (dates != null) {
                     birthdate = df.format(dates);
                 }
             }
@@ -110,247 +112,127 @@ public class Register extends javax.swing.JPanel {
                 !localDate.isAfter(LocalDate.now()) && !localDate.isBefore(LocalDate.of(1900, 1, 1))
         );
         birth.setColor(Color.CYAN);
-        birth.setColor(Color.CYAN);
 
-        setBackground(new java.awt.Color(255, 255, 255));
+        setBackground(new Color(255, 255, 255));
 
-        jLabel1.setText("Tên đăng nhập( không dấu)");
-        jLabel2.setFont(new java.awt.Font("sansserif", 1, 36));
-        jLabel2.setForeground(new java.awt.Color(69, 68, 68));
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Đăng kí");
+        l2.setFont(new Font("sansserif", 1, 36));
+        l2.setForeground(new Color(69, 68, 68));
+        l2.setHorizontalAlignment(SwingConstants.CENTER);
+        l2.setText("Đăng kí");
 
-        jLabel3.setText("Mật khẩu");
+        register.setBackground(new Color(25, 182, 247));
+        register.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        register.setForeground(new Color(255, 255, 255));
+        register.setText("Đăng kí");
+        register.setFont(new Font("sansserif", 1, 15));
+        register.addActionListener(e -> {
+            if (getUser().isEmpty()) {
+                m.showMessage("Tên đăng nhập không được để trống");
 
-        myButton_Register.setBackground(new java.awt.Color(125, 229, 251));
-        myButton_Register.setForeground(new java.awt.Color(40, 40, 40));
-        myButton_Register.setText("Đăng kí");
-        myButton_Register.addActionListener(e -> {
-            if(getUser().isEmpty()){
-                m1.setText("Tên đăng nhập không được để trống");
-            }
-            else if((jRadioButton_Teacher.isSelected()&&!getUser().matches("GV\\S+"))||(jRadioButton_Student.isSelected()&&!getUser().matches("SV\\S+"))){
-                m1.setText("vui lòng đặt tên đăng nhập theo đúng định dạng");
-            }else if(!jRadioButton_Student.isSelected()&&!jRadioButton_Teacher.isSelected()){
-                m2.setText("vui lòng chọn loại tài khoản");
-            }else if(txtPass.getText().isEmpty()){
-                m3.setText("Mật khẩu không được để trống!");
-            }else if(txtPass.getText().length()<8){
-                m3.setText("Mật khẩu phải trên 8 kí tự!");
-            }
-            else if(!txtPass.getText().equals(txtPass1.getText())){
-                jLabel6.setForeground(Color.RED);
-                jLabel6.setText("Hãy nhập đúng mật khẩu đã nhập ở trên");
-            }else if(txtEmail.getText().isEmpty()){
-                m4.setText("vui lòng nhập email!");
-            }else if(!txtEmail.getText().matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")){
-                m4.setText("nhập email theo định dạng example@domain.com");
-            }else if(txtFullName.getText().isEmpty()){
-                m5.setText("Vui lòng nhập họ và tên!");
-            }else if(birthdate==null){
-                m6.setForeground(Color.RED);
-                m6.setText("Vui lòng nhập ngày sinh!");
-            }
-            else{
-                m1.setText("");
-                m2.setText("");
-                jLabel6.setForeground(Color.BLACK);
-                jLabel6.setText("( nhập lại mật khẩu)");
-                m3.setText("");
-                m4.setText("");
-                m5.setText("");
-                m6.setText("( theo định dạng dd-mm-yyyy)");
-                m6.setForeground(Color.BLACK);
-                if(jRadioButton_Teacher.isSelected()){
-                    boolean check= sql.insertTeacher(txtUser.getText(),txtPass.getText(),txtFullName.getText(),txtEmail.getText(),birthdate);
-                    if(!check) {
-                        m1.setText("tên đăng nhập đã tồn tại!");
-                        m1.setForeground(Color.red);
-                    }else{
-                        m1.setText("");
-                        txtEmail.setText("");
-                        txtFullName.setText("");
-                        txtUser.setText("");
-                        txtPass.setText("");
-                        txtPass1.setText("");
-                        Birth.setText(null);
-                        myButton_Register.addActionListener(ac);
-                        myButton_Register.doClick();
+            } else if ((jRadioButton_Teacher.isSelected() && !getUser().matches("GV\\S+")) || (jRadioButton_Student.isSelected() && !getUser().matches("SV\\S+"))) {
+                m.showMessage("Vui lòng đặt tên đăng nhập theo đúng định dạng");
+            } else if (!jRadioButton_Student.isSelected() && !jRadioButton_Teacher.isSelected()) {
+                m.showMessage("Vui lòng chọn loại tài khoản");
+            } else if (pass.getText().isEmpty()) {
+                m.showMessage("Mật khẩu không được để trống!");
+            } else if (pass.getText().length() < 8) {
+                m.showMessage("Mật khẩu phải trên 8 kí tự!");
+            } else if (!pass.getText().equals(pass1.getText())) {
+                m.showMessage("Hãy nhập đúng mật khẩu đã nhập ở trên");
+            } else if (email.getText().isEmpty()) {
+                m.showMessage("Vui lòng nhập email!");
+            } else if (!email.getText().matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
+                m.showMessage("Nhập email theo định dạng example@domain.com");
+            } else if (fullName.getText().isEmpty()) {
+                m.showMessage("Vui lòng nhập họ và tên!");
+            } else if (birthdate == null) {
+                m.setForeground(Color.RED);
+                m.showMessage("Vui lòng nhập ngày sinh!");
+            } else {
+                if (jRadioButton_Teacher.isSelected()) {
+                    boolean check = sql.insertTeacher(username.getText(), pass.getText(), fullName.getText(), email.getText(), birthdate);
+                    if (!check) {
+                        m.showMessage("Tên đăng nhập đã tồn tại!");
+                    } else {
+                        clearFields();
                     }
+                } else {
+                    boolean check = sql.insertStudent(username.getText(), pass.getText(), fullName.getText(), email.getText(), birthdate);
+                    if (!check) {
+                        m.showMessage("Tên đăng nhập đã tồn tại!");
+                        m.setForeground(Color.red);
+                    } else {
 
-                }else{
-                    boolean check= sql.insertStudent(txtUser.getText(),txtPass.getText(),txtFullName.getText(),txtEmail.getText(),birthdate);
-                    if(!check) {
-                        m1.setText("tên đăng nhập đã tồn tại!");
-                        m1.setForeground(Color.red);
-                    }else{
-
-                        m1.setText("");
-                        m1.setText("");
-                        txtEmail.setText("");
-                        txtFullName.setText("");
-                        txtUser.setText("");
-                        txtPass.setText("");
-                        txtPass1.setText("");
-                        Birth.setText(null);
-                        myButton_Register.addActionListener(ac);
-                        myButton_Register.doClick();
+                        clearFields();
                     }
                 }
             }
         });
-        cmdBackLogin.setFont(new java.awt.Font("sansserif", 1, 12));
-        cmdBackLogin.setForeground(new java.awt.Color(30, 122, 236));
-        cmdBackLogin.setText("Bạn đã có tài khoản?");
-        cmdBackLogin.setContentAreaFilled(false);
-        cmdBackLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        jLabel4.setText("Mật khẩu");
-        jLabel5.setText("Email");
-        jLabel8.setText("Họ và tên");
-        jLabel9.setText("Ngày sinh");
+        backlogin.setFont(new Font("sansserif", 1, 15));
+        backlogin.setForeground(new Color(30, 122, 236));
+        backlogin.setText("Bạn đã có tài khoản?");
+        backlogin.setContentAreaFilled(false);
+        backlogin.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
         jRadioButton_Student.setText("Sinh viên/ Học sinh");
-        jLabel7.setText("Loại tài khoản");
+        l7.setText("Loại tài khoản");
         jRadioButton_Teacher.setText("Giáo viên");
 
         buttonGroup = new ButtonGroup();
         buttonGroup.add(jRadioButton_Student);
         buttonGroup.add(jRadioButton_Teacher);
 
-        txtUser.setText("nếu là sinh viên: đặt là SV...; nếu là giáo viên đặt là GV...");
-        txtUser.setForeground(Color.gray);
-        txtUser.addKeyListener(new KeyAdapter() {
+        username.setLabelText("Tên đăng nhập (không dấu)");
+        username.setText("Nếu là sinh viên: đặt là SV...; nếu là giáo viên đặt là GV...");
+        username.setForeground(Color.gray);
+
+        username.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
-                if(txtUser.getText().equalsIgnoreCase("sinh viên: đặt là SV...; giáo viên đặt là GV...")||txtUser.getText().length()>30){
-                    txtUser.setText("");
-                    txtUser.setForeground(Color.BLACK);
+                if(username.getText().equalsIgnoreCase("sinh viên: đặt là SV...; giáo viên đặt là GV...")||username.getText().length()>30){
+                    username.setText("");
+                    username.setForeground(Color.BLACK);
                 }
-                else if(txtUser.getText().equalsIgnoreCase("")){
-                    txtUser.setText("nếu là sinh viên: đặt là SV...; nếu là giáo viên đặt là GV...");
-                    txtUser.setForeground(Color.gray);
+                else if(username.getText().equalsIgnoreCase("")){
+                    username.setText("nếu là sinh viên: đặt là SV...; nếu là giáo viên đặt là GV...");
+                    username.setForeground(Color.gray);
                 }
             }
         });
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 10));
-        jLabel6.setText("(nhập lại mật khẩu)");
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addContainerGap(43, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jLabel7)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(m2))
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jRadioButton_Student)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(jRadioButton_Teacher))
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                .addGroup(layout.createSequentialGroup()
-                                                        .addComponent(jLabel5)
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addComponent(m4))
-                                                .addGroup(layout.createSequentialGroup()
-                                                        .addComponent(jLabel8)
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addComponent(m5))
-                                                .addGroup(layout.createSequentialGroup()
-                                                        .addComponent(jLabel9)
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addComponent(m6))
-                                                .addGroup(layout.createSequentialGroup()
-                                                        .addComponent(jLabel4)
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addComponent(m3))
-                                                .addGroup(layout.createSequentialGroup()
-                                                        .addComponent(jLabel1)
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addComponent(m1))
-                                                .addComponent(txtUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
-                                                .addComponent(txtPass, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(myButton_Register, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(cmdBackLogin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 
-                                                .addGroup(layout.createSequentialGroup()
-                                                        .addComponent(jLabel3)
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addComponent(jLabel6))
-                                                .addComponent(txtPass1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(txtEmail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(txtFullName,GroupLayout.DEFAULT_SIZE,GroupLayout.DEFAULT_SIZE,Short.MAX_VALUE)
-                                                .addComponent(Birth,GroupLayout.DEFAULT_SIZE,GroupLayout.DEFAULT_SIZE,Short.MAX_VALUE)
-                                        ))
-//
 
-                                .addContainerGap(43, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(m1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(m3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(1, 1, 1)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
 
-                                .addComponent(txtPass1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(m4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                //
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(m5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtFullName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(m6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(Birth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                //
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(m2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jRadioButton_Student)
-                                        .addComponent(jRadioButton_Teacher))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
-                                .addComponent(myButton_Register, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cmdBackLogin)
-                                .addGap(19, 19, 19))
-        );
+        l6.setFont(new Font("Segoe UI", 0, 10));
+
+
+        setLayout(new MigLayout("al center center, wrap"));
+
+        add(l2, "width 75%, y 1%");
+        add(username, "width 75%, y 12%");
+        add(l4);
+        add(pass, "width 75%, y 21%");
+        add(l3); add(l6);
+        add(pass1, "width 75%, y 30%");
+        add(email, "width 75%, y 39%");
+        add(fullName, "width 75%, y 48%");
+        add(Birth, "width 75%, y 57%");
+        add(l7,"width 75%, y 66%");
+        add(jRadioButton_Student, "split 2, y 70%");
+        add(jRadioButton_Teacher, "wrap, y 70%");
+        add(register, "width 75%, y 80%");
+        add(backlogin, "width 75%, y 90%");
     }
 
+    private void clearFields() {
 
-
-
+        email.setText("");
+        fullName.setText("");
+        username.setText("");
+        pass.setText("");
+        pass1.setText("");
+        Birth.setText("");
+    }
 }
+
