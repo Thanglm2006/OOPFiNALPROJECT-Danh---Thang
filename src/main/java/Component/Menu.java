@@ -62,6 +62,18 @@ public class Menu extends JPanel {
         addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/Image/icon/logout3.png")), "Đăng xuất"));
 
     }
+    public void itemTeacher() {
+
+        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/Image/icon/home.png")), "Trang chủ"));
+        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/Image/icon/5.png")), "Tài khoản","Thông tin cá nhân","Đổi mật khẩu","Sửa đổi email"));
+        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/Image/icon/dictionary.png")), "Danh sách học sinh"));
+        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/Image/icon/star.png")), "Kết quả học tập","Xếp hạng","Điểm tất cả bài đã làm"));
+        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/Image/icon/7.png")),"Bài Tập chưa làm"));
+        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/Image/icon/7.png")),"Tất cả bài tập"));
+        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/Image/icon/dictionary.png")), "Từ điển"));
+        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/Image/icon/logout3.png")), "Đăng xuất"));
+
+    }
 
     private void addMenu(ModelMenu menu) {
         MenuItem menuItem = new MenuItem(menu, getEventMenu(), event, panel.getComponentCount());

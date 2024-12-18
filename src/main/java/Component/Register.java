@@ -75,12 +75,16 @@ public class Register extends JPanel {
         l2 = new JLabel();
         pass = new PasswordField();
         pass.setLabelText("Mật khẩu");
+        pass.setShowAndHide(true);
+
         l3 = new JLabel();
         register = new Button();
         backlogin = new Button();
         l4 = new JLabel();
         pass1 = new PasswordField();
         pass1.setLabelText("Nhập lại mật khẩu");
+        pass1.setShowAndHide(true);
+
         email = new TextField();
         email.setLabelText("Email");
 
@@ -179,9 +183,9 @@ public class Register extends JPanel {
         l7.setText("Loại tài khoản");
         jRadioButton_Teacher.setText("Giáo viên");
 
-        buttonGroup = new ButtonGroup();
-        buttonGroup.add(jRadioButton_Student);
-        buttonGroup.add(jRadioButton_Teacher);
+//        buttonGroup = new ButtonGroup();
+//        buttonGroup.add(jRadioButton_Student);
+//        buttonGroup.add(jRadioButton_Teacher);
 
         username.setLabelText("Tên đăng nhập (không dấu)");
         username.setText("Nếu là sinh viên: đặt là SV...; nếu là giáo viên đặt là GV...");
@@ -219,8 +223,8 @@ public class Register extends JPanel {
         add(fullName, "width 75%, y 48%");
         add(Birth, "width 75%, y 57%");
         add(l7,"width 75%, y 66%");
-        add(jRadioButton_Student, "split 2, y 70%");
-        add(jRadioButton_Teacher, "wrap, y 70%");
+//        add(jRadioButton_Student, "split 2, y 70%");
+//        add(jRadioButton_Teacher, "wrap, y 70%");
         add(register, "width 75%, y 80%");
         add(backlogin, "width 75%, y 90%");
     }

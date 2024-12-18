@@ -60,6 +60,8 @@ public class Login extends JPanel {
         j1 = new JLabel();
         password = new PasswordField();
         password.setLabelText("Mật khẩu");
+        password.setShowAndHide(true);
+
         password.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
