@@ -95,6 +95,7 @@ public class FrameForStudent extends JFrame {
         ArrayList<DoAssignment> assignment= new ArrayList<DoAssignment>();
         for(Integer x: notFinish){
             assignments[idx]=allAssignment.get(x);
+            System.out.println(assignments[idx]);
            assignment.add(new DoAssignment(x,StudentID,getHeight()-100,sql)) ;
             idx++;
         }

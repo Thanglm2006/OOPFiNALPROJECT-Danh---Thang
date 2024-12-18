@@ -65,22 +65,21 @@ public class SQLQueries {
             "from BigQuestion \n" +
             "left join AudioForBigQuestion on AudioForBigQuestion.BQuestionID=BigQuestion.BQuestionID \n" +
             "where AssignmentID=%d\n";
-    private String getNotFinish="select classAssignment.AssignmentID\n" +
-            "from Student student\n" +
-            "join ClassAndStudent classStudent on classStudent.StudentID=student.StudentID\n" +
-            "join ClassAssignment classAssignment on classAssignment.ClassID=classStudent.ClassID\n" +
-            "join Assignment assignment on assignment.AssignmentID=classAssignment.AssignmentID\n" +
-            "join StudentProgress studentprogress on studentprogress.StudentID=student.StudentID\n" +
-            "where classStudent.StudentID=%d and not exists (select * from studentProgress where assignment.AssignmentID=studentprogress.AssignmentID);\n";
-    private String allStudent="select " +
-            "\tstudent.StudentName,\n" +
+    private String getNotFinish="SELECT ca.AssignmentID\n" +
+            "FROM ClassAssignment ca\n" +
+            "JOIN ClassAndStudent cas ON ca.ClassID = cas.ClassID\n" +
+            "LEFT JOIN StudentProgress sp ON ca.AssignmentID = sp.AssignmentID AND cas.StudentID = sp.StudentID\n" +
+            "WHERE cas.StudentID = %d\n" +
+            "  AND sp.AssignmentID IS NULL;";
+    private String allStudent="select \tstudent.StudentName,\n" +
             "\tstudent.StudentID,\n" +
             "\tround(sum(stp.Score),2) as score\n" +
             "from \n" +
             "\t\tStudent student\n" +
             "join\tStudentProgress stp on stp.StudentID=student.StudentID\n" +
-            "group by student.StudentName,student.StudentID\n" +
-            "order by score desc \n";
+            "group by student.StudentName,student.StudentID,stp.completionDate\n" +
+            "order by score desc,\n" +
+            "stp.completionDate  ";
     private String TInfor="select * from Teacher join TeacherAccount on TeacherAccount.TeacherID= Teacher.TeacherID where Teacher.TeacherID=%d;";
 
     private String stInfor="select * from Student join StudentAccount on StudentAccount.StudentID= Student.StudentID where Student.StudentID=%d;";
@@ -161,7 +160,6 @@ public class SQLQueries {
     }
     public ResultSet allStudent(){
         try{
-
             PreparedStatement st= c.prepareStatement(allStudent);
             ResultSet res= st.executeQuery();
             return res;
@@ -172,7 +170,6 @@ public class SQLQueries {
     }
     public ArrayList<Integer> getNotFinished(int id){
         try{
-
             PreparedStatement st= c.prepareStatement(String.format(getNotFinish,id));
             ResultSet res= st.executeQuery();
             ArrayList<Integer> ans= new ArrayList<>();
