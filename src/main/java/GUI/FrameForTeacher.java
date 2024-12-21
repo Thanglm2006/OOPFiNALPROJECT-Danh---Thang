@@ -1,30 +1,21 @@
 package GUI;
 
-import Component.Header;
-import Component.Menu;
-import Component.ProfilePanel;
+import Component.MenuAndHeader.Header;
+import Component.MenuAndHeader.MenuStudent;
+import Component.MenuAndHeader.MenuTeacher;
+import Component.PanelPrototype.*;
+import Component.PanelPrototype.PopupMenu;
 import Component.form.Form2;
 import Res.SQLQueries;
-import com.sun.tools.javac.Main;
 import event.EventMenuSelected;
 import event.EventShowPopupMenu;
-import Component.DoAssignment;
 import Component.form.Form1;
 import Component.form.MainForm;
-import Component.MenuItem;
-import Component.PopupMenu;
-import Component.ChangePass;
-import Component.changeEmail;
-import Component.DictionaryFrame;
-import Component.ResultOfStudent;
-import Component.Ranking;
+import Component.MenuAndHeader.MenuItem;
+import Component.PanelPrototype.DictionaryPanel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.animation.timing.Animator;
@@ -35,41 +26,81 @@ import javax.swing.*;
 
 public class FrameForTeacher extends JFrame {
 
+    private JLayeredPane bg;
     private MigLayout layout;
-    private Menu menu;
+    private MenuTeacher menuTeacher;
     private Header header;
+    private String user;
+    private SQLQueries sql;
+    private int Teacher;
+    private JPanel[] PF = new JPanel[10];
     private Animator animator;
     private MainForm main;
+    private DictionaryPanel dictionaryPanel;
 
-
-    public FrameForTeacher() {
+    public FrameForTeacher(int id, String Name) {
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException | UnsupportedLookAndFeelException | IllegalAccessException |
+                 InstantiationException ex) {
+            java.util.logging.Logger.getLogger(FrameForTeacher.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        this.Teacher=id;
+        this.user=Name;
         initComponents();
         init();
         setSize(Toolkit.getDefaultToolkit().getScreenSize());
     }
 
     private void init() {
+        sql= new SQLQueries();
+        dictionaryPanel= new DictionaryPanel(getWidth(),getHeight(),sql);
         layout = new MigLayout("fill", "0[]0[100%, fill]0", "0[fill, top]0");
+        PF[0]= new ProfilePanel("GV",Teacher,sql);
+        PF[1]= new ChangePass("GV",Teacher,sql);
+        PF[2]= new changeEmail("GV",Teacher,sql);
         bg.setLayout(layout);
-        menu = new Menu();
-        header = new Header("Danh Hanma","User");
-
+        menuTeacher = new MenuTeacher();
+        header = new Header(user,"Giáo Viên");
         main = new MainForm();
-
-
-        menu.addEvent(new EventMenuSelected() {
+        menuTeacher.addEvent(new EventMenuSelected(){
             @Override
             public void menuSelected(int menuIndex, int subMenuIndex) {
-                System.out.println("Menu Index : " + menuIndex + " SubMenu Index " + subMenuIndex);
+                System.out.println("MenuAndHeader Index : " + menuIndex + " SubMenu Index " + subMenuIndex);
                 if(menuIndex==0 && subMenuIndex==-1){
                     main.showForm(new Form1());
+                }
+                switch(menuIndex){
+                    case 1->{
+                        if(subMenuIndex!=-1)
+                            main.showForm(PF[subMenuIndex]);
+                    }
+                    case 2->{
 
+                    }
+                    case 3->{
+                        if(subMenuIndex==0){
+
+                            String assingnmentText=JOptionPane.showInputDialog("Nhập tên bài tập");
+                            if(!assingnmentText.equals("")){
+                                InsertAssignment assignment= new InsertAssignment(assingnmentText,sql,Teacher);
+                                main.showForm(assignment);
+                            }
+                        }
+                    }
+                    case 4->{
+                        main.showForm(dictionaryPanel);
+                    }
 
                 }
-                if(menuIndex==1 && subMenuIndex==0) main.showForm(new Form2());
             }
         });
-        menu.addEventShowPopup(new EventShowPopupMenu() {
+        menuTeacher.addEventShowPopup(new EventShowPopupMenu() {
             @Override
             public void showPopup(Component com) {
                 MenuItem item = (MenuItem) com;
@@ -80,27 +111,27 @@ public class FrameForTeacher extends JFrame {
                 popup.setVisible(true);
             }
         });
-        menu.itemTeacher();
-        bg.add(menu, "w 230!, spany 2");
+        menuTeacher.itemTeacher();
+        bg.add(menuTeacher, "w 230!, spany 2");
         bg.add(header, "h 50!, wrap");
         bg.add(main, "w 100%, h 100%");
         TimingTarget target = new TimingTargetAdapter() {
             @Override
             public void timingEvent(float fraction) {
                 double width;
-                if (menu.isShowMenu()) {
+                if (menuTeacher.isShowMenu()) {
                     width = 60 + (170 * (1f - fraction));
                 } else {
                     width = 60 + (170 * fraction);
                 }
-                layout.setComponentConstraints(menu, "w " + width + "!, spany2");
-                menu.revalidate();
+                layout.setComponentConstraints(menuTeacher, "w " + width + "!, spany2");
+                menuTeacher.revalidate();
             }
 
             @Override
             public void end() {
-                menu.setShowMenu(!menu.isShowMenu());
-                menu.setEnableMenu(true);
+                menuTeacher.setShowMenu(!menuTeacher.isShowMenu());
+                menuTeacher.setEnableMenu(true);
             }
 
         };
@@ -114,9 +145,9 @@ public class FrameForTeacher extends JFrame {
                 if (!animator.isRunning()) {
                     animator.start();
                 }
-                menu.setEnableMenu(false);
-                if (menu.isShowMenu()) {
-                    menu.hideallMenu();
+                menuTeacher.setEnableMenu(false);
+                if (menuTeacher.isShowMenu()) {
+                    menuTeacher.hideallMenu();
                 }
             }
         });
@@ -164,34 +195,17 @@ public class FrameForTeacher extends JFrame {
 
     public static void main(String args[]) {
 
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
+
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new FrameForTeacher().setVisible(true);
-
+                new FrameForTeacher(1,"GVDanhhanma").setVisible(true);
             }
         });
     }
 
 
-    private javax.swing.JLayeredPane bg;
 
 }
 

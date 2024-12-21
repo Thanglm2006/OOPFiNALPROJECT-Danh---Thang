@@ -33,60 +33,17 @@ public  void sendmail(String recipient, String Title,String Text){
     } catch (Exception e) {
         e.printStackTrace();
     }
-
     }
 
-    public AutomticMail() {
-
-
-        try {
-            URL resourceUrl = getClass().getClassLoader().getResource("Security/email.dat");
-            if (resourceUrl == null) {
-                throw new FileNotFoundException("Resource 'email.dat' not found.");
-            }
-            try (InputStream in = resourceUrl.openStream()) {
-                byte[] buffer = new byte[1024];
-                int bytesRead;
-                ByteArrayOutputStream byteCollector = new ByteArrayOutputStream();
-
-                while ((bytesRead = in.read(buffer)) != -1) {
-                    byteCollector.write(buffer, 0, bytesRead);
-                }
-                byte[] fullBytes = byteCollector.toByteArray();
-                Sender  = new String(fullBytes, "UTF-8");
-                Sender=Sender.substring(7);
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            URL resourceUrl = getClass().getClassLoader().getResource("Security/pass.dat");
-            if (resourceUrl == null) {
-                throw new FileNotFoundException("Resource 'pass.dat' not found.");
-            }
-            try (InputStream in = resourceUrl.openStream()) {
-                byte[] buffer = new byte[1024];
-                int bytesRead;
-                ByteArrayOutputStream byteCollector = new ByteArrayOutputStream();
-
-                while ((bytesRead = in.read(buffer)) != -1) {
-                    byteCollector.write(buffer, 0, bytesRead);
-                }
-                byte[] fullBytes = byteCollector.toByteArray();
-                Pass  = new String(fullBytes, "UTF-8");
-                Pass=Pass.substring(7);
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public AutomticMail(SQLQueries sql) {
+        String[] acc=sql.getAdminMail();
+        Sender=acc[0];
+        Pass=acc[1];
     }
 
 
     public static void main(String[] args) {
-        AutomticMail m= new AutomticMail();
+        AutomticMail m= new AutomticMail(new SQLQueries());
         m.sendmail("thanglm.24ai@vku.udn.vn","Hello","hi");
     }
 }

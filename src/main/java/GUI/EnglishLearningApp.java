@@ -1,6 +1,7 @@
 package GUI;
 
-import Component.*;
+import Component.PanelPrototype.*;
+import Component.PanelPrototype.Login;
 
 import javax.swing.*;
 import java.awt.*;

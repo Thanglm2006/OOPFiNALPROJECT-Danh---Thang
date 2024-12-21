@@ -4,7 +4,7 @@ import java.net.URL;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-
+import Object.Student;
 public class SQLQueries {
     private Connection c=null;
     private Statement sta=null;
@@ -79,7 +79,27 @@ public class SQLQueries {
             "join\tStudentProgress stp on stp.StudentID=student.StudentID\n" +
             "group by student.StudentName,student.StudentID,stp.completionDate\n" +
             "order by score desc,\n" +
-            "stp.completionDate  ";
+            "stp.completionDate ";
+    private String searchSTByClassName="select student.StudentID, student.StudentName, class.ClassName,student.Gender, student.Email, student.BirthDate\n" +
+            "from Student student\n" +
+            "join ClassAndStudent cls on student.StudentId=cls.StudentID\n" +
+            "join Class class on cls.ClassID=class.ClassID\n" +
+            "where class.ClassName like '%s'";
+    private String searchSTBySTName="select student.StudentID, student.StudentName, class.ClassName,student.Gender, student.Email, student.BirthDate\n" +
+            "from Student student\n" +
+            "join ClassAndStudent cls on student.StudentId=cls.StudentID\n" +
+            "join Class class on cls.ClassID=class.ClassID\n" +
+            "where student.StudentName like '%s'";
+    private String searchSTByGender="select student.StudentID, student.StudentName, class.ClassName,student.Gender, student.Email, student.BirthDate\n" +
+            "from Student student\n" +
+            "join ClassAndStudent cls on student.StudentId=cls.StudentID\n" +
+            "join Class class on cls.ClassID=class.ClassID\n" +
+            "where student.Gender like '%s'";
+    private String searchSTBySTID="select student.StudentID, student.StudentName, class.ClassName,student.Gender, student.Email, student.BirthDate\n" +
+            "from Student student\n" +
+            "join ClassAndStudent cls on student.StudentId=cls.StudentID\n" +
+            "join Class class on cls.ClassID=class.ClassID\n" +
+            "where student.StudentID like '%d'";
     private String TInfor="select * from Teacher join TeacherAccount on TeacherAccount.TeacherID= Teacher.TeacherID where Teacher.TeacherID=%d;";
 
     private String stInfor="select * from Student join StudentAccount on StudentAccount.StudentID= Student.StudentID where Student.StudentID=%d;";
@@ -87,8 +107,191 @@ public class SQLQueries {
             " set PassWord='%s' where StudentID=%d";
     private String resetPassTe="update TeacherAccount" +
             " set PassWord='%s' where TeacherID=%d";
+    private String saveAssignment="insert into Assignment(AssignmentName,Teacher) values(N'%s',%d)";
+    private String saveBigQuestion="insert into BigQuestion(AssignmentID,BQuestionText) values(%d,N'%s')";
+    private String saveSmallQuestion="insert into Question(BQuestionID,QuestionText) values(%d,N'%s')";
+    private String saveAudioForBQ="insert into AudioForBigQuestion(BQuestionID,FilePath) values(%d,N'%s')";
+    private String saveAudioForQ="insert into AudioForQuestion(QuestionID,FilePath) values(%d,N'%s')";
+    private String saveSelection="insert into Selection(QuestionID,SelectionText,TrueFalse) values(%d,N'%s',%d)";
     private String updateSTEmail="update Student set Email='%s' where StudentID=%d";
     private String updateTEmail="update Teacher set Email='%s' where TeacherID=%d";
+    private String getAminMail="select Email,Pass from AdminMail";
+    private String getBID="SELECT IDENT_CURRENT('BigQuestion') + 1 AS next; ";
+    private String getAssID="SELECT IDENT_CURRENT('Assignment') + 1 AS next; ";
+    private String getSMID="SELECT IDENT_CURRENT('Question') + 1 AS next; ";
+    public void saveAssignment(String name, int teacher){
+        try {
+            PreparedStatement st= c.prepareStatement(String.format(saveAssignment,name,teacher));
+            st.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void saveBigQuestion(int AssignmentID, String BQuestionText,String Audio){
+       if(Audio!=null){
+              try {
+                PreparedStatement st= c.prepareStatement(String.format(saveBigQuestion,AssignmentID,BQuestionText));
+                st.executeUpdate();
+                ResultSet res=sta.executeQuery("SELECT IDENT_CURRENT('BigQuestion') AS next;");
+                int BQuestionID=1;
+                while(res.next()){
+                     BQuestionID=res.getInt("next");
+                }
+                PreparedStatement st1= c.prepareStatement(String.format(saveAudioForBQ,BQuestionID,Audio));
+                st1.executeUpdate();
+              } catch (SQLException e) {
+                e.printStackTrace();
+              }
+         }
+         else{
+              try {
+                PreparedStatement st= c.prepareStatement(String.format(saveBigQuestion,AssignmentID,BQuestionText));
+                st.executeUpdate();
+              } catch (SQLException e) {
+                e.printStackTrace();
+              }
+       }
+    }
+    public void saveSmallQuestion(int BQuestionID, String QuestionText, String Audio){
+        if(Audio!=null){
+            try {
+                PreparedStatement st= c.prepareStatement(String.format(saveSmallQuestion,BQuestionID,QuestionText));
+                st.executeUpdate();
+                ResultSet res=sta.executeQuery("SELECT IDENT_CURRENT('Question') AS next;");
+                int QuestionID=1;
+                while(res.next()){
+                    QuestionID=res.getInt("next");
+                }
+                PreparedStatement st1= c.prepareStatement(String.format(saveAudioForQ,QuestionID,Audio));
+                st1.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        else{
+            try {
+                PreparedStatement st= c.prepareStatement(String.format(saveSmallQuestion,BQuestionID,QuestionText));
+                st.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    public void saveSelection(int QuestionID, String SelectionText, int TrueFalse){
+        try {
+            PreparedStatement st= c.prepareStatement(String.format(saveSelection,QuestionID,SelectionText,TrueFalse));
+            st.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public ArrayList<Student> searchSTBySTID(int id) {
+        try{
+            ArrayList<Student> tmp = null;
+            PreparedStatement st= c.prepareStatement(String.format(searchSTBySTID,id));
+            ResultSet res= st.executeQuery();
+            while(res.next()) {
+               tmp = new ArrayList<>();
+               tmp.add( new Student(res.getInt("StudentID"), res.getNString("StudentName"), res.getNString("Email"), res.getNString("Gender"), res.getDate("BirthDate")));
+            }
+            return tmp;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public ArrayList<Student> searchSTByName(String name) {
+        try {
+            ArrayList<Student> tmp = null;
+            PreparedStatement st = c.prepareStatement(String.format(searchSTBySTName, name));
+            ResultSet res = st.executeQuery();
+            while (res.next()) {
+                tmp = new ArrayList<>();
+                tmp.add(new Student(res.getInt("StudentID"), res.getNString("StudentName"), res.getNString("Email"), res.getNString("Gender"), res.getDate("BirthDate")));
+            }
+            return tmp;
+        } catch (SQLException e) {
+
+        }
+        return null;
+    }
+    public ArrayList<Student> searchSTByGender(String gender) {
+        try {
+            ArrayList<Student> tmp = null;
+            PreparedStatement st = c.prepareStatement(String.format(searchSTByGender, gender));
+            ResultSet res = st.executeQuery();
+            while (res.next()) {
+                tmp = new ArrayList<>();
+                tmp.add(new Student(res.getInt("StudentID"), res.getNString("StudentName"), res.getNString("Email"), res.getNString("Gender"), res.getDate("BirthDate")));
+            }
+            return tmp;
+        } catch (SQLException e) {
+
+        }
+        return null;
+    }
+    public ArrayList<Student> searchSTByClassNAme(String Class) {
+        try {
+            ArrayList<Student> tmp = null;
+            PreparedStatement st = c.prepareStatement(String.format(searchSTByClassName, Class));
+            ResultSet res = st.executeQuery();
+            while (res.next()) {
+                tmp = new ArrayList<>();
+                tmp.add(new Student(res.getInt("StudentID"), res.getNString("StudentName"), res.getNString("Email"), res.getNString("Gender"), res.getDate("BirthDate")));
+            }
+            return tmp;
+        } catch (SQLException e) {
+
+        }
+        return null;
+    }
+    public int getBID(){
+        try {
+            ResultSet res=sta.executeQuery(getBID);
+            while(res.next()){
+                return res.getInt("next");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+    public int getAssID(){
+        try {
+            ResultSet res=sta.executeQuery(getAssID);
+            while(res.next()){
+                return res.getInt("next");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+    public int getSMID(){
+        try {
+            ResultSet res=sta.executeQuery(getSMID);
+            while(res.next()){
+                return res.getInt("next");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+    public String[] getAdminMail(){
+        try {
+            String[] tmp= new String[2];
+            ResultSet res=sta.executeQuery(getAminMail);
+            while(res.next()){
+                tmp[0]=res.getNString("Email");
+                tmp[1]=res.getNString("Pass");
+                return tmp;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     public ResultSet getSTResult(int id){
         try{
             PreparedStatement st= c.prepareStatement(String.format(result,id));
@@ -151,7 +354,7 @@ public class SQLQueries {
     }
     public ResultSet TInfor(int id){
         try {
-            PreparedStatement st=c.prepareStatement(String.format(stInfor,id));
+            PreparedStatement st=c.prepareStatement(String.format(TInfor,id));
             return st.executeQuery();
         } catch (SQLException e) {
 
@@ -160,7 +363,7 @@ public class SQLQueries {
     }
     public ResultSet allStudent(){
         try{
-            PreparedStatement st= c.prepareStatement(allStudent);
+            PreparedStatement st= c.prepareStatement(String.format(allStudent));
             ResultSet res= st.executeQuery();
             return res;
         } catch (SQLException e) {
@@ -429,9 +632,6 @@ public class SQLQueries {
     }
     public static void main(String[] args) throws SQLException {
         SQLQueries s=new SQLQueries();
-        ResultSet res= s.getQRes(1);
-        while(res.next()){
-            System.out.println(res.getNString("QuestionText")+res.getInt("QuestionID")+res.getNString("FilePath"));
-        }
+        System.out.println(s.allStudent);
     }
 }

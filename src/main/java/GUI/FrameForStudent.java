@@ -1,26 +1,25 @@
 package GUI;
 
-import Component.Header;
-import Component.Menu;
-import Component.ProfilePanel;
+import Component.MenuAndHeader.Header;
+import Component.MenuAndHeader.MenuStudent;
+import Component.PanelPrototype.ProfilePanel;
 import Res.SQLQueries;
 import event.EventMenuSelected;
 import event.EventShowPopupMenu;
-import Component.DoAssignment;
+import Component.PanelPrototype.DoAssignment;
 import Component.form.Form1;
 import Component.form.MainForm;
-import Component.MenuItem;
-import Component.PopupMenu;
-import Component.ChangePass;
-import Component.changeEmail;
-import Component.DictionaryFrame;
-import Component.ResultOfStudent;
-import Component.Ranking;
+import Component.MenuAndHeader.MenuItem;
+import Component.PanelPrototype.PopupMenu;
+import Component.PanelPrototype.ChangePass;
+import Component.PanelPrototype.changeEmail;
+import Component.PanelPrototype.DictionaryPanel;
+import Component.PanelPrototype.ResultOfStudent;
+import Component.PanelPrototype.Rank;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -34,11 +33,11 @@ import javax.swing.*;
 public class FrameForStudent extends JFrame {
     private JLayeredPane bg;
     private MigLayout layout;
-    private Menu menu;
+    private MenuStudent menuStudent;
     private Header header;
     private Animator animator;
     private MainForm main;
-    private DictionaryFrame dictionnary;
+    private DictionaryPanel dictionnary;
     private SQLQueries sql;
     private int StudentID;
     private String user;
@@ -55,13 +54,8 @@ public class FrameForStudent extends JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrameForStudent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrameForStudent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrameForStudent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | UnsupportedLookAndFeelException | IllegalAccessException |
+                 InstantiationException ex) {
             java.util.logging.Logger.getLogger(FrameForStudent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         initComponents();
@@ -74,13 +68,13 @@ public class FrameForStudent extends JFrame {
         sql= new SQLQueries();
         layout = new MigLayout("fill", "0[]0[100%, fill]0", "0[fill, top]0");
         bg.setLayout(layout);
-        menu = new Menu();
-        PF[0] = new ProfilePanel(StudentID,sql);
+        menuStudent = new MenuStudent();
+        PF[0] = new ProfilePanel("SV",StudentID,sql);
         PF[1]= new ChangePass("SV",StudentID,sql);
         PF[2]= new changeEmail("SV",StudentID,sql);
         //
         rs= new ResultOfStudent(StudentID,sql);
-        Ranking rank= new Ranking(sql);
+        Rank rank= new Rank(sql);
 //        JScrollPane cont= new JScrollPane(rs,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER,ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         allAssignment=sql.getStudentAssignment(StudentID);
         ArrayList<Integer> assID= new ArrayList<>();
@@ -95,12 +89,11 @@ public class FrameForStudent extends JFrame {
         ArrayList<DoAssignment> assignment= new ArrayList<DoAssignment>();
         for(Integer x: notFinish){
             assignments[idx]=allAssignment.get(x);
-            System.out.println(assignments[idx]);
            assignment.add(new DoAssignment(x,StudentID,getHeight()-100,sql)) ;
             idx++;
         }
         idx=0;
-        System.out.println(allAssignment.size());        String[] all= new String[allAssignment.size()];
+        String[] all= new String[allAssignment.size()];
         AtomicInteger finalIdx = new AtomicInteger(0);
         DoAssignment allAss[]= new DoAssignment[allAssignment.size()];
         allAssignment.forEach((k,v)->{
@@ -112,18 +105,14 @@ public class FrameForStudent extends JFrame {
         main = new MainForm();
         AtomicInteger finalIdx1 = new AtomicInteger(0);
         //
-        dictionnary= new DictionaryFrame(getWidth(),getHeight()-20,sql);
-        menu.addEvent(new EventMenuSelected() {
+        dictionnary= new DictionaryPanel(getWidth(),getHeight()-20,sql);
+        menuStudent.addEvent(new EventMenuSelected() {
             @Override
             public void menuSelected(int menuIndex, int subMenuIndex) {
-                System.out.println("Menu Index : " + menuIndex + " SubMenu Index " + subMenuIndex);
+                System.out.println("MenuAndHeader Index : " + menuIndex + " SubMenu Index " + subMenuIndex);
                 if(menuIndex==0 && subMenuIndex==-1){
                     main.showForm(new Form1());
                 }
-//                if(menuIndex==1 && subMenuIndex==0) main.showForm(new Form2());
-//                if(menuIndex==3&& subMenuIndex==0) main.showForm(assignment);
-//                if(menuIndex==4&& subMenuIndex==-1) main.showForm(dictionnary);
-//                if(menuIndex==5) dispose();
                 switch(menuIndex){
                     case 1-> {
                         if(subMenuIndex!=-1)
@@ -151,7 +140,7 @@ public class FrameForStudent extends JFrame {
                 }
             }
         });
-        menu.addEventShowPopup(new EventShowPopupMenu() {
+        menuStudent.addEventShowPopup(new EventShowPopupMenu() {
             @Override
             public void showPopup(Component com) {
                 MenuItem item = (MenuItem) com;
@@ -162,28 +151,28 @@ public class FrameForStudent extends JFrame {
                 popup.setVisible(true);
             }
         });
-        menu.initMenuItem(assignments,all);
+        menuStudent.initMenuItem(assignments,all);
 
-        bg.add(menu, "w 230!, spany 2");
+        bg.add(menuStudent, "w 230!, spany 2");
         bg.add(header, "h 50!, wrap");
         bg.add(main, "w 100%, h 100%");
         TimingTarget target = new TimingTargetAdapter() {
             @Override
             public void timingEvent(float fraction) {
                 double width;
-                if (menu.isShowMenu()) {
+                if (menuStudent.isShowMenu()) {
                     width = 60 + (170 * (1f - fraction));
                 } else {
                     width = 60 + (170 * fraction);
                 }
-                layout.setComponentConstraints(menu, "w " + width + "!, spany2");
-                menu.revalidate();
+                layout.setComponentConstraints(menuStudent, "w " + width + "!, spany2");
+                menuStudent.revalidate();
             }
 
             @Override
             public void end() {
-                menu.setShowMenu(!menu.isShowMenu());
-                menu.setEnableMenu(true);
+                menuStudent.setShowMenu(!menuStudent.isShowMenu());
+                menuStudent.setEnableMenu(true);
             }
 
         };
@@ -197,9 +186,9 @@ public class FrameForStudent extends JFrame {
                 if (!animator.isRunning()) {
                     animator.start();
                 }
-                menu.setEnableMenu(false);
-                if (menu.isShowMenu()) {
-                    menu.hideallMenu();
+                menuStudent.setEnableMenu(false);
+                if (menuStudent.isShowMenu()) {
+                    menuStudent.hideallMenu();
                 }
             }
         });
