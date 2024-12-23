@@ -3,16 +3,25 @@ package Object;
 import java.util.Date;
 
 public class Student {
-    private String Name, Email, Gender;
+    private String Name, Email, Gender,Class;
     private Date birthDate;
     private int ID;
-
-    public Student(int ID, String name, String email, String gender, Date birthDate) {
+    private boolean isSelected=false;
+    public Student(int ID, String name, String gender, String email, Date birthDate, String Class) {
         Name = name;
         Email = email;
         Gender = gender;
         this.birthDate = birthDate;
         this.ID = ID;
+        this.Class=Class;
+    }
+
+    public String GetClass() {
+        return Class;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
     }
 
     public void setName(String name) {

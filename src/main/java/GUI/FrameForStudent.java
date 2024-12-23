@@ -64,17 +64,21 @@ public class FrameForStudent extends JFrame {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
-    private void init() {
+    public JLayeredPane getBg() {
+        return bg;
+    }
+
+    public void init() {
         sql= new SQLQueries();
         layout = new MigLayout("fill", "0[]0[100%, fill]0", "0[fill, top]0");
         bg.setLayout(layout);
         menuStudent = new MenuStudent();
-        PF[0] = new ProfilePanel("SV",StudentID,sql);
-        PF[1]= new ChangePass("SV",StudentID,sql);
-        PF[2]= new changeEmail("SV",StudentID,sql);
+        PF[0] = new ProfilePanel(StudentID,sql,this);
+        PF[1]= new ChangePass(StudentID,sql,this);
+        PF[2]= new changeEmail(StudentID,sql,this);
         //
         rs= new ResultOfStudent(StudentID,sql);
-        Rank rank= new Rank(sql);
+        Rank rank= new Rank(sql,StudentID);
 //        JScrollPane cont= new JScrollPane(rs,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER,ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         allAssignment=sql.getStudentAssignment(StudentID);
         ArrayList<Integer> assID= new ArrayList<>();
@@ -89,7 +93,7 @@ public class FrameForStudent extends JFrame {
         ArrayList<DoAssignment> assignment= new ArrayList<DoAssignment>();
         for(Integer x: notFinish){
             assignments[idx]=allAssignment.get(x);
-           assignment.add(new DoAssignment(x,StudentID,getHeight()-100,sql)) ;
+           assignment.add(new DoAssignment(x,StudentID,getHeight()-100,sql,this)) ;
             idx++;
         }
         idx=0;
@@ -98,7 +102,7 @@ public class FrameForStudent extends JFrame {
         DoAssignment allAss[]= new DoAssignment[allAssignment.size()];
         allAssignment.forEach((k,v)->{
             all[finalIdx.get()]=v;
-            allAss[finalIdx.getAndAdd(1)]= new DoAssignment(k,StudentID,getHeight()-100,sql);
+            allAss[finalIdx.getAndAdd(1)]= new DoAssignment(k,StudentID,getHeight()-100,sql,this);
 
         });
         header = new Header(user,"Sinh Viên");
@@ -129,6 +133,7 @@ public class FrameForStudent extends JFrame {
                     case 4 ->{
                         if(subMenuIndex!=-1)
                             main.showForm(allAss[subMenuIndex]);
+
                     }
                     case 5->{
                         main.showForm(dictionnary);

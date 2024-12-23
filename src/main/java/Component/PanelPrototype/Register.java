@@ -32,7 +32,6 @@ public class Register extends JPanel {
     private TextField email, fullName;
     private DateField Birth;
     private DatePicker birth;
-    private JRadioButton jRadioButton_Student, jRadioButton_Teacher;
     private ButtonGroup buttonGroup;
     private String birthdate;
     private Combobox combobox;
@@ -157,7 +156,10 @@ public class Register extends JPanel {
                 m.showMessage("Hãy nhập đúng mật khẩu đã nhập ở trên");
             } else if (email.getText().isEmpty()) {
                 m.showMessage("Vui lòng nhập email!");
-            } else if (!email.getText().matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
+            }else if(Gender.getSelectedIndex()==-1){
+                m.showMessage("Vui lòng chọn giới tính!");
+            }
+            else if (!email.getText().matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
                 m.showMessage("Nhập email theo định dạng example@domain.com");
             } else if (fullName.getText().isEmpty()) {
                 m.showMessage("Vui lòng nhập họ và tên!");
@@ -165,22 +167,24 @@ public class Register extends JPanel {
                 m.setForeground(Color.RED);
                 m.showMessage("Vui lòng nhập ngày sinh!");
             } else {
-                if (jRadioButton_Teacher.isSelected()) {
-                    boolean check = sql.insertTeacher(username.getText(), pass.getText(), fullName.getText(), email.getText(), birthdate);
+                if (combobox.getSelectedIndex() == 1) {
+                    boolean check = sql.insertTeacher(username.getText(), pass.getText(), fullName.getText(),Gender.getSelectedItem().toString(), email.getText(), birthdate);
                     if (!check) {
-                        m.showMessage("Tên đăng nhập đã tồn tại!");
+                        m.showMessage("Tên đăng nhập đã tồn tại hoặc email đã được sử dụng!");
                     } else {
                         clearFields();
                     }
-                } else {
-                    boolean check = sql.insertStudent(username.getText(), pass.getText(), fullName.getText(), email.getText(), birthdate);
+                } else if(combobox.getSelectedIndex() == 0){
+                    boolean check = sql.insertStudent(username.getText(), pass.getText(),fullName.getText(),  Gender.getSelectedItem().toString(),email.getText(), birthdate);
                     if (!check) {
-                        m.showMessage("Tên đăng nhập đã tồn tại!");
+                        m.showMessage("Tên đăng nhập đã tồn tại hoặc email đã được sử dụng!");
                         m.setForeground(Color.red);
                     } else {
 
                         clearFields();
                     }
+                }else{
+                    m.showMessage("Vui lòng chọn loại tài khoản!");
                 }
             }
         });

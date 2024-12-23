@@ -2,8 +2,9 @@ package Component.PanelPrototype;
 
 
 
-import Component.table.Student;
+import Object.Student;
 import Component.table.TableCustom;
+import Res.SQLQueries;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -11,9 +12,9 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class TableStudent extends JPanel {
-    private ArrayList<Student> students = new ArrayList<>();
-
-    public TableStudent() {
+    private ArrayList<Student> students;
+    public TableStudent(SQLQueries sql,int Teacher, int Class) {
+        students=sql.getAllStudent(Teacher,Class);
         initComponents();
         setBackground(Color.WHITE);
         TableCustom.apply(jScrollPane1, TableCustom.TableType.DEFAULT);
@@ -21,73 +22,27 @@ public class TableStudent extends JPanel {
     }
 
     private void testData(JTable table) {
-        students.add(new Student(1, "SV01", "Danh Hanma", "24AI", "Nam","thanhdanhtqd@gmail.com", "28/04/2006", false));
-        students.add(new Student(2, "SV02", "Lê Mạnh Thắng", "24AI","Nam", "thanglm.24ai@vku.udn.vn", "19/03/2006", false));
-        students.add(new Student(3, "SV03", "Viết Hào", "24GIT1","Nam", "haontv.24git@vku.udn.vn", "19/08/2006", false));
-        students.add(new Student(4,"SVGIT2","Buồi Gia Khôi","24GIT2","Gay","Khoibubuoi@gmail.com","1/1/2010",false));
-        students.add(new Student(1, "SV01", "Danh Hanma", "24AI", "Nam","thanhdanhtqd@gmail.com", "28/04/2006", false));
-        students.add(new Student(2, "SV02", "Lê Mạnh Thắng", "24AI","Nam", "thanglm.24ai@vku.udn.vn", "19/03/2006", false));
-        students.add(new Student(3, "SV03", "Viết Hào", "24GIT1","Nam", "haontv.24git@vku.udn.vn", "19/08/2006", false));
-        students.add(new Student(4,"SVGIT2","Buồi Gia Khôi","24GIT2","Gay","Khoibubuoi@gmail.com","1/1/2010",false));
-        students.add(new Student(1, "SV01", "Danh Hanma", "24AI", "Nam","thanhdanhtqd@gmail.com", "28/04/2006", false));
-        students.add(new Student(2, "SV02", "Lê Mạnh Thắng", "24AI","Nam", "thanglm.24ai@vku.udn.vn", "19/03/2006", false));
-        students.add(new Student(3, "SV03", "Viết Hào", "24GIT1","Nam", "haontv.24git@vku.udn.vn", "19/08/2006", false));
-        students.add(new Student(4,"SVGIT2","Buồi Gia Khôi","24GIT2","Gay","Khoibubuoi@gmail.com","1/1/2010",false));
-        students.add(new Student(1, "SV01", "Danh Hanma", "24AI", "Nam","thanhdanhtqd@gmail.com", "28/04/2006", false));
-        students.add(new Student(2, "SV02", "Lê Mạnh Thắng", "24AI","Nam", "thanglm.24ai@vku.udn.vn", "19/03/2006", false));
-        students.add(new Student(3, "SV03", "Viết Hào", "24GIT1","Nam", "haontv.24git@vku.udn.vn", "19/08/2006", false));
-        students.add(new Student(4,"SVGIT2","Buồi Gia Khôi","24GIT2","Gay","Khoibubuoi@gmail.com","1/1/2010",false));
-        students.add(new Student(1, "SV01", "Danh Hanma", "24AI", "Nam","thanhdanhtqd@gmail.com", "28/04/2006", false));
-        students.add(new Student(2, "SV02", "Lê Mạnh Thắng", "24AI","Nam", "thanglm.24ai@vku.udn.vn", "19/03/2006", false));
-        students.add(new Student(3, "SV03", "Viết Hào", "24GIT1","Nam", "haontv.24git@vku.udn.vn", "19/08/2006", false));
-        students.add(new Student(4,"SVGIT2","Buồi Gia Khôi","24GIT2","Gay","Khoibubuoi@gmail.com","1/1/2010",false));
-        students.add(new Student(1, "SV01", "Danh Hanma", "24AI", "Nam","thanhdanhtqd@gmail.com", "28/04/2006", false));
-        students.add(new Student(2, "SV02", "Lê Mạnh Thắng", "24AI","Nam", "thanglm.24ai@vku.udn.vn", "19/03/2006", false));
-        students.add(new Student(3, "SV03", "Viết Hào", "24GIT1","Nam", "haontv.24git@vku.udn.vn", "19/08/2006", false));
-        students.add(new Student(4,"SVGIT2","Buồi Gia Khôi","24GIT2","Gay","Khoibubuoi@gmail.com","1/1/2010",false));
-        students.add(new Student(1, "SV01", "Danh Hanma", "24AI", "Nam","thanhdanhtqd@gmail.com", "28/04/2006", false));
-        students.add(new Student(2, "SV02", "Lê Mạnh Thắng", "24AI","Nam", "thanglm.24ai@vku.udn.vn", "19/03/2006", false));
-        students.add(new Student(3, "SV03", "Viết Hào", "24GIT1","Nam", "haontv.24git@vku.udn.vn", "19/08/2006", false));
-        students.add(new Student(4,"SVGIT2","Buồi Gia Khôi","24GIT2","Gay","Khoibubuoi@gmail.com","1/1/2010",false));
-        students.add(new Student(1, "SV01", "Danh Hanma", "24AI", "Nam","thanhdanhtqd@gmail.com", "28/04/2006", false));
-        students.add(new Student(2, "SV02", "Lê Mạnh Thắng", "24AI","Nam", "thanglm.24ai@vku.udn.vn", "19/03/2006", false));
-        students.add(new Student(3, "SV03", "Viết Hào", "24GIT1","Nam", "haontv.24git@vku.udn.vn", "19/08/2006", false));
-        students.add(new Student(4,"SVGIT2","Buồi Gia Khôi","24GIT2","Gay","Khoibubuoi@gmail.com","1/1/2010",false));
-        students.add(new Student(1, "SV01", "Danh Hanma", "24AI", "Nam","thanhdanhtqd@gmail.com", "28/04/2006", false));
-        students.add(new Student(2, "SV02", "Lê Mạnh Thắng", "24AI","Nam", "thanglm.24ai@vku.udn.vn", "19/03/2006", false));
-        students.add(new Student(3, "SV03", "Viết Hào", "24GIT1","Nam", "haontv.24git@vku.udn.vn", "19/08/2006", false));
-        students.add(new Student(4,"SVGIT2","Buồi Gia Khôi","24GIT2","Gay","Khoibubuoi@gmail.com","1/1/2010",false));
-        students.add(new Student(1, "SV01", "Danh Hanma", "24AI", "Nam","thanhdanhtqd@gmail.com", "28/04/2006", false));
-        students.add(new Student(2, "SV02", "Lê Mạnh Thắng", "24AI","Nam", "thanglm.24ai@vku.udn.vn", "19/03/2006", false));
-        students.add(new Student(3, "SV03", "Viết Hào", "24GIT1","Nam", "haontv.24git@vku.udn.vn", "19/08/2006", false));
-        students.add(new Student(4,"SVGIT2","Buồi Gia Khôi","24GIT2","Gay","Khoibubuoi@gmail.com","1/1/2010",false));
-        students.add(new Student(1, "SV01", "Danh Hanma", "24AI", "Nam","thanhdanhtqd@gmail.com", "28/04/2006", false));
-        students.add(new Student(2, "SV02", "Lê Mạnh Thắng", "24AI","Nam", "thanglm.24ai@vku.udn.vn", "19/03/2006", false));
-        students.add(new Student(3, "SV03", "Viết Hào", "24GIT1","Nam", "haontv.24git@vku.udn.vn", "19/08/2006", false));
-        students.add(new Student(4,"SVGIT2","Buồi Gia Khôi","24GIT2","Gay","Khoibubuoi@gmail.com","1/1/2010",false));
-        students.add(new Student(1, "SV01", "Danh Hanma", "24AI", "Nam","thanhdanhtqd@gmail.com", "28/04/2006", false));
-        students.add(new Student(2, "SV02", "Lê Mạnh Thắng", "24AI","Nam", "thanglm.24ai@vku.udn.vn", "19/03/2006", false));
-        students.add(new Student(3, "SV03", "Viết Hào", "24GIT1","Nam", "haontv.24git@vku.udn.vn", "19/08/2006", false));
-        students.add(new Student(4,"SVGIT2","Buồi Gia Khôi","24GIT2","Gay","Khoibubuoi@gmail.com","1/1/2010",false));
-
         updateTableData();
     }
 
-    private void updateTableData() {
+    void updateTableData() {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
+        int stt=1;
+        if(students!=null) {
+            for (Student student : students) {
+                model.addRow(new Object[]{
+                        stt++,
+                        student.getID(),
+                        student.getName(),
+                        student.GetClass(),
+                        student.getGender(),
+                        student.getEmail(),
+                        student.getBirthDate(),
+                        student.isSelected()
+                });
 
-        for (Student student : students) {
-            model.addRow(new Object[]{
-                    student.getStt(),
-                    student.getId(),
-                    student.getName(),
-                    student.getClassName(),
-                    student.getSex(),
-                    student.getEmail(),
-                    student.getDob(),
-                    student.isSelected()
-            });
+            }
         }
     }
 
@@ -135,7 +90,7 @@ public class TableStudent extends JPanel {
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Table Student");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.add(new TableStudent());
+            frame.add(new TableStudent(new SQLQueries(),1,1));
             frame.setSize(1100, 700);
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);

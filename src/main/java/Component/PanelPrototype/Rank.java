@@ -11,9 +11,10 @@ import java.sql.SQLException;
 
 public class Rank extends JPanel {
     private SQLQueries sql;
-
-    public Rank(SQLQueries sql) {
+    private int Student;
+    public Rank(SQLQueries sql,int Student) {
         this.sql=sql;
+        this.Student=Student;
         initComponents();
         setBackground(Color.WHITE);
         TableCustom.apply(jScrollPane1, TableCustom.TableType.DEFAULT);
@@ -22,7 +23,7 @@ public class Rank extends JPanel {
 
     private void testData(JTable table) {
 
-        ResultSet res = sql.allStudent();
+        ResultSet res = sql.allStudent(Student);
         DefaultTableModel model = (DefaultTableModel) table.getModel();
 
         try{
@@ -74,7 +75,7 @@ public class Rank extends JPanel {
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Table Student");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.add(new Rank());
+            frame.add(new Rank(new SQLQueries(),1));
             frame.setSize(1100, 700);
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);

@@ -16,6 +16,10 @@ import Component.PanelPrototype.DictionaryPanel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.animation.timing.Animator;
@@ -30,7 +34,7 @@ public class FrameForTeacher extends JFrame {
     private MigLayout layout;
     private MenuTeacher menuTeacher;
     private Header header;
-    private String user;
+    private String user; private String [] cll; private ListStudent[] STL;
     private SQLQueries sql;
     private int Teacher;
     private JPanel[] PF = new JPanel[10];
@@ -56,15 +60,35 @@ public class FrameForTeacher extends JFrame {
         init();
         setSize(Toolkit.getDefaultToolkit().getScreenSize());
     }
+    private void initClass(){
+        HashMap<Integer,String> classes=sql.getClass(Teacher);
+        cll= new String[classes.size()+1];
+        int i=0;
+        for(int key:classes.keySet()){
+            cll[i]=classes.get(key);
+            i++;
+        }
+        STL= new ListStudent[cll.length];
+        AtomicInteger idx=new AtomicInteger(0);
+        classes.forEach((key, value) -> {
+            STL[idx.getAndAdd(1)]=new ListStudent(sql,Teacher,key);
+        });
+        cll[cll.length-1]="Thêm lớp học +";
+    }
 
-    private void init() {
+    public JLayeredPane getBg() {
+        return bg;
+    }
+
+    public void init() {
         sql= new SQLQueries();
         dictionaryPanel= new DictionaryPanel(getWidth(),getHeight(),sql);
         layout = new MigLayout("fill", "0[]0[100%, fill]0", "0[fill, top]0");
-        PF[0]= new ProfilePanel("GV",Teacher,sql);
-        PF[1]= new ChangePass("GV",Teacher,sql);
-        PF[2]= new changeEmail("GV",Teacher,sql);
+        PF[0]= new ProfilePanel(Teacher,sql,this);
+        PF[1]= new ChangePass(Teacher,sql,this);
+        PF[2]= new changeEmail(Teacher,sql,this);
         bg.setLayout(layout);
+        initClass();
         menuTeacher = new MenuTeacher();
         header = new Header(user,"Giáo Viên");
         main = new MainForm();
@@ -81,22 +105,44 @@ public class FrameForTeacher extends JFrame {
                             main.showForm(PF[subMenuIndex]);
                     }
                     case 2->{
+                            if(subMenuIndex!=-1) {
+                                if(subMenuIndex!=cll.length-1)
+                                    main.showForm(STL[subMenuIndex]);
+                                else {
+                                    InsertClass inp= new InsertClass(sql,Teacher);
+                                    inp.addWindowListener(new WindowAdapter() {
+                                        @Override
+                                        public void windowClosed(WindowEvent e) {
+                                            bg.removeAll();
+                                            init();
+                                            revalidate();
+                                            repaint();
+                                        }
+                                    });
 
+                                }
+                            }
                     }
                     case 3->{
                         if(subMenuIndex==0){
 
                             String assingnmentText=JOptionPane.showInputDialog("Nhập tên bài tập");
-                            if(!assingnmentText.equals("")){
-                                InsertAssignment assignment= new InsertAssignment(assingnmentText,sql,Teacher);
+                            if(assingnmentText!=null)if(!assingnmentText.equals("")){
+                                InsertAssignment assignment= new InsertAssignment(assingnmentText,sql,Teacher,FrameForTeacher.this);
                                 main.showForm(assignment);
+
                             }
+                        }
+                        else if(subMenuIndex==1){
+                            main.showForm(new Form2());
                         }
                     }
                     case 4->{
                         main.showForm(dictionaryPanel);
                     }
-
+                    case 5->{
+                        dispose();
+                    }
                 }
             }
         });
@@ -111,7 +157,7 @@ public class FrameForTeacher extends JFrame {
                 popup.setVisible(true);
             }
         });
-        menuTeacher.itemTeacher();
+        menuTeacher.itemTeacher(cll);
         bg.add(menuTeacher, "w 230!, spany 2");
         bg.add(header, "h 50!, wrap");
         bg.add(main, "w 100%, h 100%");

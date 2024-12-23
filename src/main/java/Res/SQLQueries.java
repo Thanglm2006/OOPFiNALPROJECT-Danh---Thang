@@ -15,11 +15,12 @@ public class SQLQueries {
             "join Assignment assignment on assignment.AssignmentID=classAssignment.AssignmentID\n" +
             "where student.StudentID=%d";
     private String getScore="select Score from StudentProgress where StudentID=%d and AssignmentId=%d;";
-    private String result="use data;\n" +
-            "select  ass.AssignmentName,pr.Score\n" +
+    private String result="select  ass.AssignmentName,pr.Score\n" +
             "from StudentProgress pr \n" +
             "join Assignment ass on ass.AssignmentID=pr.AssignmentID \n" +
-            "where StudentID =%d and pr.Score>0.0";
+            "join Student st on st.StudentID=pr.StudentID\n" +
+            "join ClassAndStudent clt on clt.StudentID=st.StudentID\n" +
+            "where st.StudentID =%d and pr.Score>0.0";
     private String score="delete StudentProgress" +
             " where  AssignmentID=%d and StudentID=%d;" +
             " insert into StudentProgress(AssignmentID,StudentID,Score)" +
@@ -32,12 +33,12 @@ public class SQLQueries {
             " where Vocabulary.Meaning like '%s';";
     private String registerForStudent="insert into StudentAccount (Account, Password)" +"\n"+
             " values ('%s', '%s');"+"\n"+
-            "insert into Student (StudentID,StudentName, Email, BirthDate) "+"\n"+
-            "values (%d,N'%s', '%s','%s')";
+            "insert into Student (StudentID,StudentName,Gender, Email, BirthDate) "+"\n"+
+            "values (%d,N'%s', '%s','%s','%s')";
     private String registerForTeacher="insert into TeacherAccount (Account, Password)" +"\n"+
             " values ('%s', '%s');"+"\n"+
-            "insert into Teacher (TeacherID,TeacherName, Email, BirthDate) "+"\n"+
-            "values (%d,N'%s', '%s', '%s')";
+            "insert into Teacher (TeacherID,TeacherName,Gender, Email, BirthDate) "+"\n"+
+            "values (%d,N'%s', '%s', '%s', '%s')";
     private String loginStudent="select StudentAccount.StudentID,Account,Password,StudentName\n" +
             "from StudentAccount join Student on Student.StudentID=StudentAccount.StudentID\n" +
             "where StudentAccount.Account='%s'";
@@ -77,29 +78,36 @@ public class SQLQueries {
             "from \n" +
             "\t\tStudent student\n" +
             "join\tStudentProgress stp on stp.StudentID=student.StudentID\n" +
+            "join ClassAndStudent cls on cls.StudentID=student.StudentID\n" +
+            "where exists (select * from ClassAndStudent where StudentID=%d)\n" +
             "group by student.StudentName,student.StudentID,stp.completionDate\n" +
             "order by score desc,\n" +
-            "stp.completionDate ";
-    private String searchSTByClassName="select student.StudentID, student.StudentName, class.ClassName,student.Gender, student.Email, student.BirthDate\n" +
+            "stp.completionDate  ";
+    private String searchSTByClassName="select student.StudentID, student.StudentName, student.Gender, student.Email, student.BirthDate, class.ClassName\n" +
             "from Student student\n" +
             "join ClassAndStudent cls on student.StudentId=cls.StudentID\n" +
             "join Class class on cls.ClassID=class.ClassID\n" +
             "where class.ClassName like '%s'";
-    private String searchSTBySTName="select student.StudentID, student.StudentName, class.ClassName,student.Gender, student.Email, student.BirthDate\n" +
+    private String searchSTBySTName="select student.StudentID, student.StudentName, student.Gender, student.Email, student.BirthDate, class.ClassName\n" +
             "from Student student\n" +
             "join ClassAndStudent cls on student.StudentId=cls.StudentID\n" +
             "join Class class on cls.ClassID=class.ClassID\n" +
             "where student.StudentName like '%s'";
-    private String searchSTByGender="select student.StudentID, student.StudentName, class.ClassName,student.Gender, student.Email, student.BirthDate\n" +
+    private String searchSTByGender="select student.StudentID, student.StudentName, student.Gender, student.Email, student.BirthDate, class.ClassName\n" +
             "from Student student\n" +
             "join ClassAndStudent cls on student.StudentId=cls.StudentID\n" +
             "join Class class on cls.ClassID=class.ClassID\n" +
             "where student.Gender like '%s'";
-    private String searchSTBySTID="select student.StudentID, student.StudentName, class.ClassName,student.Gender, student.Email, student.BirthDate\n" +
+    private String searchSTBySTID="select student.StudentID, student.StudentName, student.Gender, student.Email, student.BirthDate, class.ClassName\n" +
             "from Student student\n" +
             "join ClassAndStudent cls on student.StudentId=cls.StudentID\n" +
             "join Class class on cls.ClassID=class.ClassID\n" +
             "where student.StudentID like '%d'";
+    private String getAllStudent="select student.StudentID, student.StudentName, student.Gender, student.Email, student.BirthDate, class.ClassName\n" +
+            "from Student student\n" +
+            "join ClassAndStudent cls on student.StudentId=cls.StudentID\n" +
+            "join Class class on cls.ClassID=class.ClassID\n" +
+            "where class.TeacherID=%d and class.classID=%d";
     private String TInfor="select * from Teacher join TeacherAccount on TeacherAccount.TeacherID= Teacher.TeacherID where Teacher.TeacherID=%d;";
 
     private String stInfor="select * from Student join StudentAccount on StudentAccount.StudentID= Student.StudentID where Student.StudentID=%d;";
@@ -119,6 +127,69 @@ public class SQLQueries {
     private String getBID="SELECT IDENT_CURRENT('BigQuestion') + 1 AS next; ";
     private String getAssID="SELECT IDENT_CURRENT('Assignment') + 1 AS next; ";
     private String getSMID="SELECT IDENT_CURRENT('Question') + 1 AS next; ";
+    private String getClass="select * from Class where TeacherID=%d";
+    private String insertClass="insert into Class(ClassName,TeacherID) values(N'%s',%d)";
+    private String deleteStudentOutOfCLass="delete ClassAndStudent where StudentID=%d and ClassID=%d";
+    private String insertStudentIntoClass="insert into ClassAndStudent(StudentID,ClassID) values(%d,%d)";
+    public void deleteStudentOutOfClass(int Student, int Class){
+        try {
+            PreparedStatement st= c.prepareStatement(String.format(deleteStudentOutOfCLass,Student,Class));
+            st.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public boolean insertStudentIntoClass(int Student, int Class){
+        int check=0;
+        try {
+            PreparedStatement st= c.prepareStatement(String.format(insertStudentIntoClass,Student,Class));
+            check=st.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if(check==1){
+            return true;
+        }
+        return false;
+    }
+    public ArrayList<Student> getAllStudent(int Teacher, int Class){
+        try{
+            ArrayList<Student> tmp;
+            ResultSet res=sta.executeQuery(String.format(getAllStudent,Teacher,Class));
+            tmp = new ArrayList<>();
+            while(res.next()) {
+                Student tmp1=new Student(res.getInt("StudentID"), res.getNString("StudentName"), res.getNString("Gender"),res.getNString("Email"), res.getDate("BirthDate"),res.getNString("ClassName"));
+                tmp.add( tmp1);
+
+            }
+
+            return tmp;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public void insertClass(String name, int teacher){
+        try {
+            PreparedStatement st= c.prepareStatement(String.format(insertClass,name,teacher));
+            st.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public HashMap<Integer, String> getClass(int id){
+        HashMap<Integer,String> tmp= new HashMap<>();
+        try {
+            PreparedStatement st= c.prepareStatement(String.format(getClass,id));
+            ResultSet res= st.executeQuery();
+            while(res.next()){
+                tmp.put(res.getInt("ClassID"),res.getNString("ClassName"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return tmp;
+    }
     public void saveAssignment(String name, int teacher){
         try {
             PreparedStatement st= c.prepareStatement(String.format(saveAssignment,name,teacher));
@@ -190,9 +261,10 @@ public class SQLQueries {
             ArrayList<Student> tmp = null;
             PreparedStatement st= c.prepareStatement(String.format(searchSTBySTID,id));
             ResultSet res= st.executeQuery();
+            tmp = new ArrayList<>();
             while(res.next()) {
-               tmp = new ArrayList<>();
-               tmp.add( new Student(res.getInt("StudentID"), res.getNString("StudentName"), res.getNString("Email"), res.getNString("Gender"), res.getDate("BirthDate")));
+
+               tmp.add( new Student(res.getInt("StudentID"), res.getNString("StudentName"), res.getNString("Email"), res.getNString("Gender"), res.getDate("BirthDate"),res.getNString("ClassName")));
             }
             return tmp;
         } catch (SQLException e) {
@@ -205,9 +277,10 @@ public class SQLQueries {
             ArrayList<Student> tmp = null;
             PreparedStatement st = c.prepareStatement(String.format(searchSTBySTName, name));
             ResultSet res = st.executeQuery();
+            tmp = new ArrayList<>();
+
             while (res.next()) {
-                tmp = new ArrayList<>();
-                tmp.add(new Student(res.getInt("StudentID"), res.getNString("StudentName"), res.getNString("Email"), res.getNString("Gender"), res.getDate("BirthDate")));
+                tmp.add(new Student(res.getInt("StudentID"), res.getNString("StudentName"), res.getNString("Email"), res.getNString("Gender"), res.getDate("BirthDate"),res.getNString("ClassName")));
             }
             return tmp;
         } catch (SQLException e) {
@@ -220,9 +293,10 @@ public class SQLQueries {
             ArrayList<Student> tmp = null;
             PreparedStatement st = c.prepareStatement(String.format(searchSTByGender, gender));
             ResultSet res = st.executeQuery();
+            tmp = new ArrayList<>();
             while (res.next()) {
-                tmp = new ArrayList<>();
-                tmp.add(new Student(res.getInt("StudentID"), res.getNString("StudentName"), res.getNString("Email"), res.getNString("Gender"), res.getDate("BirthDate")));
+
+                tmp.add(new Student(res.getInt("StudentID"), res.getNString("StudentName"), res.getNString("Email"), res.getNString("Gender"), res.getDate("BirthDate"),res.getNString("ClassName")));
             }
             return tmp;
         } catch (SQLException e) {
@@ -235,9 +309,10 @@ public class SQLQueries {
             ArrayList<Student> tmp = null;
             PreparedStatement st = c.prepareStatement(String.format(searchSTByClassName, Class));
             ResultSet res = st.executeQuery();
+            tmp = new ArrayList<>();
             while (res.next()) {
-                tmp = new ArrayList<>();
-                tmp.add(new Student(res.getInt("StudentID"), res.getNString("StudentName"), res.getNString("Email"), res.getNString("Gender"), res.getDate("BirthDate")));
+
+                tmp.add(new Student(res.getInt("StudentID"), res.getNString("StudentName"), res.getNString("Email"), res.getNString("Gender"), res.getDate("BirthDate"),res.getNString("ClassName")));
             }
             return tmp;
         } catch (SQLException e) {
@@ -361,9 +436,9 @@ public class SQLQueries {
         }
         return null;
     }
-    public ResultSet allStudent(){
+    public ResultSet allStudent(int Student){
         try{
-            PreparedStatement st= c.prepareStatement(String.format(allStudent));
+            PreparedStatement st= c.prepareStatement(String.format(allStudent,Student));
             ResultSet res= st.executeQuery();
             return res;
         } catch (SQLException e) {
@@ -596,7 +671,7 @@ public class SQLQueries {
         }
         return null;
     }
-    public boolean insertTeacher(String acc, String pass, String name, String email, String birth){
+    public boolean insertTeacher(String acc, String pass, String name,String Gender, String email, String birth){
 
         try {
             int id=0;
@@ -604,7 +679,7 @@ public class SQLQueries {
             while(res.next()){
                 id=res.getInt("next");
             }
-            String txt= String.format(registerForTeacher,acc,pass,id,name,email, birth);
+            String txt= String.format(registerForTeacher,acc,pass,id,name,Gender,email, birth);
             PreparedStatement pp= c.prepareStatement(txt);
             pp.executeUpdate();
         } catch (SQLException e) {
@@ -613,7 +688,7 @@ public class SQLQueries {
         }
         return true;
     }
-    public boolean insertStudent(String acc, String pass, String name, String email, String birth){
+    public boolean insertStudent(String acc, String pass, String name,String Gender, String email, String birth){
 
         try {
             int id=0;
@@ -621,7 +696,7 @@ public class SQLQueries {
             while(res.next()){
                 id=res.getInt("next");
             }
-            String txt= String.format(registerForStudent,acc,pass,id,name,email, birth);
+            String txt= String.format(registerForStudent,acc,pass,id,name,Gender,email, birth);
             PreparedStatement pp= c.prepareStatement(txt);
             pp.executeUpdate();
         } catch (SQLException e) {

@@ -1,4 +1,5 @@
 package Component.PanelPrototype;
+import GUI.FrameForTeacher;
 import Object.*;
 import Res.SQLQueries;
 
@@ -16,7 +17,8 @@ public class InsertAssignment extends JPanel {
     private JPanel BQPanel;
     private int AssignmentID;
 
-    public InsertAssignment(String text, SQLQueries sql, int TecherID) {
+    public InsertAssignment(String text, SQLQueries sql, int TecherID, FrameForTeacher root) {
+
         this.AssignmentID=sql.getAssID();
         ID[0]=sql.getSMID();
         setLayout(new BorderLayout());
@@ -54,6 +56,7 @@ public class InsertAssignment extends JPanel {
                     BQPanel.revalidate();
                     BQPanel.repaint();
                     BQScroll.repaint();
+                    setVisible(false);
                 }
             });
         });
@@ -69,6 +72,11 @@ public class InsertAssignment extends JPanel {
                 i.save();
             }
             JOptionPane.showMessageDialog(null,"Đã lưu bài tập");
+            setVisible(false);
+            root.getBg().removeAll();
+            root.init();
+            root.revalidate();
+            root.repaint();
         });
         JPanel title = new JPanel();
         title.setLayout(new BorderLayout());

@@ -1,6 +1,7 @@
 package Component.PanelPrototype;
 
 import Component.Button.MyButton;
+import GUI.FrameForStudent;
 import Res.SQLQueries;
 
 import javax.swing.*;
@@ -22,6 +23,7 @@ public class DoAssignment extends JPanel {
     private int currentQ=0;
     private BQuestionPanel []pa;
     private int currentSe=0;
+    private FrameForStudent root;
     public void but(MyButton selected){
         selected.setColor(Color.lightGray);
         selected.setBackground(Color.lightGray);
@@ -64,7 +66,9 @@ public class DoAssignment extends JPanel {
         }
         return res;
     }
-    public DoAssignment(int Assignment, int Student, int y,SQLQueries sql) {
+    public DoAssignment(int Assignment, int Student, int y, SQLQueries sql, FrameForStudent root) {
+        this.root=root;
+
         this.Assignment=Assignment;
         this.Student=Student;
         setLayout(null);
@@ -166,6 +170,10 @@ public class DoAssignment extends JPanel {
                     JOptionPane.showMessageDialog(null, "Điểm của bạn đtaj được: " + getScore() + "\n" + "Kết quả đã được lưu lại.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
 
                 }
+                root.getBg().removeAll();
+                root.init();
+                root.revalidate();
+                root.repaint();
             });
 
             sub.add(submit, BorderLayout.CENTER);
@@ -178,7 +186,7 @@ public class DoAssignment extends JPanel {
 
     public static void main(String[] args) {
         JFrame f= new JFrame();
-        DoAssignment d= new DoAssignment(1,1,700, new SQLQueries());
+        DoAssignment d= new DoAssignment(1,1,700, new SQLQueries(), new FrameForStudent(1,"Thanglm2006"));
         f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         f.setSize(1280,800);
         f.add(d);

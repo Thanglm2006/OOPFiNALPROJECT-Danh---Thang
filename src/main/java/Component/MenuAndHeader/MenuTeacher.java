@@ -51,10 +51,10 @@ public class MenuTeacher extends JPanel {
         layout = new MigLayout("wrap, fillx, insets 0", "[fill]", "[]0[]");
         panel.setLayout(layout);
     }
-    public void itemTeacher() {
+    public void itemTeacher(String [] classes) {
         addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/Image/icon/home.png")), "Trang chủ"));
         addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/Image/icon/5.png")), "Tài khoản","Thông tin cá nhân","Đổi mật khẩu","Sửa đổi email"));
-        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/Image/icon/star.png")), "Danh sách lớp"));
+        addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/Image/icon/star.png")), "Danh sách lớp",classes));
         addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/Image/icon/7.png")),"Bài tập","Tạo bài tập","Danh sách bài tập"));
         addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/Image/icon/dictionary.png")), "Từ điển"));
         addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/Image/icon/logout3.png")), "Đăng xuất"));
