@@ -54,7 +54,7 @@ public class DictionaryPanel extends JPanel{
         cr.setEnabled(true);
         JButton ok= new JButton("Tìm Kiếm");
         ok.setFont(new Font("Times New Roman",Font.PLAIN,10));
-        ok.setSize(100,30);
+        ok.setSize(100,40);
         ok.setLocation(w-400,0);
         ok.addActionListener(e ->{
             try{
@@ -65,9 +65,9 @@ public class DictionaryPanel extends JPanel{
         });
         searchBar = new JTextField("Từ điển");
         searchBar.setForeground(Color.gray);
-        searchBar.setSize(w-400, 30);
+        searchBar.setSize(w-400, 40);
         searchBar.setLocation(0,0);
-        searchBar.setFont(new Font("Times New Roman", Font.PLAIN, 27));
+        searchBar.setFont(new Font("Times New Roman", Font.PLAIN, 24));
         searchBar.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -84,13 +84,13 @@ public class DictionaryPanel extends JPanel{
             }
         });
         tv=new JRadioButton("Tìm kiếm bằng Tiếng Việt");
-        tv.setFont(new Font("Times New Roman",Font.PLAIN,10));
-        tv.setSize(300,30);
+        tv.setFont(new Font("Times New Roman",Font.PLAIN,12));
+        tv.setSize(300,40);
         tv.setLocation(w-300,0);
         setLayout(new BorderLayout());
         sP= new JPanel();
         sP.setLayout(null);
-        sP.setPreferredSize(new Dimension(w,30));
+        sP.setPreferredSize(new Dimension(w,40));
         sP.add(searchBar);
         sP.add(ok);
         sP.add(tv);

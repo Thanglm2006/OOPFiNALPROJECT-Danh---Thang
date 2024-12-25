@@ -1,7 +1,12 @@
 package GUI;
 
+import Component.*;
 import Component.PanelPrototype.*;
-import Component.PanelPrototype.Login;
+import Component.dialog.Notice;
+import Component.Button.*;
+import Component.form.Form1;
+import Component.form.Form2;
+import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,8 +20,12 @@ public class EnglishLearningApp extends javax.swing.JFrame {
     private PanelGradiente panelGradiente1;
     private PanelSlide slide;
     private ActionEvent acc;
-    
+    private Notice notice;
+    private JFrame jf;
+    private EnglishLearningApp englishLearningApp;
+
     public EnglishLearningApp() {
+
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -33,13 +42,31 @@ public class EnglishLearningApp extends javax.swing.JFrame {
         setSize(Toolkit.getDefaultToolkit().getScreenSize());
         Login login = new Login();
         Register register = new Register();
-        slide.setAnimate(20);
+        slide.setAnimate(30);
         slide.init(login, register);
         login.addEventRegister(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 slide.show(1);
                 register.register();
+                notice = new Notice(register,true);
+                notice.setPreferredSize(new Dimension(550,450));
+
+                notice.setError("Notice");
+                notice.setIcon("/Image/note.png");
+                notice.setText("<html>"
+                        + "<div style='text-align:center;width:400px;'>"
+                        + "Bạn vui lòng tạo tài khoản theo yêu cầu của chúng tôi!<br>"
+                        + "Nếu là học sinh thì SV+ tài khoản <br>"
+                        + "Nếu là giáo viên thì GV+ tài khoản <br>"
+                        + "Ví dụ SVabc hoặc GVabc"
+                        + "</div>"
+                        + "</html>");
+                notice.add(notice.getError(),"y 33%, center");
+                notice.add(notice.getTextLabel(),"y 50%, center");
+
+                notice.showAlert();
+
             }
         });
         register.addEventBackLogin(new ActionListener() {
@@ -49,6 +76,8 @@ public class EnglishLearningApp extends javax.swing.JFrame {
                 login.login();
             }
         });
+
+
         login.addEventLogin(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -68,10 +97,14 @@ public class EnglishLearningApp extends javax.swing.JFrame {
 //        setUndecorated(true);
 
         panelGradiente1.setColorPrimario(new java.awt.Color(146, 233, 251));
-        panelGradiente1.setColorSecundario(new java.awt.Color(12, 137, 163));
+          panelGradiente1.setColorSecundario(new java.awt.Color(12, 137, 163));
+        panelGradiente1.setColorPrimario(new java.awt.Color(206,242,254,255));
+        panelBorder1.setBackground(new java.awt.Color(206,242,254,255));
+
+        slide.setBackground(new java.awt.Color(206,242,254,255));
 
         panelBorder1.setBackground(new java.awt.Color(255, 255, 255));
-
+//
         slide.setBackground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout slideLayout = new javax.swing.GroupLayout(slide);
@@ -86,7 +119,6 @@ public class EnglishLearningApp extends javax.swing.JFrame {
         );
 
         panelBorder1.setLayer(slide, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
         javax.swing.GroupLayout panelBorder1Layout = new javax.swing.GroupLayout(panelBorder1);
         panelBorder1.setLayout(panelBorder1Layout);
         panelBorder1Layout.setHorizontalGroup(

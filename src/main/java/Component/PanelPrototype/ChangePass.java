@@ -5,6 +5,8 @@ import Component.TextFieldAndSoOn.MyPassword;
 import GUI.FrameForStudent;
 import GUI.FrameForTeacher;
 import Res.SQLQueries;
+import de.mkammerer.argon2.Argon2;
+import de.mkammerer.argon2.Argon2Factory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,6 +20,7 @@ public class ChangePass extends JPanel {
 
     public ChangePass(int id, SQLQueries sql, FrameForStudent root) {
         setPreferredSize(new Dimension(900,700));
+        Argon2 argon2 = Argon2Factory.create();
         String pass = "";
             ResultSet res = sql.stInfor(id);
             try {
@@ -51,7 +54,7 @@ public class ChangePass extends JPanel {
         l.setFont(new Font("Times New Roman",Font.PLAIN,20));
         String finalPass = pass;
         change.addActionListener(e -> {
-                if (!oldPass.getText().equals(finalPass)) {
+                if (!argon2.verify(finalPass,oldPass.getText())) {
                     l.setText("Sai mật khẩu!");
                     l.setForeground(Color.RED);
                 } else {
@@ -68,7 +71,13 @@ public class ChangePass extends JPanel {
                         l.setForeground(Color.RED);
 
                     } else {
-                        boolean check = sql.resetStudentPass(NewPass.getText(), id);
+                        String passHash = "";
+                        try {
+                            passHash= argon2.hash(2, 65536, 1, NewPass.getText());
+                        } finally {
+                            argon2.wipeArray(NewPass.getText().toCharArray());
+                        }
+                        boolean check = sql.resetStudentPass(passHash, id);
                         if (check) {
                             l.setText("Đổi mật khẩu thành công!");
                             l.setForeground(Color.GREEN);
@@ -135,6 +144,7 @@ public class ChangePass extends JPanel {
     public ChangePass(int id, SQLQueries sql, FrameForTeacher root) {
         setPreferredSize(new Dimension(900,700));
         String pass = "";
+        Argon2 argon2 = Argon2Factory.create();
         ResultSet res = sql.TInfor(id);
         try {
             while (res.next()) {
@@ -167,7 +177,7 @@ public class ChangePass extends JPanel {
         l.setFont(new Font("Times New Roman",Font.PLAIN,20));
         String finalPass = pass;
         change.addActionListener(e -> {
-            if (!oldPass.getText().equals(finalPass)) {
+            if (!argon2.verify(finalPass,oldPass.getText())) {
                 l.setText("Sai mật khẩu!");
                 l.setForeground(Color.RED);
             } else {
@@ -184,7 +194,13 @@ public class ChangePass extends JPanel {
                     l.setForeground(Color.RED);
 
                 } else {
-                    boolean check = sql.resetTeacherPass(NewPass.getText(), id);
+                    String passHash = "";
+                    try {
+                        passHash= argon2.hash(2, 65536, 1, NewPass.getText());
+                    } finally {
+                        argon2.wipeArray(NewPass.getText().toCharArray());
+                    }
+                    boolean check = sql.resetTeacherPass(passHash, id);
                     if (check) {
                         l.setText("Đổi mật khẩu thành công!");
                         l.setForeground(Color.GREEN);

@@ -130,8 +130,8 @@ public class PasswordField extends JPasswordField {
             }
 
         };
-        eye = new ImageIcon(getClass().getResource("/Image/sharingan.png")).getImage();
-        eye_hide = new ImageIcon(getClass().getResource("/Image/eye_close.png")).getImage();
+        eye = new ImageIcon(getClass().getResource("/Image/eye.png")).getImage();
+        eye_hide = new ImageIcon(getClass().getResource("/Image/eye_hide.png")).getImage();
         animator = new Animator(300, target);
         animator.setResolution(0);
         animator.setAcceleration(0.5f);

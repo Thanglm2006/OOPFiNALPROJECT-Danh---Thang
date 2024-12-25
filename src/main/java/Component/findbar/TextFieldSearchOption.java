@@ -154,7 +154,6 @@ public class TextFieldSearchOption extends JTextField {
             event.optionSelected(getSelectedOption(), selectedIndex);
         }
     }
-
     private void startAnimate() {
         if (animator.isRunning()) {
             float f = animator.getTimingFraction();

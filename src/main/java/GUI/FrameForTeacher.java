@@ -59,6 +59,7 @@ public class FrameForTeacher extends JFrame {
         initComponents();
         init();
         setSize(Toolkit.getDefaultToolkit().getScreenSize());
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
     private void initClass(){
         HashMap<Integer,String> classes=sql.getClass(Teacher);
@@ -134,7 +135,8 @@ public class FrameForTeacher extends JFrame {
                             }
                         }
                         else if(subMenuIndex==1){
-                            main.showForm(new Form2());
+                            AssignmentList l= new AssignmentList(sql,Teacher);
+                            main.showForm(l);
                         }
                     }
                     case 4->{
@@ -209,6 +211,8 @@ public class FrameForTeacher extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 //        setUndecorated(true);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setExtendedState(JFrame.MAXIMIZED_HORIZ);
+        setExtendedState(JFrame.MAXIMIZED_VERT);
 
         bg.setBackground(new java.awt.Color(245, 245, 245));
         bg.setOpaque(true);

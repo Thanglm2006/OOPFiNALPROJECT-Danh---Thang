@@ -48,7 +48,13 @@
             <artifactId>javafx-base</artifactId>
             <version>22</version>
         </dependency>
-         <dependency>
+        <dependency>
+            <groupId>de.mkammerer</groupId>
+            <artifactId>argon2-jvm</artifactId>
+            <version>2.1</version>
+        </dependency>
+
+        <dependency>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-swing</artifactId>
                 <version>22</version>

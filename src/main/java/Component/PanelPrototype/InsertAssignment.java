@@ -100,7 +100,7 @@ class BQ extends JPanel{
     private JLabel text,Stt;
     private JButton insert;
     SQLQueries sql;
-    private ArrayList<SmallQuestion> smallQuestions= new ArrayList<SmallQuestion>();
+    private ArrayList<SmallQuestion> smallQuestions= new ArrayList<>();
     public BQ(String BQText, int BQID, int assignmentID, int stt,SQLQueries sql, int[] ID, String path) {
         setMaximumSize(new Dimension(Integer.MAX_VALUE,getPreferredSize().height+30));
         setBorder(new EtchedBorder(Color.CYAN,Color.WHITE));

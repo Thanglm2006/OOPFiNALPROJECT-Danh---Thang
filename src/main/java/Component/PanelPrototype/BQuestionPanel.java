@@ -74,7 +74,7 @@ public class BQuestionPanel extends JPanel {
 
                 HashMap<String,Integer> tmp=sql.getSelectionForQuestion(res.getInt("QuestionID"));
                 String fp=res.getNString("FilePath");
-                if(!fp.isEmpty()){
+                if(fp!=null&&!fp.isEmpty()){
                     QList.add( new smallQuestion("Câu "+idx+": "+txt,tmp,fp));
                 }
                 else QList.add(new smallQuestion("Câu "+idx+": "+txt,tmp));

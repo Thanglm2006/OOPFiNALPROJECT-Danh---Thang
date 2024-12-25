@@ -13,7 +13,12 @@ import java.util.ArrayList;
 
 public class TableStudent extends JPanel {
     private ArrayList<Student> students;
+    int Teacher,Class;
+    private SQLQueries sql;
     public TableStudent(SQLQueries sql,int Teacher, int Class) {
+        this.Teacher=Teacher;
+        this.Class=Class;
+        this.sql=sql;
         students=sql.getAllStudent(Teacher,Class);
         initComponents();
         setBackground(Color.WHITE);
@@ -24,8 +29,12 @@ public class TableStudent extends JPanel {
     private void testData(JTable table) {
         updateTableData();
     }
-
+    public void removeAll(){
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
+    }
     void updateTableData() {
+        students=sql.getAllStudent(Teacher,Class);
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
         int stt=1;

@@ -9,12 +9,13 @@ import Object.Student;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import Component.Button.Button;
 public class ListStudent extends JPanel {
-    private JPanel taskbar;
     private TableStudent table;
     private Button addStudent,deleteStudent;
     private JLabel logo;
@@ -33,7 +34,6 @@ public class ListStudent extends JPanel {
 
    public void initComponents(SQLQueries sql){
        setLayout(new MigLayout("al center center, wrap"));
-
 
        addStudent = new Button();
        deleteStudent = new Button();
@@ -54,19 +54,66 @@ public class ListStudent extends JPanel {
        add(deleteStudent,"x 90%, y 4%, width 7%");
 
        search = new TextFieldSearchOption();
-
+       JButton resetButton = new Button();
+       resetButton.setIcon(new ImageIcon(getClass().getResource("/Image/gtk-refresh.png")));
+       resetButton.addActionListener(e->{
+              table.updateTableData();
+              search.setText("");
+              revalidate();
+              repaint();
+       });
        SearchOption x = (new SearchOption("Tìm mã sv", new ImageIcon(TextFieldSearchOption.class.getResource("/Image/num.png"))));
        SearchOption y = (new SearchOption("Tìm tên", new ImageIcon(TextFieldSearchOption.class.getResource("/Image/5.png"))));
-       SearchOption z = (new SearchOption("Lớp", new ImageIcon(TextFieldSearchOption.class.getResource("/Image/class.png"))));
        SearchOption t = (new SearchOption("Giới tính", new ImageIcon(TextFieldSearchOption.class.getResource("/Image/gender.png"))));
        SearchOption q = (new SearchOption("Tìm email", new ImageIcon(TextFieldSearchOption.class.getResource("/Image/message.png"))));
-       SearchOption m = (new SearchOption("Tìm ngày sinh", new ImageIcon(TextFieldSearchOption.class.getResource("/Image/birth.png"))));
-       search.addOption(x); search.addOption(y); search.addOption(z); search.addOption(t); search.addOption(q); search.addOption(m);
-       searchList.add(x); searchList.add(y);searchList.add(z);searchList.add(t); searchList.add(q); searchList.add(m);
-       add(search,"x 60%, y 3.5%, width 20%");
+
+       search.addOption(x); search.addOption(y); search.addOption(t); search.addOption(q);
+       searchList.add(x); searchList.add(y);searchList.add(t); searchList.add(q);
+       add(resetButton,"x 38%, y 4%, width 1.5%");
+       add(search,"x 40%, y 3.5%, width 40%");
        addStudent.addActionListener(e->{
           new InsertST(sql,Class,table,this);
 
+       });
+       search.addKeyListener(new KeyAdapter() {
+           ArrayList<Student> students;
+           public void keyTyped(KeyEvent e) {
+               if(e.getKeyChar()==KeyEvent.VK_ENTER){
+                   int index = search.getSelectedIndex();
+                   String key = search.getText();
+                   if(!key.isEmpty())table.removeAll();
+                   switch(index){
+                        case 0->{
+                            students=sql.searchSTBySTID(Integer.parseInt(key),Class);
+                        }
+                        case 1->{
+                            students=sql.searchSTByName(key,Class);
+                        }
+                        case 2->{
+                            students=sql.searchSTByGender(key,Class);
+                        }
+                        case 3->{
+                            students=sql.searchSTByEmail(key,Class);
+                        }
+                   }
+                   int stt=1;
+                   if(students!=null)for (Student student : students) {
+                       ((DefaultTableModel)table.getJTable().getModel()).addRow(new Object[]{
+                               stt++,
+                               student.getID(),
+                               student.getName(),
+                               student.GetClass(),
+                               student.getEmail(),
+                               student.getGender(),
+                               student.getBirthDate(),
+                               student.isSelected()
+                       });
+
+                   }
+                   revalidate();
+                   repaint();
+               }
+           }
        });
        deleteStudent.addMouseListener(new MouseAdapter() {
            @Override

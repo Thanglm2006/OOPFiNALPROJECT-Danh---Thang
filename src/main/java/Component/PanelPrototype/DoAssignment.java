@@ -186,7 +186,7 @@ public class DoAssignment extends JPanel {
 
     public static void main(String[] args) {
         JFrame f= new JFrame();
-        DoAssignment d= new DoAssignment(1,1,700, new SQLQueries(), new FrameForStudent(1,"Thanglm2006"));
+        DoAssignment d= new DoAssignment(9,1,700, new SQLQueries(), new FrameForStudent(1,"Thanglm2006"));
         f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         f.setSize(1280,800);
         f.add(d);
