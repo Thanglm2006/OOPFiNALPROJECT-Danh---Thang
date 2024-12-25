@@ -20,7 +20,7 @@ import java.sql.SQLException;
 public class Login extends JPanel {
     private Button register;
     private SQLQueries sql;
-    private JLabel forget;
+    private Button forget;
     private JLabel j1, m1;
     private Button login;
     private PasswordField password;
@@ -41,7 +41,9 @@ public class Login extends JPanel {
     public void login() {
         username.grabFocus();
     }
-
+    public SQLQueries getSql() {
+        return sql;
+    }
     public void addEventRegister(ActionListener event) {
         register.addActionListener(event);
     }
@@ -57,7 +59,9 @@ public class Login extends JPanel {
     public String getPass() {
         return password.getText();
     }
-
+    public void addEventForget(ActionListener event) {
+        forget.addActionListener(event);
+    }
     private void initComponents() {
         This = this;
         argon2 = Argon2Factory.create();
@@ -85,7 +89,7 @@ public class Login extends JPanel {
         m1 = new JLabel();
         m1.setForeground(Color.RED);
         m1.setFont(new Font("sansserif", 0, 13));
-        forget = new JLabel();
+        forget = new Button();
 
         setBackground(new Color(255, 255, 255));
 
@@ -114,14 +118,8 @@ public class Login extends JPanel {
         forget.setFont(new Font("SansSerif", 1, 15));
         forget.setForeground(new Color(30, 122, 236));
         forget.setHorizontalAlignment(SwingConstants.CENTER);
-        forget.setText("Bạn đã quên mật khẩu?");
+        forget.setText("<html><u>Quên mật khẩu?<u></html>");
         forget.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        forget.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                handleForgetPassword();
-            }
-        });
 
         setLayout(new MigLayout("al center center, wrap"));
 
@@ -254,72 +252,5 @@ public class Login extends JPanel {
         notice.showAlert();
     }
 
-    private void handleForgetPassword() {
-        if (getAcc().matches("SV\\S+") || getAcc().matches("sv\\S+")) {
-            String[] res = sql.getStudentMail(getAcc());
-            String email = res[0];
-            String pass = res[1];
-            Argon2 argon2 = Argon2Factory.create();
-            pass=argon2.toString();
-            if (getAcc().isEmpty()) {
-                m1.setText("Nhập tài khoản hoặc email trước!");
-                m1.setForeground(Color.RED);
-            } else if (email == null || email.equals("no email")) {
-                m1.setText("Tài khoản không tồn tại!");
-                m1.setForeground(Color.RED);
-            } else {
-                m1.setText("");
-                m1.setForeground(Color.GREEN);
 
-                setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-                String finalPass = pass;
-                SwingWorker<Void, Void> w = new SwingWorker<Void, Void>() {
-                    @Override
-                    protected Void doInBackground() throws Exception {
-                        mail.sendmail(email, "Mật khẩu cho English Learning App", finalPass);
-                        return null;
-                    }
-
-                    @Override
-                    protected void done() {
-                        setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-                    }
-                };
-                w.execute();
-                m1.setText("Mật khẩu đã được gửi về gmail của bạn!");
-                m1.setForeground(Color.GREEN);
-            }
-        } else {
-            String[] res = sql.getTeacherMail(getAcc());
-            String email = res[0];
-            String pass = res[1];
-            Argon2 argon2 = Argon2Factory.create();
-            pass=argon2.toString();
-            if (getAcc().isEmpty()) {
-                m1.setText("Nhập tài khoản hoặc email trước!");
-                m1.setForeground(Color.RED);
-            } else if (email == null || email.equals("no email")) {
-                m1.setText("Tài khoản không tồn tại!");
-                m1.setForeground(Color.RED);
-            } else {
-                setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-                String finalPass = pass;
-                SwingWorker<Void, Void> w = new SwingWorker<Void, Void>() {
-                    @Override
-                    protected Void doInBackground() throws Exception {
-                        mail.sendmail(email, "Mật khẩu cho English Learning App", finalPass);
-                        return null;
-                    }
-
-                    @Override
-                    protected void done() {
-                        setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-                    }
-                };
-                w.execute();
-                m1.setText("Mật khẩu đã được gửi về gmail của bạn!");
-                m1.setForeground(Color.GREEN);
-            }
-        }
-    }
 }

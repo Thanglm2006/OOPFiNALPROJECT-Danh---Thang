@@ -55,13 +55,13 @@ public class AssignmentList extends JPanel {
 
     }
 
-    public static void main(String[] args) {
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setSize(900,600);
-        frame.add(new AssignmentList(new SQLQueries(),1));
-        frame.setVisible(true);
-    }
+//    public static void main(String[] args) {
+//        JFrame frame = new JFrame();
+//        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+//        frame.setSize(900,600);
+//        frame.add(new AssignmentList(new SQLQueries(),1));
+//        frame.setVisible(true);
+//    }
 }
 class Assi extends JPanel{
     JLabel ID,Name;

@@ -142,19 +142,19 @@ public class ListStudent extends JPanel {
    }
 
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            JFrame frame = new JFrame("List Student");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
-
-            ListStudent listStudent = new ListStudent(new SQLQueries(),1,1);
-            frame.add(listStudent);
-
-            frame.setVisible(true);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        });
-    }
+//    public static void main(String[] args) {
+//        SwingUtilities.invokeLater(() -> {
+//            JFrame frame = new JFrame("List Student");
+//            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//            frame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
+//
+//            ListStudent listStudent = new ListStudent(new SQLQueries(),1,1);
+//            frame.add(listStudent);
+//
+//            frame.setVisible(true);
+//            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        });
+//    }
 }
 class InsertST extends JFrame {
     private JPanel root;

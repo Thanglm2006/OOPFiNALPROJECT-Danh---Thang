@@ -2,6 +2,7 @@ package Component.PanelPrototype;
 
 import Component.table.TableCustom;
 import Res.SQLQueries;
+import javafx.scene.chart.PieChart;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -12,6 +13,7 @@ import java.sql.SQLException;
 public class Rank extends JPanel {
     private SQLQueries sql;
     private int Student;
+    private PieChart pieChart;
     public Rank(SQLQueries sql,int Student) {
         this.sql=sql;
         this.Student=Student;

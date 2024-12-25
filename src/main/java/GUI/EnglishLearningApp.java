@@ -13,8 +13,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
-
 public class EnglishLearningApp extends javax.swing.JFrame {
     private PanelBorder panelBorder1;
     private PanelGradiente panelGradiente1;
@@ -42,8 +40,13 @@ public class EnglishLearningApp extends javax.swing.JFrame {
         setSize(Toolkit.getDefaultToolkit().getScreenSize());
         Login login = new Login();
         Register register = new Register();
+        ForgetPassWord3 forgetPassWord3 = new ForgetPassWord3(login.getSql());
+        ForgetPassWord2 forgetPassWord2 = new ForgetPassWord2(login.getSql(),forgetPassWord3);
+        ForgetPassWord1 forgetPassWord1 = new ForgetPassWord1(login.getSql(),forgetPassWord2);
+
+
         slide.setAnimate(30);
-        slide.init(login, register);
+        slide.init(login, register, forgetPassWord1, forgetPassWord2, forgetPassWord3);
         login.addEventRegister(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -77,11 +80,66 @@ public class EnglishLearningApp extends javax.swing.JFrame {
             }
         });
 
-
+        login.addEventForget(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                slide.show(2);
+                forgetPassWord1.forget1();
+            }
+        });
         login.addEventLogin(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
                 setVisible(false);
+            }
+        });
+        forgetPassWord1.addEventBackLogin(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                slide.show(0);
+                login.login();
+            }
+        });
+        forgetPassWord1.addEventToForget2(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                slide.show(3);
+                forgetPassWord2.forget2();
+            }
+        });
+        forgetPassWord2.addEventBackLogin(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                slide.show(0);
+                login.login();
+            }
+        });
+        forgetPassWord2.addEventBackToForget1(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                slide.show(2);
+                forgetPassWord1.forget1();
+            }
+        });
+        forgetPassWord2.addEventToForget3(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                slide.show(4);
+                forgetPassWord3.forget3();
+            }
+        });
+        forgetPassWord3.addEventBackLogin(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                slide.show(0);
+                login.login();
+            }
+        });
+        forgetPassWord3.addEventBackToForget2(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                slide.show(3);
+                forgetPassWord2.forget2();
             }
         });
     }

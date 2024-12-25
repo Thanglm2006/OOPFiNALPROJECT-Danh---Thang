@@ -8,6 +8,8 @@ import Object.Student;
 public class SQLQueries {
     private Connection c=null;
     private Statement sta=null;
+    private String getSTID="select StudentID from StudentAccount where Account='%s'";
+    private String getTID="select TeacherID from TeacherAccount where Account='%s'";
     private String getAllAssignmentOfAStudent="select assignment.AssignmentID,assignment.AssignmentName\n" +
             "from Student student\n" +
             "join ClassAndStudent classStudent on classStudent.StudentID=student.StudentID\n" +
@@ -139,6 +141,30 @@ public class SQLQueries {
     private String deleteAss="delete Assignment where AssignmentID=%d";
     private String updateAss="update Assignment set AssignmentName=N'%s' where AssignmentID=%d";
     private String insertAssToClass="insert into ClassAssignment(AssignmentID,ClassID) values(%d,%d)";
+    public int getSTID(String Acc){
+        try {
+            PreparedStatement st= c.prepareStatement(String.format(getSTID,Acc));
+            ResultSet res= st.executeQuery();
+            while(res.next()){
+                return res.getInt("StudentID");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+    public int getTID(String Acc){
+        try {
+            PreparedStatement st= c.prepareStatement(String.format(getTID,Acc));
+            ResultSet res= st.executeQuery();
+            while(res.next()){
+                return res.getInt("TeacherID");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
     public boolean insertAssToClass(int Ass, int ClassID){
         try {
             PreparedStatement st= c.prepareStatement(String.format(insertAssToClass,Ass,ClassID));
@@ -474,12 +500,11 @@ public class SQLQueries {
     }
     public boolean resetStudentPass(String pass, int id){
         try {
-
             PreparedStatement st=c.prepareStatement(String.format(resetPassST,pass,id));
             int r= st.executeUpdate();
             if(r==1) return true;
         } catch (SQLException e) {
-
+            e.printStackTrace();
         }
        return false;
     }
@@ -489,7 +514,7 @@ public class SQLQueries {
             int r= st.executeUpdate();
             if(r==1) return true;
         } catch (SQLException e) {
-
+            e.printStackTrace();
         }
         return false;
     }
