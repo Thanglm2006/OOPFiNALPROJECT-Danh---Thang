@@ -676,7 +676,6 @@ public class SQLQueries {
                  connectionS  = new String(fullBytes, "UTF-8");
                  connectionS=connectionS.substring(7);
             }
-
             this.c=DriverManager.getConnection(connectionS);
             this.sta= c.createStatement();
         } catch (IOException | SQLException e) {
