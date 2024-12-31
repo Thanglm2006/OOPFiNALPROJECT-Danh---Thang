@@ -128,7 +128,7 @@ public class SQLQueries {
     private String updateTEmail="update Teacher set Email='%s' where TeacherID=%d";
     private String getAminMail="select Email,Pass from AdminMail";
     private String getBID="SELECT IDENT_CURRENT('BigQuestion') + 1 AS next; ";
-    private String getAssID="SELECT IDENT_CURRENT('Assignment') + 1 AS next; ";
+    private String getAssID="SELECT IDENT_CURRENT('Assignment') + 1 AS next; ";//zjll birb smye avqh
     private String getSMID="SELECT IDENT_CURRENT('Question') + 1 AS next; ";
     private String getClass="select * from Class where TeacherID=%d";
     private String insertClass="insert into Class(ClassName,TeacherID) values(N'%s',%d)";
@@ -676,7 +676,8 @@ public class SQLQueries {
                  connectionS  = new String(fullBytes, "UTF-8");
                  connectionS=connectionS.substring(7);
             }
-            this.c=DriverManager.getConnection(connectionS);
+            System.out.println(connectionS);
+            this.c=DriverManager.getConnection("jdbc:sqlserver://172.17.0.1:1433;Database=data;User=sa;Password=Thanglm#2006;encrypt=true;trustServerCertificate=true;loginTimeout=30;");
             this.sta= c.createStatement();
         } catch (IOException | SQLException e) {
             e.printStackTrace();
