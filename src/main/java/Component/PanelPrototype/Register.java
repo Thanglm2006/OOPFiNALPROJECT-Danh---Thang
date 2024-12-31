@@ -153,7 +153,9 @@ public class Register extends JPanel {
         register.setForeground(Color.WHITE);
         register.setText("Đăng ký");
         register.setFont(new Font("sansserif", Font.BOLD, 15));
-        register.addActionListener(e -> handleRegister());
+        register.addActionListener(e -> {
+            handleRegister();
+        });
 
         backlogin.setFont(new Font("sansserif", Font.BOLD, 15));
         backlogin.setForeground(new Color(30, 122, 236));
@@ -202,6 +204,7 @@ public class Register extends JPanel {
             if (!check) {
                 m.showMessage("Tên đăng nhập đã tồn tại!");
             } else {
+                System.out.println("here!");
                 showSuccessNotice();
                 ac.actionPerformed(null);
                 clearFields();

@@ -10,13 +10,11 @@ public class inp {
 
         ObjectOutputStream oos=null;
         try{
-            fos=new FileOutputStream("Security/ConnectionToSQL.dat");
+            fos=new FileOutputStream("ConnectionToSQL.dat");
             oos=new ObjectOutputStream(fos);
-            oos.writeObject("jdbc:sqlserver://THE-CONQUEROR\\SQLEXPRESST:1433;Database=data;User=sa;Password=Thanglm#2006;encrypt=true;trustServerCertificate=true;loginTimeout=30;");
-        } catch (FileNotFoundException e) {
-
+            oos.writeObject("jdbc:sqlserver://172.17.0.1:1433;Database=data;User=sa;Password=Thanglm#2006;encrypt=true;trustServerCertificate=true;loginTimeout=30;");
         } catch (IOException e) {
-
+            e.printStackTrace();
         }
     }
 }

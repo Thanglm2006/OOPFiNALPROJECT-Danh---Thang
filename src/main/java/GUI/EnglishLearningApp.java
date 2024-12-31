@@ -16,9 +16,9 @@ import java.awt.event.ActionListener;
 public class EnglishLearningApp extends javax.swing.JFrame {
     private PanelBorder panelBorder1;
     private PanelGradiente panelGradiente1;
-    private PanelSlide slide;
     private ActionEvent acc;
     private Notice notice;
+    private PanelSlide slide;
     private JFrame jf;
     private EnglishLearningApp englishLearningApp;
 

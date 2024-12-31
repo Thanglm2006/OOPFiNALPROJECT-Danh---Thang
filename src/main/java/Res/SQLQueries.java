@@ -676,7 +676,6 @@ public class SQLQueries {
                  connectionS  = new String(fullBytes, "UTF-8");
                  connectionS=connectionS.substring(7);
             }
-            System.out.println(connectionS);
             this.c=DriverManager.getConnection("jdbc:sqlserver://172.17.0.1:1433;Database=data;User=sa;Password=Thanglm#2006;encrypt=true;trustServerCertificate=true;loginTimeout=30;");
             this.sta= c.createStatement();
         } catch (IOException | SQLException e) {
@@ -799,6 +798,7 @@ public class SQLQueries {
             String txt= String.format(registerForStudent,acc,pass,id,name,Gender,email, birth);
             PreparedStatement pp= c.prepareStatement(txt);
             pp.executeUpdate();
+            System.out.println("done");
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
