@@ -175,7 +175,6 @@ public class DictionaryPanel extends JPanel{
 
             Meaning = new JLabel("");
             Meaning.setFont(new Font("Arial",Font.PLAIN,19));
-
             setBorder(new LineBorder(Color.DARK_GRAY));
             add(Au,BorderLayout.EAST);
             add(Word,BorderLayout.NORTH);
