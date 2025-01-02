@@ -676,7 +676,7 @@ public class SQLQueries {
                  connectionS  = new String(fullBytes, "UTF-8");
                  connectionS=connectionS.substring(7);
             }
-            this.c=DriverManager.getConnection("jdbc:sqlserver://localhost:1433;Database=data;User=sa;Password=Thanglm#2006;encrypt=true;trustServerCertificate=true;loginTimeout=30;");
+            this.c=DriverManager.getConnection(connectionS);
             this.sta= c.createStatement();
         } catch (IOException | SQLException e) {
             e.printStackTrace();
