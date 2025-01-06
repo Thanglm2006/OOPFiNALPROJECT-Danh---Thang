@@ -6,6 +6,7 @@ import GUI.FrameForStudent;
 import GUI.FrameForTeacher;
 import Res.AutomticMail;
 import Res.SQLQueries;
+import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.awt.*;
@@ -35,7 +36,6 @@ public class changeEmail extends JPanel {
         String finalMail = mail;
         AtomicInteger ranNum = new AtomicInteger();
         but.addActionListener(e->{
-
             ranNum.set(100000 + r.nextInt(900000));
             AutomticMail Mail= new AutomticMail(sql);
             Mail.sendmail(finalMail,"Confirm your action",String.valueOf(ranNum.get()));
@@ -64,29 +64,7 @@ public class changeEmail extends JPanel {
         l.setFont(new Font("Times New Roman",Font.PLAIN,20));
         l.setPreferredSize(new Dimension(900,60));
         l.setHorizontalAlignment(SwingConstants.CENTER);
-        JPanel top= new JPanel();
-        top.setLayout(new BorderLayout());
-        top.setPreferredSize(new Dimension(900,60));
-        top.add(con,BorderLayout.WEST);
-        top.add(confirm,BorderLayout.CENTER);
-        top.add(but,BorderLayout.EAST);
-        JPanel center= new JPanel();
-        center.setLayout(new BorderLayout());
-
-        JPanel t= new JPanel();
-        t.setLayout(new BorderLayout());
-        t.setSize(900,70);
-        t.add(New,BorderLayout.WEST);
-        t.add(NewEmail,BorderLayout.CENTER);
         JLabel b= new JLabel("                                    ");
-        t.add(b,BorderLayout.EAST);
-        center.add(t,BorderLayout.NORTH);
-        JPanel n= new JPanel();
-        n.setLayout(new BorderLayout());
-        n.setSize(900,120);
-        n.add(l,BorderLayout.CENTER);
-        n.add(change,BorderLayout.SOUTH);
-        center.add(n,BorderLayout.SOUTH);
         change.addActionListener(e -> {
             if(confirm.getText().isEmpty()){
                 l.setText("Vui lòng nhập mã xác nhận gửi về email bạn!");
@@ -112,10 +90,15 @@ public class changeEmail extends JPanel {
                 }
             }
         });
-        setLayout(new BorderLayout());
-        add(top,BorderLayout.NORTH);
-
-        add(center,BorderLayout.CENTER);
+        setLayout(new MigLayout("center center"));
+        add(con,"split 3, width 40%");
+        add(confirm," x 30%,width 60%");
+        add(but," height 7%, y 0.7%,wrap");
+        add(New,"split 3, width 40%");
+        add(NewEmail,"  x 30%,width 60%");
+        add(b," width 20%,wrap");
+        add(l,"span 3,wrap, y 80%, width 100%");
+        add(change,"span, center , y 90%");
     }
     public changeEmail(int id, SQLQueries sql,FrameForTeacher root) {
         setPreferredSize(new Dimension(900,700));
@@ -163,29 +146,7 @@ public class changeEmail extends JPanel {
         l.setFont(new Font("Times New Roman",Font.PLAIN,20));
         l.setPreferredSize(new Dimension(900,60));
         l.setHorizontalAlignment(SwingConstants.CENTER);
-        JPanel top= new JPanel();
-        top.setLayout(new BorderLayout());
-        top.setPreferredSize(new Dimension(900,60));
-        top.add(con,BorderLayout.WEST);
-        top.add(confirm,BorderLayout.CENTER);
-        top.add(but,BorderLayout.EAST);
-        JPanel center= new JPanel();
-        center.setLayout(new BorderLayout());
-
-        JPanel t= new JPanel();
-        t.setLayout(new BorderLayout());
-        t.setSize(900,70);
-        t.add(New,BorderLayout.WEST);
-        t.add(NewEmail,BorderLayout.CENTER);
         JLabel b= new JLabel("                                    ");
-        t.add(b,BorderLayout.EAST);
-        center.add(t,BorderLayout.NORTH);
-        JPanel n= new JPanel();
-        n.setLayout(new BorderLayout());
-        n.setSize(900,120);
-        n.add(l,BorderLayout.CENTER);
-        n.add(change,BorderLayout.SOUTH);
-        center.add(n,BorderLayout.SOUTH);
         change.addActionListener(e -> {
             if(confirm.getText().isEmpty()){
                 l.setText("Vui lòng nhập mã xác nhận gửi về email bạn!");
@@ -211,9 +172,14 @@ public class changeEmail extends JPanel {
                 }
             }
         });
-        setLayout(new BorderLayout());
-        add(top,BorderLayout.NORTH);
-
-        add(center,BorderLayout.CENTER);
+        setLayout(new MigLayout("center center"));
+        add(con,"split 3, width 40%");
+        add(confirm," x 30%,width 60%");
+        add(but," height 7%, y 0.7%,wrap");
+        add(New,"split 3, width 40%");
+        add(NewEmail,"  x 30%,width 60%");
+        add(b," width 20%,wrap");
+        add(l,"span 3,wrap, y 80%, width 100%");
+        add(change,"span, center , y 90%");
     }
 }

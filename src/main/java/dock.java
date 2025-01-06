@@ -8,7 +8,7 @@
 
 //run a container with data backups
 //no volume
-//docker run --network host --name sqlserver_data -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=Thanglm#2006' -v ~/backups:/var/opt/mssql/data -d mcr.microsoft.com/mssql/server
+//docker run --network host --name sqlserver_data -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=Thanglm#2006' -v ~/data:/var/opt/mssql/data -d mcr.microsoft.com/mssql/server
 //
  // volume docker volume create sqlserver_data
 //docker run --rm -v sqlserver_data:/var/opt/mssql/data -v /var/backups/data:/backups busybox cp -r /backups/* /var/opt/mssql/data

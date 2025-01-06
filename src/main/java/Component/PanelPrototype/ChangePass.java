@@ -49,6 +49,8 @@ public class ChangePass extends JPanel {
         New.setFont(new Font("Times New Roman",Font.PLAIN,48));
         Con.setFont(new Font("Times New Roman",Font.PLAIN,48));
         MyButton change= new MyButton("Đổi Mật Khẩu");
+        change.setBackground(new Color(125, 224, 237));
+
         change.setFont(new Font("Times New Roman",Font.PLAIN,50));
         JLabel l= new JLabel();
         l.setFont(new Font("Times New Roman",Font.PLAIN,20));
@@ -172,6 +174,7 @@ public class ChangePass extends JPanel {
         New.setFont(new Font("Times New Roman",Font.PLAIN,48));
         Con.setFont(new Font("Times New Roman",Font.PLAIN,48));
         MyButton change= new MyButton("Đổi Mật Khẩu");
+        change.setBackground(new Color(125, 224, 237));
         change.setFont(new Font("Times New Roman",Font.PLAIN,50));
         JLabel l= new JLabel();
         l.setFont(new Font("Times New Roman",Font.PLAIN,20));
