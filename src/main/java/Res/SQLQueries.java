@@ -128,7 +128,12 @@ public class SQLQueries {
             ResultSet res=sta.executeQuery(String.format(q.getGetAllStudent(),Teacher,Class));
             tmp = new ArrayList<>();
             while(res.next()) {
-                Student tmp1=new Student(res.getInt("StudentID"), res.getNString("StudentName"), res.getNString("Gender"),res.getNString("Email"), res.getDate("BirthDate"),res.getNString("ClassName"));
+                int STID=res.getInt("StudentID");
+                String ID;
+                if(STID<10) ID=String.valueOf("STELN00"+STID);
+                else if(STID<100)ID=String.valueOf("STELN0"+STID);
+                else ID=String.valueOf("STELN"+STID);
+                Student tmp1=new Student(ID, res.getNString("StudentName"), res.getNString("Gender"),res.getNString("Email"), res.getDate("BirthDate"),res.getNString("ClassName"));
                 tmp.add( tmp1);
 
             }
@@ -243,8 +248,12 @@ public class SQLQueries {
             ResultSet res= st.executeQuery();
             tmp = new ArrayList<>();
             while(res.next()) {
-
-                tmp.add( new Student(res.getInt("StudentID"), res.getNString("StudentName"), res.getNString("Email"), res.getNString("Gender"), res.getDate("BirthDate"),res.getNString("ClassName")));
+                int STID=res.getInt("StudentID");
+                String ID;
+                if(STID<10) ID=String.valueOf("STELN00"+STID);
+                else if(STID<100)ID=String.valueOf("STELN0"+STID);
+                else ID=String.valueOf("STELN"+STID);
+                tmp.add( new Student(ID, res.getNString("StudentName"), res.getNString("Email"), res.getNString("Gender"), res.getDate("BirthDate"),res.getNString("ClassName")));
             }
             return tmp;
         } catch (SQLException e) {
@@ -259,8 +268,12 @@ public class SQLQueries {
             ResultSet res= st.executeQuery();
             tmp = new ArrayList<>();
             while(res.next()) {
-
-               tmp.add( new Student(res.getInt("StudentID"), res.getNString("StudentName"), res.getNString("Email"), res.getNString("Gender"), res.getDate("BirthDate"),res.getNString("ClassName")));
+                int STID=res.getInt("StudentID");
+                String ID;
+                if(STID<10) ID=String.valueOf("STELN00"+STID);
+                else if(STID<100)ID=String.valueOf("STELN0"+STID);
+                else ID=String.valueOf("STELN"+STID);
+               tmp.add( new Student(ID, res.getNString("StudentName"), res.getNString("Email"), res.getNString("Gender"), res.getDate("BirthDate"),res.getNString("ClassName")));
             }
             return tmp;
         } catch (SQLException e) {
@@ -276,7 +289,12 @@ public class SQLQueries {
             tmp = new ArrayList<>();
 
             while (res.next()) {
-                tmp.add(new Student(res.getInt("StudentID"), res.getNString("StudentName"), res.getNString("Email"), res.getNString("Gender"), res.getDate("BirthDate"),res.getNString("ClassName")));
+                int STID=res.getInt("StudentID");
+                String ID;
+                if(STID<10) ID=String.valueOf("STELN00"+STID);
+                else if(STID<100)ID=String.valueOf("STELN0"+STID);
+                else ID=String.valueOf("STELN"+STID);
+                tmp.add(new Student(ID, res.getNString("StudentName"), res.getNString("Email"), res.getNString("Gender"), res.getDate("BirthDate"),res.getNString("ClassName")));
             }
             return tmp;
         } catch (SQLException e) {
@@ -291,8 +309,12 @@ public class SQLQueries {
             ResultSet res = st.executeQuery();
             tmp = new ArrayList<>();
             while (res.next()) {
-
-                tmp.add(new Student(res.getInt("StudentID"), res.getNString("StudentName"), res.getNString("Email"), res.getNString("Gender"), res.getDate("BirthDate"),res.getNString("ClassName")));
+                int STID=res.getInt("StudentID");
+                String ID;
+                if(STID<10) ID=String.valueOf("STELN00"+STID);
+                else if(STID<100)ID=String.valueOf("STELN0"+STID);
+                else ID=String.valueOf("STELN"+STID);
+                tmp.add(new Student(ID, res.getNString("StudentName"), res.getNString("Email"), res.getNString("Gender"), res.getDate("BirthDate"),res.getNString("ClassName")));
             }
             return tmp;
         } catch (SQLException e) {
@@ -595,17 +617,17 @@ public class SQLQueries {
     public ResultSet  Search(String txt){
         ResultSet res=null;
         try {
-            String text= String.format(q.getSearch(),txt+"%");
+            String text= String.format(q.getSearch(),txt+"%",txt);
             res=sta.executeQuery(text);
         } catch (SQLException e) {
-
+            e.printStackTrace();
         }
         return res;
     }
     public ResultSet  Search2(String txt){
         ResultSet res=null;
         try {
-            String text= String.format(q.getSearch2(),txt+"%");
+            String text= String.format(q.getSearch2(),txt+"%",txt);
             res=sta.executeQuery(text);
         } catch (SQLException e) {
 

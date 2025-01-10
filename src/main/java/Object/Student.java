@@ -3,11 +3,10 @@ package Object;
 import java.util.Date;
 
 public class Student {
-    private String Name, Email, Gender,Class;
+    private String Name, Email, Gender,Class,ID;
     private Date birthDate;
-    private int ID;
     private boolean isSelected=false;
-    public Student(int ID, String name, String gender, String email, Date birthDate, String Class) {
+    public Student(String ID, String name, String gender, String email, Date birthDate, String Class) {
         Name = name;
         Email = email;
         Gender = gender;
@@ -41,10 +40,6 @@ public class Student {
         this.birthDate = birthDate;
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
-    }
-
     public String getName() {
         return Name;
     }
@@ -61,7 +56,7 @@ public class Student {
         return birthDate;
     }
 
-    public int getID() {
+    public String getID() {
         return ID;
     }
 }

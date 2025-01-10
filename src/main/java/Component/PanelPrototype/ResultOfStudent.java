@@ -21,7 +21,7 @@ public class ResultOfStudent extends JPanel {
             while (res.next()) {
                 String assignmentName = res.getString("AssignmentName");
                 float score = res.getFloat("Score");
-                StudentResultPanel resultPanel = new StudentResultPanel(assignmentName, score,(i%2==0)? Color.LIGHT_GRAY:Color.DARK_GRAY);
+                StudentResultPanel resultPanel = new StudentResultPanel(assignmentName, score,(i%2==0)? Color.LIGHT_GRAY:Color.GRAY);
                 resultPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, resultPanel.getPreferredSize().height));
                 res1.add(resultPanel);
                 i++;

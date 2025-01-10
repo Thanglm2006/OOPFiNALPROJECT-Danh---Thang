@@ -73,7 +73,6 @@ public class ListStudent extends JPanel {
        add(search,"x 40%, y 3.5%, width 40%");
        addStudent.addActionListener(e->{
           new InsertST(sql,Class,table,this);
-
        });
        search.addKeyListener(new KeyAdapter() {
            ArrayList<Student> students;
@@ -84,7 +83,8 @@ public class ListStudent extends JPanel {
                    if(!key.isEmpty())table.removeAll();
                    switch(index){
                         case 0->{
-                            students=sql.searchSTBySTID(Integer.parseInt(key),Class);
+                            int id=Integer.parseInt(key.substring(5));
+                            students=sql.searchSTBySTID(id,Class);
                         }
                         case 1->{
                             students=sql.searchSTByName(key,Class);
@@ -124,7 +124,8 @@ public class ListStudent extends JPanel {
                for (int i = rowCount - 1; i >= 0; i--) {
                    boolean isSelected = (boolean) model.getValueAt(i, 7);
                    if (isSelected) {
-                       sql.deleteStudentOutOfClass((int)model.getValueAt(i, 1),Class);
+                       int StudentID=Integer.parseInt(String.valueOf(model.getValueAt(i,1)).substring(5));
+                       sql.deleteStudentOutOfClass(StudentID,Class);
                        model.removeRow(i);
                        revalidate();
                        repaint();
@@ -137,24 +138,17 @@ public class ListStudent extends JPanel {
        table = new TableStudent(sql,Teacher,Class);
        add(table,"width 100%,y 11%, height 88%");
        logo = new JLabel(new ImageIcon(getClass().getResource("/Image/vku_lo.png")));
+       String ID;
+       if(Class<10)  ID=String.valueOf("CLASS00"+Class);
+       else if(Class<100)ID=String.valueOf("CLASS0"+Class);
+       else ID=String.valueOf("CLASS"+Class);
+       JLabel ClassId=new JLabel("ID lớp học: "+ID);
+         ClassId.setFont(new Font("Arial",Font.PLAIN,20));
        add(logo,"x 0%, y 1%, width 9%");
+         add(ClassId,"x 15%, y 3%, width 9%");
 
    }
 
-
-//    public static void main(String[] args) {
-//        SwingUtilities.invokeLater(() -> {
-//            JFrame frame = new JFrame("List Student");
-//            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//            frame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
-//
-//            ListStudent listStudent = new ListStudent(new SQLQueries(),1,1);
-//            frame.add(listStudent);
-//
-//            frame.setVisible(true);
-//            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        });
-//    }
 }
 class InsertST extends JFrame {
     private JPanel root;
@@ -170,7 +164,8 @@ class InsertST extends JFrame {
         JButton b1= new JButton("Thêm");
         b1.addActionListener(e->{
             if(!t1.getText().isEmpty()){
-                boolean check= sql.insertStudentIntoClass(Integer.parseInt(t1.getText()),Class);
+                int StudentID=Integer.parseInt(t1.getText().substring(5));
+                boolean check= sql.insertStudentIntoClass(StudentID,Class);
                 if(check) {
                     JOptionPane.showMessageDialog(null, "Thêm thành công");
                     table.updateTableData();

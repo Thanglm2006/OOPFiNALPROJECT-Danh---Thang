@@ -106,7 +106,8 @@ class Assi extends JPanel{
         insert.addActionListener(e->{
             String classID=JOptionPane.showInputDialog("Nhập ID lớp học");
             if(classID!=null){
-                boolean check=sql.insertAssToClass(id,Integer.parseInt(classID));
+                int ClassID=Integer.parseInt(classID.substring(5));
+                boolean check=sql.insertAssToClass(id,ClassID);
                 if(check){
                     JOptionPane.showMessageDialog(null,"Thêm thành công");
                 }

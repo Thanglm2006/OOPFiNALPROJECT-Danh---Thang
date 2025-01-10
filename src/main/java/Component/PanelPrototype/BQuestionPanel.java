@@ -98,22 +98,22 @@ public class BQuestionPanel extends JPanel {
         setLayout(layout);
     }
 
-//    public static void main(String[] args) {
-//        JFrame f= new JFrame();
-//        f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-//        f.setSize(900,750);
-//        BQuestionPanel p= new BQuestionPanel(1, new SQLQueries());
-//        JScrollPane scr= new JScrollPane(p);
-//        scr.setPreferredSize(new Dimension(800,700));
-//        JPanel p1= new JPanel();
-//        p1.setLayout(new BorderLayout());
-//        p1.setSize(800,700);
-//        p1.add(scr,BorderLayout.CENTER);
-//        JPanel p2= new JPanel();
-//        p2.setSize(900,700);
-//        p2.add(p1);
-//        f.add(p2);
-//        f.setVisible(true);
-//        f.setLocationRelativeTo(null);
-//    }
+    public static void main(String[] args) {
+        JFrame f= new JFrame();
+        f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        f.setSize(900,750);
+        BQuestionPanel p= new BQuestionPanel(3, new SQLQueries());
+        JScrollPane scr= new JScrollPane(p);
+        scr.setPreferredSize(new Dimension(800,700));
+        JPanel p1= new JPanel();
+        p1.setLayout(new BorderLayout());
+        p1.setSize(800,700);
+        p1.add(scr,BorderLayout.CENTER);
+        JPanel p2= new JPanel();
+        p2.setSize(900,700);
+        p2.add(p1);
+        f.add(p2);
+        f.setVisible(true);
+        f.setLocationRelativeTo(null);
+    }
 }

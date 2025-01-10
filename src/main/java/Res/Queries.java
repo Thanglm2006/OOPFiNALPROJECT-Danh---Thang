@@ -20,12 +20,15 @@ public class Queries {
             " where  AssignmentID=%d and StudentID=%d;" +
             " insert into StudentProgress(AssignmentID,StudentID,Score)" +
             " values (%d,%d,%.2f)";
-    private String search="select Top 200 Word,Pronunciation,FilePath,Meaning,CategoryName From AudioForVocab" +"\n"+
+    private String search = "select Top 100 Word, Pronunciation, FilePath, Meaning, CategoryName " +
+            "from AudioForVocab " +
+            "join Vocabulary on Vocabulary.WordID = AudioForVocab.WordID " +
+            "where Vocabulary.Word like '%s' " +
+            "order by dbo.Levenshtein(Vocabulary.Word, '%s');";
+    private String search2="select Top 100 Word,Pronunciation,FilePath,Meaning,CategoryName From AudioForVocab" +"\n"+
             " join Vocabulary on Vocabulary.WordID=AudioForVocab.WordID" +"\n"+
-            " where Vocabulary.Word like '%s';";
-    private String search2="select Top 200 Word,Pronunciation,FilePath,Meaning,CategoryName From AudioForVocab" +"\n"+
-            " join Vocabulary on Vocabulary.WordID=AudioForVocab.WordID" +"\n"+
-            " where Vocabulary.Meaning like '%s';";
+            " where Vocabulary.Meaning like '%s' "+
+            "order by dbo.Levenshtein(Vocabulary.Meaning, '%s');";
     private String registerForStudent="insert into StudentAccount (Account, Password)" +"\n"+
             " values ('%s', '%s');"+"\n"+
             "insert into Student (StudentID,StudentName,Gender, Email, BirthDate) "+"\n"+
