@@ -2,6 +2,7 @@ package Component.PanelPrototype;
 
 import Component.Button.MyButton;
 import Component.TextFieldAndSoOn.MyTextField;
+import Res.SQLQueries;
 import li.flor.nativejfilechooser.NativeJFileChooser;
 import net.miginfocom.swing.MigLayout;
 
@@ -13,14 +14,15 @@ import java.awt.*;
 
 import Object.BigQuestion;
 public class InputBigQuestion extends JFrame {
-    private String[] path,text;
-
+    private ArrayList<BQ> BQQ;
+    private JPanel QBPanel;
+    private String path;
     private JLabel l1;
     private MyTextField t1;
-    public InputBigQuestion(int stt,String[] pathh,String[] txt) {
-        this.path = pathh;
-        this.text = txt;
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+    public InputBigQuestion(int stt, ArrayList<BQ> BQQ, JPanel BQPanel, int AssignmentId, SQLQueries sql, int[] BID,int[] ID) {
+        this.BQQ=BQQ;
+        this.QBPanel=BQPanel;
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         l1 = new JLabel("Nhập nội dung câu hỏi lớn thứ " + stt + ":");
         l1.setFont(new Font("Times New Roman", Font.PLAIN, 20));
         t1 = new MyTextField();
@@ -35,13 +37,11 @@ public class InputBigQuestion extends JFrame {
             public void mouseClicked(MouseEvent e) {
 
                 f.setFileFilter(new FileNameExtensionFilter("MP3 file", "mp3"));
+                f.setFileSelectionMode(JFileChooser.FILES_ONLY);
                 int result = f.showDialog(getParent(), "Choose file");
 
                 if (result == JFileChooser.APPROVE_OPTION) {
-                    if (f.getSelectedFile().getPath().contains(".mp3")) path[0] = f.getSelectedFile().getAbsolutePath();
-                    else {
-                        JOptionPane.showMessageDialog(null, "File không đúng định dạng");
-                    }
+                        path = f.getSelectedFile().getAbsolutePath();
                 }
             }
         });
@@ -50,16 +50,26 @@ public class InputBigQuestion extends JFrame {
         ActionListener actionListener = null;
         actionListener = e -> {
 
-            text[0] = t1.getText();
-            if (text.equals("")) {
+            if (t1.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Nội dung câu hỏi không được để trống");
             } else {
                 if (f.getSelectedFile() != null) {
-                    text[0] = t1.getText();
-                    path[0] = f.getSelectedFile().getAbsolutePath();
+                    String tmp = t1.getText();
+                    BQ tmp1 = new BQ( tmp, BID[0]++,AssignmentId,BQQ.size()+1,sql,path, ID);
+                    BQQ.add(tmp1);
+                    QBPanel.add(tmp1);
+                    QBPanel.revalidate();
+                    QBPanel.repaint();
+                    dispose();
 
                 } else {
-                    text[0] = t1.getText();
+                    String tmp = t1.getText();
+                    BQ tmp1 = new BQ( tmp, BID[0]++,AssignmentId,BQQ.size()+1,sql,ID);
+                    BQQ.add(tmp1);
+                    QBPanel.add(tmp1);
+                    QBPanel.revalidate();
+                    QBPanel.repaint();
+                    dispose();
                 }
                 dispose();
             }
@@ -69,16 +79,27 @@ public class InputBigQuestion extends JFrame {
             @Override
             public void keyTyped(KeyEvent e) {
                 if (e.getKeyChar() == KeyEvent.VK_ENTER) {
-                    text[0] = t1.getText();
-                    if (text.equals("")) {
+                    if (t1.getText().isEmpty()) {
                         JOptionPane.showMessageDialog(null, "Nội dung câu hỏi không được để trống");
                     } else {
                         if (f.getSelectedFile() != null) {
-                            text[0] = t1.getText();
-                            path[0] = f.getSelectedFile().getAbsolutePath();
+                            String tmp = t1.getText();
+                            BQ tmp1 = new BQ( tmp, BID[0]++,AssignmentId,BQQ.size()+1,sql,path, ID);
+                            BQQ.add(tmp1);
+                            QBPanel.add(tmp1);
+                            QBPanel.revalidate();
+                            QBPanel.repaint();
+                            dispose();
 
                         } else {
-                            text[0] = t1.getText();
+                            String tmp = t1.getText();
+                            BQ tmp1 = new BQ( tmp, BID[0]++,AssignmentId,BQQ.size()+1,sql,ID);
+                            BQQ.add(tmp1);
+                            QBPanel.add(tmp1);
+                            QBPanel.revalidate();
+                            QBPanel.repaint();
+                            dispose();
+
                         }
                         dispose();
                     }
@@ -99,10 +120,4 @@ public class InputBigQuestion extends JFrame {
 
     }
 
-    public String getText() {
-        return text[0];
-    }
-    public String getPath(){
-        return path[0];
-    }
 }

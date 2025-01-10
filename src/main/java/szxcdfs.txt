@@ -1,0 +1,10 @@
+select 	student.StudentName,
+	student.StudentID,
+	round(sum(stp.Score),2) as score
+from
+		Student student
+join	StudentProgress stp on stp.StudentID=student.StudentID
+join ClassAndStudent cls on cls.StudentID=student.StudentID
+where exists (select * from ClassAndStudent where StudentID=4)
+group by student.StudentName,student.StudentID
+order by score desc

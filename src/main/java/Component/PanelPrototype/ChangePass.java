@@ -2,8 +2,8 @@ package Component.PanelPrototype;
 
 import Component.Button.MyButton;
 import Component.TextFieldAndSoOn.MyPassword;
-import GUI.FrameForStudent;
-import GUI.FrameForTeacher;
+import Component.mainFrames.FrameForStudent;
+import Component.mainFrames.FrameForTeacher;
 import Res.SQLQueries;
 import de.mkammerer.argon2.Argon2;
 import de.mkammerer.argon2.Argon2Factory;

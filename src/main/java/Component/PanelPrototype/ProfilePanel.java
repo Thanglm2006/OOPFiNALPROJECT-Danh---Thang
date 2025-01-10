@@ -1,7 +1,7 @@
 package Component.PanelPrototype;
 
-import GUI.FrameForStudent;
-import GUI.FrameForTeacher;
+import Component.mainFrames.FrameForStudent;
+import Component.mainFrames.FrameForTeacher;
 import Res.SQLQueries;
 
 import javax.swing.*;

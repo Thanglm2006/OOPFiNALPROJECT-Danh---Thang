@@ -1,4 +1,4 @@
-package GUI;
+package Component.mainFrames;
 
 import Component.MenuAndHeader.Header;
 import Component.MenuAndHeader.MenuStudent;
@@ -241,7 +241,7 @@ public class FrameForStudent extends JFrame {
 
     public static void main(String args[]) {
         SwingUtilities.invokeLater(() -> {
-            new FrameForStudent(1, "Thanglm2006").setVisible(true);
+            new FrameForStudent(4, "Thanglm2006").setVisible(true);
         });
 
 }

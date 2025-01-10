@@ -19,6 +19,12 @@ public class MP3Mplayer {
                 p.play();
             } catch (FileNotFoundException | JavaLayerException ex) {
                 e.printStackTrace();
+                try {
+                    p = new Player(new FileInputStream(sf));
+                    p.play();
+                } catch (JavaLayerException | FileNotFoundException exc) {
+                    exc.printStackTrace();
+                }
             }
         }
     }

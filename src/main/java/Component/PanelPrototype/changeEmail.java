@@ -2,8 +2,8 @@ package Component.PanelPrototype;
 
 import Component.Button.MyButton;
 import Component.TextFieldAndSoOn.MyTextField;
-import GUI.FrameForStudent;
-import GUI.FrameForTeacher;
+import Component.mainFrames.FrameForStudent;
+import Component.mainFrames.FrameForTeacher;
 import Res.AutomticMail;
 import Res.SQLQueries;
 import net.miginfocom.swing.MigLayout;

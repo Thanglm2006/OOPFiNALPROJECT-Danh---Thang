@@ -1,11 +1,9 @@
-package GUI;
+package Component.mainFrames;
 
 import Component.MenuAndHeader.Header;
-import Component.MenuAndHeader.MenuStudent;
 import Component.MenuAndHeader.MenuTeacher;
 import Component.PanelPrototype.*;
 import Component.PanelPrototype.PopupMenu;
-import Component.form.Form2;
 import Res.SQLQueries;
 import event.EventMenuSelected;
 import event.EventShowPopupMenu;
@@ -250,7 +248,7 @@ public class FrameForTeacher extends JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new FrameForTeacher(1,"GVDanhhanma").setVisible(true);
+                new FrameForTeacher(2,"GVDanhhanma").setVisible(true);
             }
         });
     }

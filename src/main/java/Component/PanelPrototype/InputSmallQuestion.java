@@ -3,23 +3,25 @@ package Component.PanelPrototype;
 import Component.Button.MyButton;
 import Component.TextFieldAndSoOn.MyTextField;
 import net.miginfocom.swing.MigLayout;
-
+import Object.SmallQuestion;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class InputSmallQuestion extends JFrame {
     private MyTextField t1,t2,t3,t4,t5;
     private JComboBox<String> correctAnswer;
-    public InputSmallQuestion(int stt, int BID, Integer ID, String[] infor) {
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+    public InputSmallQuestion(ArrayList<SmallQuestion> smallQuestions, int BID, int[] ID) {
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setTitle("Nhập dữ liệu cho câu hỏi");
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
         JPanel p1 = new JPanel();
 
-        JLabel l1 = new JLabel("Nhập nội dung câu hỏi "+stt+":");
+        JLabel l1 = new JLabel("Nhập nội dung câu hỏi "+(smallQuestions.size()+1)+":");
         l1.setFont(new Font("Times New Roman", Font.PLAIN, 20));
         t1 = new MyTextField();
         t1.setFont(new Font("Times New Roman", Font.PLAIN, 20));
@@ -52,11 +54,13 @@ public class InputSmallQuestion extends JFrame {
         audio.setFont(new Font("Times New Roman", Font.PLAIN, 20));
         audio.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
+                fileChooser.setFileFilter(new FileNameExtensionFilter("MP3 file", "mp3"));
                 fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
                 fileChooser.setAcceptAllFileFilterUsed(false);
                 int rVal = fileChooser.showOpenDialog(null);
                 if (rVal == JFileChooser.APPROVE_OPTION) {
                     System.out.println(fileChooser.getSelectedFile().getAbsolutePath());
+                        audio.setText(fileChooser.getSelectedFile().getName());
                 }
             }
 
@@ -69,20 +73,14 @@ public class InputSmallQuestion extends JFrame {
                     JOptionPane.showMessageDialog(null,"Bạn chưa nhập đủ thông tin","Error",JOptionPane.ERROR_MESSAGE);
                 }else{
                     if(fileChooser.getSelectedFile()!=null){
-                        infor[0]=t1.getText();
-                        infor[1]=t2.getText();
-                        infor[2]=t3.getText();
-                        infor[3]=t4.getText();
-                        infor[4]=t5.getText();
-                        infor[5] = String.valueOf(correctAnswer.getSelectedIndex()+1);
-                        infor[6]=fileChooser.getSelectedFile().getAbsolutePath();
+                        String[] selections={t2.getText(),t3.getText(),t4.getText(),t5.getText()};
+                        smallQuestions.add(new SmallQuestion(t1.getText(),BID,ID[0]++,fileChooser.getSelectedFile().getAbsolutePath(),selections,correctAnswer.getSelectedIndex()+1));
+
                     }else{
-                        infor[0]=t1.getText();
-                        infor[1]=t2.getText();
-                        infor[2]=t3.getText();
-                        infor[3]=t4.getText();
-                        infor[4]=t5.getText();
-                        infor[5] = String.valueOf(correctAnswer.getSelectedIndex()+1);                    }
+                        String[] selections={t2.getText(),t3.getText(),t4.getText(),t5.getText()};
+                        smallQuestions.add(new SmallQuestion(t1.getText(),BID,ID[0]++,selections,correctAnswer.getSelectedIndex()+1));
+
+                    }
                     dispose();
                 }
 
@@ -100,7 +98,7 @@ public class InputSmallQuestion extends JFrame {
         p1.add(t4, "wrap, width 70%");
         p1.add(answer4, "width 30%");
         p1.add(t5, "wrap, width 70%");
-        p1.add(audio, "wrap, center, width 30%");
+        p1.add(audio, "wrap, center, width 60%");
         p1.add(l, "width 10%, aligny center");
         p1.add(correctAnswer, "width 30%, gapleft 0,gapright 0, aligny center");
         p1.add(submitButton, "width 20%, gapleft 0, aligny center");
@@ -128,7 +126,5 @@ public class InputSmallQuestion extends JFrame {
     public int getCorrectAnswer(){
         return Integer.parseInt(((String)correctAnswer.getSelectedItem()).split(" ")[1]);
     }
-    public static void main(String[] args) {
-        new InputSmallQuestion(1,1,1,null);
-    }
+
 }

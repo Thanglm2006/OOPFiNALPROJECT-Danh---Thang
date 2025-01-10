@@ -1,13 +1,11 @@
 package Component.PanelPrototype;
-import GUI.FrameForTeacher;
+import Component.mainFrames.FrameForTeacher;
 import Object.*;
 import Res.SQLQueries;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 public class InsertAssignment extends JPanel {
@@ -35,30 +33,11 @@ public class InsertAssignment extends JPanel {
             BQPanel.setBackground(Color.WHITE);
             String []path = new String[1];
             String[] txt=new String[1];
-            InputBigQuestion inputBigQuestion = new InputBigQuestion(BQ.size() + 1,path,txt);
-            inputBigQuestion.addWindowListener(new WindowAdapter() {
-                @Override
-                public void windowClosed(WindowEvent e) {
-                   if(BID[0] ==0) {
-                       BID[0] = sql.getBID();
-                   }
-                    String text=txt[0];
-                    String pathh=path[0];
-                    BQ tmp;
-                   if(pathh!=null) tmp= new BQ(text, BID[0],AssignmentID,BQ.size()+1,sql,ID,pathh);
-                   else{
-                          tmp= new BQ(BID[0],AssignmentID,BQ.size()+1,text,sql,ID);
-                   }
-                    if(++BID[0] %2==0)tmp.setBackground(Color.LIGHT_GRAY);
-                    else tmp.setBackground(new Color(160, 221, 200));
-                    BQ.add(tmp);
-                    BQPanel.add(tmp);
-                    BQPanel.revalidate();
-                    BQPanel.repaint();
-                    BQScroll.repaint();
-                    setVisible(false);
-                }
-            });
+            if(BID[0] ==0) {
+                BID[0] = sql.getBID();
+                BID[0]=sql.getSMID();
+            }
+            InputBigQuestion inputBigQuestion = new InputBigQuestion(BQ.size() + 1,BQ,BQPanel,AssignmentID,sql, BID,ID);
         });
 
         l1.setFont(new Font("Times New Roman", Font.PLAIN, 30));
@@ -67,8 +46,8 @@ public class InsertAssignment extends JPanel {
         submit.setBackground(Color.BLUE);
         submit.setMaximumSize(new Dimension(50,50));
         submit.addActionListener(e->{
+            sql.saveAssignment(text,TecherID);
             for(BQ i:BQ){
-                sql.saveAssignment(text,TecherID);
                 i.save();
             }
             JOptionPane.showMessageDialog(null,"Đã lưu bài tập");
@@ -101,7 +80,7 @@ class BQ extends JPanel{
     private JButton insert;
     SQLQueries sql;
     private ArrayList<SmallQuestion> smallQuestions= new ArrayList<>();
-    public BQ(String BQText, int BQID, int assignmentID, int stt,SQLQueries sql, int[] ID, String path) {
+    public BQ(String BQText, int BQID, int assignmentID, int stt,SQLQueries sql, String path, int[] ID) {
         setMaximumSize(new Dimension(Integer.MAX_VALUE,getPreferredSize().height+30));
         setBorder(new EtchedBorder(Color.CYAN,Color.WHITE));
 
@@ -120,20 +99,7 @@ class BQ extends JPanel{
         insert= new JButton("Thêm câu hỏi");
 
         insert.addActionListener(e->{
-            String[] infor=new String[7];
-            InputSmallQuestionNoAudio inputSmallQuestion = new InputSmallQuestionNoAudio(smallQuestions.size()+1,BQID,AssignmentID,infor);
-            inputSmallQuestion.addWindowListener(new WindowAdapter() {
-                @Override
-                public void windowClosed(WindowEvent e){
-                    int BID=BQID;
-                    String text=infor[0];
-                    String[] answers=new String[4];
-                    for(int i=0;i<4;i++)answers[i]=infor[i+1];
-
-                    int correctAnswer=Integer.parseInt(infor[5]);
-                    smallQuestions.add(new SmallQuestion(text, ID[0]++,BID,answers,correctAnswer));
-                }
-            });
+            new InputSmallQuestionNoAudio(smallQuestions,BQID,ID);
         });
         insert.setFont(new Font("Times New Roman", Font.PLAIN, 16));
         insert.setBackground(Color.GREEN);
@@ -141,7 +107,7 @@ class BQ extends JPanel{
         add(text,BorderLayout.CENTER);
         add(insert,BorderLayout.EAST);
     }
-    public BQ(int BQID, int assignmentID, int stt,String BQText,SQLQueries sql,int[] ID) {
+    public BQ(String BQText, int BQID, int assignmentID, int stt,SQLQueries sql, int[] ID) {
         setMaximumSize(new Dimension(Integer.MAX_VALUE,getPreferredSize().height+30));
         setBorder(new EtchedBorder(Color.CYAN,Color.WHITE));
         setOpaque(true);
@@ -157,22 +123,7 @@ class BQ extends JPanel{
         Stt.setFont(new Font("Times New Roman", Font.PLAIN, 16));
         insert= new JButton("Thêm câu hỏi");
         insert.addActionListener(e->{
-            String[] infor=new String[7];
-            InputSmallQuestion inputSmallQuestion = new InputSmallQuestion(smallQuestions.size()+1,BQID,AssignmentID,infor);
-            inputSmallQuestion.addWindowListener(new WindowAdapter() {
-                @Override
-                public void windowClosed(WindowEvent e){
-                    int BID=BQID;
-                    String text=infor[0];
-                    String[] answers=new String[4];
-                    for(int i=0;i<4;i++)answers[i]=infor[i+1];
-
-                    int correctAnswer=Integer.parseInt(infor[5]);
-                    String Audio=infor[6];
-                    if(Audio==null)smallQuestions.add(new SmallQuestion(text, ID[0]++,BID,answers,correctAnswer));
-                    else smallQuestions.add(new SmallQuestion(text, ID[0]++,BID,Audio,answers,correctAnswer));
-                }
-            });
+           new InputSmallQuestion(smallQuestions,BQID,ID);
         });
 
         insert.setFont(new Font("Times New Roman", Font.PLAIN, 16));
@@ -191,9 +142,8 @@ class BQ extends JPanel{
                 for(int i=0;i<4;i++){
                     int tf=0;
                     if(x.getCorrectAnswer()==i+1) tf=1;
-                    sql.saveSelection(x.getQuestionID(),x.getSelection(i),tf);
+                    sql.saveSelection(x.getId(),x.getSelection(i),tf);
                 }
-
             }
         }else{
             sql.saveBigQuestion(AssignmentID,BQText,null);
@@ -205,7 +155,7 @@ class BQ extends JPanel{
                 for(int i=0;i<4;i++){
                     int tf=0;
                     if(x.getCorrectAnswer()==i+1) tf=1;
-                    sql.saveSelection(x.getQuestionID(),x.getSelection(i),tf);
+                    sql.saveSelection(x.getId(),x.getSelection(i),tf);
                 }
             }
         }

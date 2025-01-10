@@ -12,7 +12,7 @@ public class inp {
         try{
             fos=new FileOutputStream("ConnectionToSQL.dat");
             oos=new ObjectOutputStream(fos);
-            oos.writeObject("jdbc:sqlserver://192.168.2.207:1433;Database=data;User=sa;Password=Thanglm#2006;encrypt=true;trustServerCertificate=true;loginTimeout=30;");
+            oos.writeObject("jdbc:sqlserver://172.17.0.1:1433;Database=data;User=sa;Password=Thanglm#2006;encrypt=true;trustServerCertificate=true;loginTimeout=30;");
         } catch (IOException e) {
             e.printStackTrace();
         }

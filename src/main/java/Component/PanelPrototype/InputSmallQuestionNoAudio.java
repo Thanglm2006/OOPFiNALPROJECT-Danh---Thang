@@ -3,23 +3,24 @@ package Component.PanelPrototype;
 import Component.Button.MyButton;
 import Component.TextFieldAndSoOn.MyTextField;
 import net.miginfocom.swing.MigLayout;
-
+import Object.SmallQuestion;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class InputSmallQuestionNoAudio extends JFrame {
     private MyTextField t1,t2,t3,t4,t5;
     private JComboBox<String> correctAnswer;
-    public InputSmallQuestionNoAudio(int stt, int BID, Integer ID, String[] infor) {
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+    public InputSmallQuestionNoAudio(ArrayList<SmallQuestion> smallQuestions, int BID, int[] ID) {
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setTitle("Nhập dữ liệu cho câu hỏi");
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
         JPanel p1 = new JPanel();
 
-        JLabel l1 = new JLabel("Nhập nội dung câu hỏi "+stt+":");
+        JLabel l1 = new JLabel("Nhập nội dung câu hỏi "+(smallQuestions.size()+1)+":");
         l1.setFont(new Font("Times New Roman", Font.PLAIN, 20));
         t1 = new MyTextField();
         t1.setFont(new Font("Times New Roman", Font.PLAIN, 20));
@@ -49,17 +50,12 @@ public class InputSmallQuestionNoAudio extends JFrame {
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(t1.getText().equals("")||t2.getText().equals("")||t3.getText().equals("")||t4.getText().equals("")||t5.getText().equals("")){
+                if(t1.getText().isEmpty()||t2.getText().isEmpty()||t3.getText().isEmpty()||t4.getText().isEmpty()||t5.getText().isEmpty()){
                     JOptionPane.showMessageDialog(null,"Bạn chưa nhập đủ thông tin","Error",JOptionPane.ERROR_MESSAGE);
                 }else {
-                    infor[0] = t1.getText();
-                    infor[1] = t2.getText();
-                    infor[2] = t3.getText();
-                    infor[3] = t4.getText();
-                    infor[4] = t5.getText();
-                    infor[5] = String.valueOf(correctAnswer.getSelectedIndex()+1);
-                    infor[6] = null;
-
+                    String[] selection={t2.getText(),t3.getText(),t4.getText(),t5.getText()};
+                    smallQuestions.add(new SmallQuestion(t1.getText(),BID,ID[0]++,selection,correctAnswer.getSelectedIndex()+1));
+                    dispose();
                 }
             }
         });
@@ -101,8 +97,5 @@ public class InputSmallQuestionNoAudio extends JFrame {
     }
     public int getCorrectAnswer(){
         return Integer.parseInt(((String)correctAnswer.getSelectedItem()).split(" ")[1]);
-    }
-    public static void main(String[] args) {
-        new InputSmallQuestionNoAudio(1,1,1,null);
     }
 }

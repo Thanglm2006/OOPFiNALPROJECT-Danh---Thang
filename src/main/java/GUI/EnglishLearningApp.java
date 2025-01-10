@@ -23,7 +23,6 @@ public class EnglishLearningApp extends javax.swing.JFrame {
     private EnglishLearningApp englishLearningApp;
 
     public EnglishLearningApp() {
-
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {

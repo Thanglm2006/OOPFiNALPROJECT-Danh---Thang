@@ -2,8 +2,8 @@ package Component.PanelPrototype;
 import Component.TextFieldAndSoOn.TextField;
 import Component.TextFieldAndSoOn.PasswordField;
 import Component.dialog.Notice;
-import GUI.FrameForStudent;
-import GUI.FrameForTeacher;
+import Component.mainFrames.FrameForStudent;
+import Component.mainFrames.FrameForTeacher;
 import Res.AutomticMail;
 import Res.SQLQueries;
 import Component.Button.Button;
@@ -163,7 +163,8 @@ public class Login extends JPanel {
                     m1.setText("");
                     username.setText("");
                     password.setText("");
-                    showSuccessNoticeST(id, Name);  // Đăng nhập thành công
+
+                    showSuccessNoticeST(id, Name);
                 } else {
                     m1.setText("Sai mật khẩu!");
                 }
@@ -172,12 +173,13 @@ public class Login extends JPanel {
             ResultSet res = sql.LoginTeacher(getAcc());
             String passHash = null;
             int id = 0;
-
+            String Name=null;
             if (res != null) {
                 try {
                     while (res.next()) {
                         passHash = res.getNString("PassWord");  // Mật khẩu đã được mã hóa
                         id = res.getInt("TeacherID");
+                        Name=res.getNString("TeacherName");
                     }
                 } catch (SQLException ex) {
                     ex.printStackTrace();
@@ -195,7 +197,7 @@ public class Login extends JPanel {
                     m1.setText("");
                     username.setText("");
                     password.setText("");
-                    showSuccessNoticeT(id, null);  // Đăng nhập thành công
+                    showSuccessNoticeT(id, Name);
                 } else {
                     m1.setText("Sai mật khẩu!");
                 }

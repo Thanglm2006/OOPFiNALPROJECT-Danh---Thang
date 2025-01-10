@@ -1,7 +1,7 @@
 package Component.PanelPrototype;
 
 import Component.Button.MyButton;
-import GUI.FrameForStudent;
+import Component.mainFrames.FrameForStudent;
 import Res.SQLQueries;
 
 import javax.swing.*;
@@ -68,11 +68,10 @@ public class DoAssignment extends JPanel {
     }
     public DoAssignment(int Assignment, int Student, int y, SQLQueries sql, FrameForStudent root) {
         this.root=root;
-
         this.Assignment=Assignment;
         this.Student=Student;
         setLayout(null);
-        setSize(1000,y);
+        setSize(root.getWidth(),root.getHeight()-100);
         this.sql= sql;
         ArrayList<String> BQLists=sql.getBQ(Assignment);
         int numOfBQ= BQLists.size();
@@ -184,13 +183,4 @@ public class DoAssignment extends JPanel {
         }
     }
 
-//    public static void main(String[] args) {
-//        JFrame f= new JFrame();
-//        DoAssignment d= new DoAssignment(9,1,700, new SQLQueries(), new FrameForStudent(1,"Thanglm2006"));
-//        f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-//        f.setSize(1280,800);
-//        f.add(d);
-//        f.setLocationRelativeTo(null);
-//        f.setVisible(true);
-//    }
 }

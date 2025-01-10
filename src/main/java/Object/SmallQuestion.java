@@ -2,13 +2,13 @@ package Object;
 
 public class SmallQuestion {
     private String QuestionText;
-    private int QuestionID,BQuestionID;
+    private int BQuestionID,ID;
     private String audio;
     private String[] selection;
     private int correctAnswer;
-    public SmallQuestion(String questionText, int questionID, int BQuestionID, String audio,String[] selection, int correctAnswer) {
+    public SmallQuestion(String questionText, int BQuestionID, int ID,String audio,String[] selection, int correctAnswer) {
         QuestionText = questionText;
-        QuestionID = questionID;
+        this.ID=ID;
         this.correctAnswer=correctAnswer;
         this.BQuestionID = BQuestionID;
         this.audio = audio;
@@ -23,9 +23,9 @@ public class SmallQuestion {
         return correctAnswer;
     }
 
-    public SmallQuestion(String questionText, int questionID, int BQuestionID, String [] selection, int correctAnswer) {
+    public SmallQuestion(String questionText, int BQuestionID,int ID, String [] selection, int correctAnswer) {
         QuestionText = questionText;
-        QuestionID = questionID;
+        this.ID=ID;
         this.correctAnswer=correctAnswer;
         this.BQuestionID = BQuestionID;
         this.selection=selection;
@@ -34,11 +34,7 @@ public class SmallQuestion {
     public String getQuestionText() {
         return QuestionText;
     }
-
-    public int getQuestionID() {
-        return QuestionID;
-    }
-
+    public int getId(){return this.ID;}
     public int getBQuestionID() {
         return BQuestionID;
     }
