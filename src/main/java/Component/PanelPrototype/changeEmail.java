@@ -120,7 +120,20 @@ public class changeEmail extends JPanel {
 
             ranNum.set(100000 + r.nextInt(900000));
             AutomticMail Mail= new AutomticMail(sql);
-            Mail.sendmail(finalMail,"Confirm your action",String.valueOf(ranNum.get()));
+            setCursor(new Cursor(Cursor.WAIT_CURSOR));
+            SwingWorker<Void,Void> worker = new SwingWorker<Void, Void>() {
+                @Override
+                protected Void doInBackground() throws Exception {
+                    Mail.sendmail(finalMail,"Confirm your action",String.valueOf(ranNum.get()));
+                    return null;
+                }
+
+                @Override
+                protected void done() {
+                    setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                }
+            };
+            worker.execute();
         });
         but.setBackground(Color.GREEN);
         but.setColor(Color.GREEN);
