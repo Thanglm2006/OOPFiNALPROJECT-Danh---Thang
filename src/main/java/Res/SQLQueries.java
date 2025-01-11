@@ -561,15 +561,18 @@ public class SQLQueries {
         String connectionS;
 
         URL url = getClass().getClassLoader().getResource("Security/ConnectionToSQL.dat");
-        String stt=url.toString();
-        try{
-            FileInputStream fis= new FileInputStream(stt.substring(5));
-            ObjectInputStream ois= new ObjectInputStream(fis);
-            connectionS=(String) ois.readObject();
-            this.c=DriverManager.getConnection(connectionS);
-            this.sta= c.createStatement();
-        } catch (IOException | ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+
+        if (url != null) {
+            try (InputStream inputStream = getClass().getResourceAsStream("/Security/ConnectionToSQL.dat");
+                 ObjectInputStream ois = new ObjectInputStream(inputStream)) {
+                connectionS = (String) ois.readObject();
+                this.c = DriverManager.getConnection(connectionS);
+                this.sta = c.createStatement();
+            } catch (IOException | ClassNotFoundException | SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("Resource not found: Security/ConnectionToSQL.dat");
         }
     }
     public String[] getTeacherMail(String Acc){

@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Archiver-Version: Plexus Archiver
+Created-By: Apache Maven 3.6.3
+Built-By: thanglm2006
+Build-Jdk: 22
+Main-Class: GUI.EnglishLearningApp
+

@@ -97,7 +97,7 @@ public class Notice extends Mess {
         ok = new Button();
         ok.setText("OK");
         ok.setBackground(new Color(27, 156, 252));
-        ok.setForeground(Color.WHITE);
+        ok.setForeground(Color.WHITE);;
         ok.setFont(new Font("Arial", Font.BOLD, 22));
 
         add(ok, "width 28%, height 15%, y 82%, center");
