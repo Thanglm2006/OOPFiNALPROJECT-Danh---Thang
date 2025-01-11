@@ -5,6 +5,8 @@ import Component.Button.Button;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Notice extends Mess {
     private JLabel image, text, error;
@@ -98,6 +100,13 @@ public class Notice extends Mess {
         ok.setText("OK");
         ok.setBackground(new Color(27, 156, 252));
         ok.setForeground(Color.WHITE);;
+        ok.setFocusPainted(true);
+        ok.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                ok.setOpaque(true);
+            }
+        });
         ok.setFont(new Font("Arial", Font.BOLD, 22));
 
         add(ok, "width 28%, height 15%, y 82%, center");
