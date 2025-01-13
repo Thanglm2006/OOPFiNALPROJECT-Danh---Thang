@@ -501,7 +501,6 @@ public class SQLQueries {
     }
     public ArrayList<Pair<String,Integer>> getSelectionForQuestion(int QID){
         ArrayList<Pair<String,Integer>> tmp= new ArrayList<>();
-
         try {
             PreparedStatement st= c.prepareStatement(String.format(q.getGetSelection(),QID));
             ResultSet res=st.executeQuery();
@@ -543,6 +542,7 @@ public class SQLQueries {
                 JFrame f= new JFrame();
                 f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                 f.setPreferredSize(Toolkit.getDefaultToolkit().getScreenSize());
+                f.setLocationRelativeTo(null);
                 f.setLayout(new BorderLayout());
                 JLabel l= new JLabel("Đã xảy ra lỗi khi kết nối đến hệ thống, vui lòng kiểm tra lại kết nối mạng!");
                 l.setFont(new Font("Arial",Font.BOLD,40));

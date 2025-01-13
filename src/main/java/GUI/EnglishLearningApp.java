@@ -32,7 +32,9 @@ public class EnglishLearningApp extends javax.swing.JFrame {
                  UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(EnglishLearningApp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-
+        ImageIcon ic;
+        ic = new ImageIcon(getClass().getResource("/Image/eln.jpg"));
+        setIconImage(ic.getImage());
         initComponents();
         setSize(Toolkit.getDefaultToolkit().getScreenSize());
         Login login = new Login();

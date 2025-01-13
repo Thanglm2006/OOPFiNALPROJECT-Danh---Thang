@@ -80,10 +80,10 @@ public class BQPanel extends JPanel {
         JScrollBar horizontalScrollBar = scrollPane.getHorizontalScrollBar();
         verticalScrollBar.setUI(new ScrollBarCustomUI());
         horizontalScrollBar.setUI(new ScrollBarCustomUI());
-        if(AU==null)add(scrollPane, String.format("h 97%%, w %d",(int)(scrW*1) ));
+        if(AU==null)add(scrollPane, String.format("h 97%%, w %d",(int)(scrW*0.75) ));
         else{
             add(AU,"w 100%");
-            add(scrollPane, String.format("h 97%%, w %d",(int)(scrW*1) ));
+            add(scrollPane, String.format("h 97%%, w %d",(int)(scrW*0.75) ));
         }
     }
 

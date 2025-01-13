@@ -20,6 +20,7 @@ public class changeEmail extends JPanel {
     private JLabel con,New;
     private MyButton but,change;
     public changeEmail(int id, SQLQueries sql,FrameForStudent root) {
+        AutomticMail Mail= new AutomticMail(sql);
         setPreferredSize(new Dimension(900,700));
         String mail = "";
         ResultSet res;
@@ -37,9 +38,23 @@ public class changeEmail extends JPanel {
         AtomicInteger ranNum = new AtomicInteger();
         but.addActionListener(e->{
             ranNum.set(100000 + r.nextInt(900000));
-            AutomticMail Mail= new AutomticMail(sql);
-            Mail.sendmail(finalMail,"Confirm your action",String.valueOf(ranNum.get()));
+            setCursor(new Cursor(Cursor.WAIT_CURSOR));
+            SwingWorker<Void,Void> worker = new SwingWorker<Void, Void>() {
+
+                @Override
+                protected Void doInBackground() throws Exception {
+                    Mail.sendmail(finalMail,"Confirm your action",String.valueOf(ranNum.get()));
+                    return null;
+                }
+
+                @Override
+                protected void done() {
+                    setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                }
+            };
+            worker.execute();
         });
+
         but.setBackground(Color.GREEN);
         but.setColor(Color.GREEN);
         but.setColorClick(Color.GREEN);
@@ -103,6 +118,7 @@ public class changeEmail extends JPanel {
     public changeEmail(int id, SQLQueries sql,FrameForTeacher root) {
         setPreferredSize(new Dimension(900,700));
         String mail = "";
+        AutomticMail Mail= new AutomticMail(sql);
         ResultSet res;
         res = sql.TInfor(id);
         try{
@@ -117,11 +133,10 @@ public class changeEmail extends JPanel {
         String finalMail = mail;
         AtomicInteger ranNum = new AtomicInteger();
         but.addActionListener(e->{
-
             ranNum.set(100000 + r.nextInt(900000));
-            AutomticMail Mail= new AutomticMail(sql);
             setCursor(new Cursor(Cursor.WAIT_CURSOR));
             SwingWorker<Void,Void> worker = new SwingWorker<Void, Void>() {
+
                 @Override
                 protected Void doInBackground() throws Exception {
                     Mail.sendmail(finalMail,"Confirm your action",String.valueOf(ranNum.get()));

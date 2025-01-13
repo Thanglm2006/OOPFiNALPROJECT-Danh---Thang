@@ -102,9 +102,9 @@ public class BQuestionListPanel extends JPanel {
                 TP[idx].setBackground(new Color(255,255,255));
                 TP[idx].add(L[idx],"center");
                 TP[idx].setVisible(false);
-                add(TP[idx],"y 0%, center, w 100%");
-                if(BQList[idx].getAU()!=null)add(BQList[idx], String.format("x 0%%,y 3.3%%,h %d, w %d",(int) (scrH*0.83),(int)(scrW*0.856) ));
-                else add(BQList[idx], String.format("x 0%%,y 3.5%%,h %d, w %d",(int) (scrH*0.83),(int)(scrW*0.856) ));
+                add(TP[idx],String.format("y 0%%, center, w %d",(int)(scrW*0.713)));
+                if(BQList[idx].getAU()!=null)add(BQList[idx], String.format("x 0%%,y 3.3%%,h %d, w %d",(int) (scrH*0.80),(int)(scrW*0.713) ));
+                else add(BQList[idx], String.format("x 0%%,y 3.5%%,h %d, w %d",(int) (scrH*0.80),(int)(scrW*0.713) ));
                 idx++;
             }
         } catch (SQLException e) {
@@ -113,7 +113,7 @@ public class BQuestionListPanel extends JPanel {
 
         TP[0].setVisible(true);
         BQList[0].setVisible(true);
-        add(submit,String.format("w %d", (int)(scrW*1)));
+        add(submit,String.format("y 95%%,w %d", (int)(scrW*0.705)));
     }
 
     public static void main(String[] args) {

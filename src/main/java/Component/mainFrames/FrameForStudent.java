@@ -47,6 +47,13 @@ public class FrameForStudent extends JFrame {
     public FrameForStudent(int id, String name) {
         StudentID=id;
         this.user=name;
+        initF();
+        initComponents();
+        init();
+        setSize(Toolkit.getDefaultToolkit().getScreenSize());
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+    }
+    public void initF(){
         try {
             for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -58,17 +65,13 @@ public class FrameForStudent extends JFrame {
                  InstantiationException ex) {
             java.util.logging.Logger.getLogger(FrameForStudent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        initComponents();
-        init();
-        setSize(Toolkit.getDefaultToolkit().getScreenSize());
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
-
     public JLayeredPane getBg() {
         return bg;
     }
 
     public void init() {
+        main = new MainForm();
         sql= new SQLQueries();
         layout = new MigLayout("fill", "0[]0[100%, fill]0", "0[fill, top]0");
         bg.setLayout(layout);
@@ -106,10 +109,10 @@ public class FrameForStudent extends JFrame {
 
         });
         header = new Header(user,"Sinh Viên");
-        main = new MainForm();
+
         AtomicInteger finalIdx1 = new AtomicInteger(0);
         //
-        dictionnary= new DictionaryPanel(getWidth(),getHeight()-20,sql);
+        if(dictionnary==null)dictionnary= new DictionaryPanel(getWidth(),getHeight()-20,sql,main);
         menuStudent.addEvent(new EventMenuSelected() {
             @Override
             public void menuSelected(int menuIndex, int subMenuIndex) {
@@ -127,6 +130,9 @@ public class FrameForStudent extends JFrame {
                         if(subMenuIndex==1) main.showForm(rs);
                     }
                     case 3->{
+                        if(subMenuIndex==-1&&num==0){
+                            JOptionPane.showMessageDialog(null,"Bạn đã làm hết bài tập");
+                        }
                         if(subMenuIndex!=-1)
                             main.showForm(assignment.get(subMenuIndex));
                     }
@@ -202,9 +208,9 @@ public class FrameForStudent extends JFrame {
     }
 
 
-    private void initComponents() {
+    public void initComponents() {
 //        setSize(Toolkit.getDefaultToolkit().getScreenSize());
-        bg = new JLayeredPane();
+        if(bg==null)bg = new JLayeredPane();
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 //        setUndecorated(true);

@@ -81,7 +81,7 @@ public class FrameForTeacher extends JFrame {
 
     public void init() {
         sql= new SQLQueries();
-        dictionaryPanel= new DictionaryPanel(getWidth(),getHeight(),sql);
+        dictionaryPanel= new DictionaryPanel(getWidth(),getHeight(),sql,main);
         layout = new MigLayout("fill", "0[]0[100%, fill]0", "0[fill, top]0");
         PF[0]= new ProfilePanel(Teacher,sql,this);
         PF[1]= new ChangePass(Teacher,sql,this);

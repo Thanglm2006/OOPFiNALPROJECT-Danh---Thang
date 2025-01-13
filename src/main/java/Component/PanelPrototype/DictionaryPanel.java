@@ -1,5 +1,6 @@
 package Component.PanelPrototype;
 
+import Component.form.MainForm;
 import Res.SQLQueries;
 
 import javax.swing.*;
@@ -19,12 +20,14 @@ public class DictionaryPanel extends JPanel{
     private static JTextField searchBar;
     static SQLQueries sql;
     static JList<Item> searchDatas;
+    private MainForm main;
     static DefaultListModel<Item> Mlist;
     private JPanel sP;
     private static ImageIcon ic;
     private JRadioButton tv;
     static Image img;
-    public DictionaryPanel(int w, int h, SQLQueries sql) {
+    public DictionaryPanel(int w, int h, SQLQueries sql,MainForm main) {
+        this.main=main;
         ImageIcon i1 = new ImageIcon(DictionaryPanel.class.getResource("/volumeIcon.png"));
         img = i1.getImage(); // Get the original image
         img = img.getScaledInstance(20, 20, Image.SCALE_FAST);
@@ -57,11 +60,27 @@ public class DictionaryPanel extends JPanel{
         ok.setSize(100,40);
         ok.setLocation(w-400,0);
         ok.addActionListener(e ->{
-            try{
-                search();
-            } catch (SQLException ex) {
+            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+           SwingWorker<Void,Void> worker= new SwingWorker<>() {
+               @Override
+               protected Void doInBackground() throws Exception {
+                   try{
+                       search();
+                   } catch (SQLException ex) {
 
-            }
+                   }
+                   return null;
+               }
+
+               @Override
+               protected void done() {
+                     setCursor(Cursor.getDefaultCursor());
+                     main.showForm(DictionaryPanel.this);
+                     searchBar.grabFocus();
+                     System.out.println("Done");
+               }
+           };
+           worker.execute();
         });
         searchBar = new JTextField("Từ điển");
         searchBar.setForeground(Color.gray);
@@ -75,11 +94,26 @@ public class DictionaryPanel extends JPanel{
                     searchBar.setText("");
                     searchBar.setForeground(Color.BLACK);
                 }else if(e.getKeyChar()==KeyEvent.VK_ENTER){
-                    try{
-                        search();
-                    } catch (SQLException ex) {
-
-                    }
+                    setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                    SwingWorker<Void,Void> worker= new SwingWorker<>() {
+                        @Override
+                        protected Void doInBackground() throws Exception {
+                            try{
+                                search();
+                            } catch (SQLException ex) {
+                                ex.printStackTrace();
+                            }
+                            return null;
+                        }
+                        @Override
+                        protected void done() {
+                            setCursor(Cursor.getDefaultCursor());
+                            main.showForm(DictionaryPanel.this);
+                            searchBar.grabFocus();
+                            System.out.println("Done");
+                        }
+                    };
+                    worker.execute();
                 }
             }
         });
@@ -163,7 +197,9 @@ public class DictionaryPanel extends JPanel{
             return Au;
         }
         public Render() {
+
             setLayout( new BorderLayout());
+
             Au= new JButton(ic);
             Au.setBounds(0,0,20,20);
             Word =new JLabel("");
@@ -198,7 +234,7 @@ public class DictionaryPanel extends JPanel{
                 setBackground(list.getBackground());
                 setForeground(list.getForeground());
             }
-
+            setBackground(new Color(200,255,255));
             setOpaque(true);
             return this;
         }
@@ -211,7 +247,7 @@ public class DictionaryPanel extends JPanel{
         f.setLayout(null);
         f.setSize(1280,700);
         f.setLocationRelativeTo(null);
-        se= new DictionaryPanel(900,700, new SQLQueries());
+        se= new DictionaryPanel(900,700, new SQLQueries(),new MainForm());
         f.add(se);
         f.setVisible(true);
     }
