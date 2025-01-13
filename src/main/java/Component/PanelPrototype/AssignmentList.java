@@ -92,7 +92,7 @@ class Assi extends JPanel{
         delete.addActionListener(e->{
             int op=JOptionPane.showConfirmDialog(null,"Bạn có chắc chắn muốn xóa bài tập này không?","Xác nhận",JOptionPane.YES_NO_OPTION);
             if(op==JOptionPane.YES_OPTION){
-//                sql.deleteAss(id);
+                sql.deleteAss(id);
                 setVisible(false);
             }
         });

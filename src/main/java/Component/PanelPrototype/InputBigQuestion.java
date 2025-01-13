@@ -42,6 +42,7 @@ public class InputBigQuestion extends JFrame {
 
                 if (result == JFileChooser.APPROVE_OPTION) {
                         path = f.getSelectedFile().getAbsolutePath();
+                        chooseFile.setText(f.getSelectedFile().getName());
                 }
             }
         });

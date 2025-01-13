@@ -58,10 +58,6 @@ public class InputSmallQuestion extends JFrame {
                 fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
                 fileChooser.setAcceptAllFileFilterUsed(false);
                 int rVal = fileChooser.showOpenDialog(null);
-                if (rVal == JFileChooser.APPROVE_OPTION) {
-                    System.out.println(fileChooser.getSelectedFile().getAbsolutePath());
-                        audio.setText(fileChooser.getSelectedFile().getName());
-                }
             }
 
         });
@@ -75,11 +71,9 @@ public class InputSmallQuestion extends JFrame {
                     if(fileChooser.getSelectedFile()!=null){
                         String[] selections={t2.getText(),t3.getText(),t4.getText(),t5.getText()};
                         smallQuestions.add(new SmallQuestion(t1.getText(),BID,ID[0]++,fileChooser.getSelectedFile().getAbsolutePath(),selections,correctAnswer.getSelectedIndex()+1));
-
                     }else{
                         String[] selections={t2.getText(),t3.getText(),t4.getText(),t5.getText()};
                         smallQuestions.add(new SmallQuestion(t1.getText(),BID,ID[0]++,selections,correctAnswer.getSelectedIndex()+1));
-
                     }
                     dispose();
                 }

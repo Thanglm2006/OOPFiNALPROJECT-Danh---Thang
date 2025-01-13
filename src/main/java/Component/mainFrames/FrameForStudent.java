@@ -6,7 +6,7 @@ import Component.PanelPrototype.ProfilePanel;
 import Res.SQLQueries;
 import event.EventMenuSelected;
 import event.EventShowPopupMenu;
-import Component.PanelPrototype.DoAssignment;
+import Component.PanelPrototype.PanelOfAssignment;
 import Component.form.Form1;
 import Component.form.MainForm;
 import Component.MenuAndHeader.MenuItem;
@@ -90,19 +90,19 @@ public class FrameForStudent extends JFrame {
         int num= notFinish.size();
         String[] assignments=new String[num];
         int idx=0;
-        ArrayList<DoAssignment> assignment= new ArrayList<DoAssignment>();
+        ArrayList<PanelOfAssignment> assignment= new ArrayList<PanelOfAssignment>();
         for(Integer x: notFinish){
             assignments[idx]=allAssignment.get(x);
-           assignment.add(new DoAssignment(x,StudentID,getHeight()-100,sql,this)) ;
+           assignment.add(new PanelOfAssignment(x,StudentID,sql,this)) ;
             idx++;
         }
         idx=0;
         String[] all= new String[allAssignment.size()];
         AtomicInteger finalIdx = new AtomicInteger(0);
-        DoAssignment allAss[]= new DoAssignment[allAssignment.size()];
+        PanelOfAssignment allAss[]= new PanelOfAssignment[allAssignment.size()];
         allAssignment.forEach((k,v)->{
             all[finalIdx.get()]=v;
-            allAss[finalIdx.getAndAdd(1)]= new DoAssignment(k,StudentID,getHeight()-100,sql,this);
+            allAss[finalIdx.getAndAdd(1)]= new PanelOfAssignment(k,StudentID,sql,this);
 
         });
         header = new Header(user,"Sinh Viên");

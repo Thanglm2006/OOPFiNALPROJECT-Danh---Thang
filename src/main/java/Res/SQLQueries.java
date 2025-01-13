@@ -1,4 +1,5 @@
 package Res;
+import java.awt.*;
 import java.io.*;
 import java.net.URL;
 import java.sql.*;
@@ -6,6 +7,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import Object.Student;
 import Res.Queries;
+
+import javax.swing.*;
+
 public class SQLQueries {
     private Connection c=null;
     private Statement sta=null;
@@ -531,14 +535,12 @@ public class SQLQueries {
         HashMap<String,Integer> tmp= new HashMap<>();
         try {
             PreparedStatement st= c.prepareStatement(String.format(q.getGetSelection(),QID));
-
             ResultSet res=st.executeQuery();
-
             while(res.next()){
                 tmp.put(res.getNString("SelectionText"),res.getInt("TrueFalse"));
             }
         } catch (SQLException e) {
-
+            e.printStackTrace();
         }
         return tmp;
     }
@@ -548,7 +550,6 @@ public class SQLQueries {
             PreparedStatement st= c.prepareStatement(String.format(q.getGetQRes(),BQID));
 
             ResultSet res= st.executeQuery();
-
             if(!res.next()) return null;
             return st.executeQuery();
         } catch (SQLException e) {
@@ -570,6 +571,14 @@ public class SQLQueries {
                 this.sta = c.createStatement();
             } catch (IOException | ClassNotFoundException | SQLException e) {
                 e.printStackTrace();
+                JFrame f= new JFrame();
+                f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                f.setPreferredSize(Toolkit.getDefaultToolkit().getScreenSize());
+                f.setLayout(new BorderLayout());
+                JLabel l= new JLabel("Đã xảy ra lỗi khi kết nối đến hệ thống, vui lòng kiểm tra lại kết nối mạng!");
+                l.setFont(new Font("Arial",Font.BOLD,40));
+                f.add(l,BorderLayout.CENTER);
+                f.setVisible(true);
             }
         } else {
             System.out.println("Resource not found: Security/ConnectionToSQL.dat");
@@ -700,5 +709,9 @@ public class SQLQueries {
     }
     public static void main(String[] args) throws SQLException {
         SQLQueries s=new SQLQueries();
+        ResultSet  res=s.getQRes(6);
+        while(res.next()){
+            System.out.println(res.getNString("QuestionText"));
+        }
     }
 }

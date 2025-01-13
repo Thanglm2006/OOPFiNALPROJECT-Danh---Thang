@@ -167,6 +167,10 @@ public class changeEmail extends JPanel {
             }else if(!confirm.getText().equals(String.valueOf(ranNum.get()))){
                 l.setText("Mã xác nhận không chính xác!");
                 l.setForeground(Color.RED);
+            }else if(NewEmail.getText().equalsIgnoreCase(finalMail)){
+                l.setText("Email mới không được trùng với email cũ!");
+                l.setForeground(Color.RED);
+
             }else{
                 boolean check=false;
                 check=sql.updateTEmail(NewEmail.getText(),id);
@@ -175,6 +179,7 @@ public class changeEmail extends JPanel {
                     confirm.setText("");
                     l.setText("Cập nhật email mới thành công!");
                     l.setForeground(Color.GREEN);
+                    JOptionPane.showMessageDialog(null,"Cập nhật email mới thành công!");
                     root.getBg().removeAll();
                     root.init();
                     root.revalidate();

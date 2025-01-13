@@ -27,6 +27,7 @@ public class AudioBar extends JPanel {
     private ImageIcon im,i1;
     private JLabel timeLabel;
     public AudioBar(int maxWidth, String file) {
+        setBackground(Color.WHITE);
         this.file = file;
 
         try {

@@ -64,7 +64,7 @@ public class ChangePass extends JPanel {
                         l.setText("Độ dài tối thiểu cho mật khẩu là 8 kí tự");
                         l.setForeground(Color.RED);
 
-                    } else if (NewPass.getText().equals(finalPass)) {
+                    } else if (argon2.verify(finalPass,NewPass.getText())) {
                         l.setText("Mật khẩu mới phải khác mật khâu cũ!");
                         l.setForeground(Color.RED);
 
@@ -86,6 +86,7 @@ public class ChangePass extends JPanel {
                             NewPass.setText("");
                             confirm.setText("");
                             oldPass.setText("");
+                            JOptionPane.showMessageDialog(null,"Đổi mật khẩu thành công!");
                             root.getBg().removeAll();
                             root.init();
                             root.revalidate();

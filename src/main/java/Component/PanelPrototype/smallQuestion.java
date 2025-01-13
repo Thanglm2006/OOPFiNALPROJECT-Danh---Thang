@@ -21,6 +21,7 @@ public class smallQuestion extends JPanel {
         return sc;
     }
     public smallQuestion(String question, HashMap<String, Integer> selections, String audioString) {
+        setBackground(new Color(255,255,255));
         AudioString=audioString;
         audiobar= new AudioBar(300,AudioString);
         Question = question;
@@ -72,6 +73,7 @@ public class smallQuestion extends JPanel {
     }
 
     public smallQuestion(String question, HashMap<String, Integer> selections) {
+        setBackground(new Color(255,255,255));
         Question = question;
         this.selections = selections;
         txt= new JLabel(Question);
