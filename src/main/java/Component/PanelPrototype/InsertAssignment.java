@@ -152,8 +152,10 @@ class BQ extends JPanel{
             for(SmallQuestion x:smallQuestions){
                 if(x.getAudio()!=null) sql.saveSmallQuestion(BQID,x.getQuestionText(),x.getAudio());
                 else sql.saveSmallQuestion(BQID,x.getQuestionText(),null);
+                System.out.println(x.getQuestionText());
                 for(int i=0;i<4;i++){
                     int tf=0;
+                    System.out.println(x.getSelection(i));
                     if(x.getCorrectAnswer()==i+1) tf=1;
                     sql.saveSelection(x.getId(),x.getSelection(i),tf);
                 }

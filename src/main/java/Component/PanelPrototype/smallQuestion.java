@@ -1,12 +1,14 @@
 package Component.PanelPrototype;
 import javax.swing.*;
 import java.awt.*;
+import Object.Pair;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class smallQuestion extends JPanel {
     private String Question;
-    private HashMap<String,Integer> selections;
+    private ArrayList<Pair<String,Integer>> selections;
     private String AudioString;
     private AudioBar audiobar;
     private JRadioButton[] op;
@@ -16,11 +18,18 @@ public class smallQuestion extends JPanel {
     public int getSore(){
         int sc=0;
         for(int i=0;i<4;i++){
-            if(op[i].isSelected())if(selections.get(op[i].getText())==1) sc++;
+            if(op[i].isSelected()){
+                for(Pair<String,Integer> x:selections){
+                    if(x.getKey().equals(op[i].getText())&&x.getValue()==1){
+                        sc++;
+                        break;
+                    }
+                }
+            }
         }
         return sc;
     }
-    public smallQuestion(String question, HashMap<String, Integer> selections, String audioString) {
+    public smallQuestion(String question,ArrayList<Pair<String,Integer>> selections, String audioString) {
         setBackground(new Color(255,255,255));
         AudioString=audioString;
         audiobar= new AudioBar(300,AudioString);
@@ -34,8 +43,8 @@ public class smallQuestion extends JPanel {
         gr= new ButtonGroup();
         op= new JRadioButton[4];
         AtomicInteger i= new AtomicInteger();
-        selections.forEach((k,v)->{
-            op[i.get()]=new JRadioButton(k);
+        selections.forEach(p->{
+            op[i.get()]=new JRadioButton(p.getKey());
             op[i.get()].setFont(new Font("Milford",Font.PLAIN,18));
             gr.add(op[i.get()]);
             add(op[i.get()]);
@@ -72,7 +81,7 @@ public class smallQuestion extends JPanel {
         );
     }
 
-    public smallQuestion(String question, HashMap<String, Integer> selections) {
+    public smallQuestion(String question, ArrayList<Pair<String,Integer>> selections) {
         setBackground(new Color(255,255,255));
         Question = question;
         this.selections = selections;
@@ -83,8 +92,8 @@ public class smallQuestion extends JPanel {
         gr= new ButtonGroup();
         op= new JRadioButton[4];
         AtomicInteger i= new AtomicInteger();
-        selections.forEach((k,v)->{
-            op[i.get()]=new JRadioButton(k);
+        selections.forEach(p->{
+            op[i.get()]=new JRadioButton(p.getKey());
             gr.add(op[i.get()]);
             add(op[i.get()]);
             i.getAndIncrement();
@@ -114,17 +123,4 @@ public class smallQuestion extends JPanel {
         );
     }
 
-
-    public static void main(String[] args) {
-        JFrame f= new JFrame();
-        f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        f.setSize(700,700);
-        HashMap<String,Integer> h= new HashMap<>();
-        h.put("Hello",0);h.put("hi",0); h.put("no",0); h.put("yes",1);
-
-        smallQuestion q= new smallQuestion("are you ok?",h,"C:\\Audios\\AudiosForQuestion\\q15.MP3");
-        f.add(q);
-        f.setLocationRelativeTo(null);
-        f.setVisible(true);
-    }
 }

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import Object.Student;
 import Res.Queries;
-
+import Object.Pair;
 import javax.swing.*;
 
 public class SQLQueries {
@@ -68,38 +68,6 @@ public class SQLQueries {
         try {
             PreparedStatement st= c.prepareStatement(String.format(q.getGetAllAss(),Teacher));
             return st.executeQuery();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-    public void ChangeSTPass(String pass, int id){
-        try {
-            PreparedStatement st= c.prepareStatement(String.format(q.getChangeSTPass(),pass,id));
-            st.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-    public void changeTPass(String pass, int id){
-        try {
-            PreparedStatement st= c.prepareStatement(String.format(q.getChangeTPass(),pass,id));
-            st.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-    public ResultSet getAllStudentAcc(){
-        try {
-            return sta.executeQuery(q.getGetAllStudentAcc());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-    public ResultSet getAllTeacherAcc(){
-        try {
-            return sta.executeQuery(q.getGetAllTeacherAcc());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -531,13 +499,14 @@ public class SQLQueries {
         }
         return tmp;
     }
-    public HashMap<String,Integer> getSelectionForQuestion(int QID){
-        HashMap<String,Integer> tmp= new HashMap<>();
+    public ArrayList<Pair<String,Integer>> getSelectionForQuestion(int QID){
+        ArrayList<Pair<String,Integer>> tmp= new ArrayList<>();
+
         try {
             PreparedStatement st= c.prepareStatement(String.format(q.getGetSelection(),QID));
             ResultSet res=st.executeQuery();
             while(res.next()){
-                tmp.put(res.getNString("SelectionText"),res.getInt("TrueFalse"));
+                tmp.add(new Pair<>(res.getNString("SelectionText"),res.getInt("TrueFalse")));
             }
         } catch (SQLException e) {
             e.printStackTrace();

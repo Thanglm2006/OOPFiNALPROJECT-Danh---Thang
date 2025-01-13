@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-
+import Object.Pair;
 public class BQPanel extends JPanel {
     private ArrayList<smallQuestion> QList;
     private JScrollPane scrollPane;
@@ -56,8 +56,11 @@ public class BQPanel extends JPanel {
                 int QuestionID=res.getInt("QuestionID");
                 String txt=res.getNString("QuestionText");
                 String audio=res.getNString("FilePath");
-                HashMap<String,Integer> tmp=sql.getSelectionForQuestion(QuestionID);
-                if(tmp.size()!=4) continue;
+                ArrayList<Pair<String,Integer>> tmp=sql.getSelectionForQuestion(QuestionID);
+                if(tmp.size()!=4) {
+                    System.out.println(QuestionID+":"+tmp.size());
+                    continue;
+                }
                 smallQuestion sq;
                 if(audio!=null)  sq = new smallQuestion("Câu "+idx+": "+txt,tmp,audio);
                 else  sq = new smallQuestion("Câu "+idx+": "+txt,tmp);
@@ -88,7 +91,7 @@ public class BQPanel extends JPanel {
         JFrame f = new JFrame();
         f.setSize(Toolkit.getDefaultToolkit().getScreenSize());
         f.setLayout(new MigLayout("wrap"));
-        f.add(new BQPanel(9,"/home/thanglm2006/Downloads/LE_listening_A2_An_invitation_to_a_party.mp3",new SQLQueries()),"h 100%");
+        f.add(new BQPanel(16,"/home/thanglm2006/Downloads/LE_listening_A2_An_invitation_to_a_party.mp3",new SQLQueries()),"h 100%");
 
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.setVisible(true);
