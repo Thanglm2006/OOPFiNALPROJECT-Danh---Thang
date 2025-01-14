@@ -96,7 +96,11 @@ public class ForgetPassWord3 extends JPanel {
             SwingWorker<Void,Void> worker = new SwingWorker<Void, Void>() {
                 @Override
                 protected Void doInBackground() throws Exception {
-                    if (pass.getText().equals(pass1.getText())) {
+                    if(pass.getText().isEmpty()){
+                        JOptionPane.showMessageDialog(null,"Mật khẩu không được để trống");
+                        return null;
+                    }
+                    else if (pass.getText().equals(pass1.getText())) {
                         String pass = pass1.getText();
                         Argon2 argon2 = Argon2Factory.create();
                         String hash = argon2.hash(2, 65536, 1, pass);
