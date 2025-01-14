@@ -104,9 +104,10 @@ public class BQuestionListPanel extends JPanel {
                 TP[idx].add(L[idx],"center");
                 TP[idx].setVisible(false);
                 add(TP[idx],String.format("y 0%%, center, w %d",(int)(scrW*0.713)));
+                add(submit,String.format("y 95%%,w %d,h %d", (int)(scrW*0.705),(int)(scrH*0.05)));
                 if(BQList[idx].getAU()!=null) {
                     add(BQList[idx], String.format("x 0%%,y 3.3%%,h %d, w %d", (int) (scrH * 0.80), (int) (scrW * 0.713)));
-                    add(submit,String.format("y 95%%,w %d,h %d", (int)(scrW*0.705),(int)(scrH*0.05)));
+
                 }
                 else {
 

@@ -26,7 +26,6 @@ public class MenuButton extends JButton {
     private boolean isSelected = false; // Trạng thái được chọn
     private final Color hoverOverlayColor = new Color(12, 243, 34); // Lớp phủ màu tối khi hover
     private final Color selectedOverlayColor = new Color(0, 0, 0, 100); // Lớp phủ màu tối khi được chọn
-
     // Danh sách chứa tất cả các nút
     private static final List<MenuButton> buttons = new ArrayList<>();
 
@@ -128,14 +127,6 @@ public class MenuButton extends JButton {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         super.paintComponent(g2);
-
-
-        if (pressedPoint != null) {
-            g2.setColor(effectColor);
-            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
-            g2.fillOval((int) (pressedPoint.x - animatSize / 2), (int) (pressedPoint.y - animatSize / 2), (int) animatSize, (int) animatSize);
-        }
-
         if (isHovered) {
             g2.setColor(hoverOverlayColor);
             g2.fillRect(0, 0, getWidth(), getHeight());
@@ -143,8 +134,14 @@ public class MenuButton extends JButton {
             g2.setColor(selectedOverlayColor);
             g2.fillRect(0, 0, getWidth(), getHeight());
         }
-    }
+        if (pressedPoint != null) {
+            g2.setColor(effectColor);
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+            g2.fillOval((int) (pressedPoint.x - animatSize / 2), (int) (pressedPoint.y - animatSize / 2), (int) animatSize, (int) animatSize);
+        }
 
+
+    }
     public static void main(String[] args) {
         JFrame frame = new JFrame("MenuAndHeader Button Demo");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
