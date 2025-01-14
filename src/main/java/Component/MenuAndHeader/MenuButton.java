@@ -24,8 +24,8 @@ public class MenuButton extends JButton {
 
     private boolean isHovered = false; // Trạng thái hover
     private boolean isSelected = false; // Trạng thái được chọn
-    private final Color hoverOverlayColor = new Color(12, 243, 34); // Lớp phủ màu tối khi hover
-    private final Color selectedOverlayColor = new Color(0, 0, 0, 100); // Lớp phủ màu tối khi được chọn
+    private final Color hoverOverlayColor = new Color(12, 243, 34,43); // Lớp phủ màu tối khi hover
+    private final Color selectedOverlayColor = new Color(12, 12, 12, 50); // Lớp phủ màu tối khi được chọn
     // Danh sách chứa tất cả các nút
     private static final List<MenuButton> buttons = new ArrayList<>();
 
