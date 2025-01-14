@@ -77,7 +77,6 @@ public class DictionaryPanel extends JPanel{
                      setCursor(Cursor.getDefaultCursor());
                      main.showForm(DictionaryPanel.this);
                      searchBar.grabFocus();
-                     System.out.println("Done");
                }
            };
            worker.execute();
@@ -110,7 +109,6 @@ public class DictionaryPanel extends JPanel{
                             setCursor(Cursor.getDefaultCursor());
                             main.showForm(DictionaryPanel.this);
                             searchBar.grabFocus();
-                            System.out.println("Done");
                         }
                     };
                     worker.execute();

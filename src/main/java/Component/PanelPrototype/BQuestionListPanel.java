@@ -59,17 +59,20 @@ public class BQuestionListPanel extends JPanel {
         submit.setForeground(new Color(255, 255, 255));
         submit.setText("Nộp bài");
         submit.addActionListener(e -> {
-            boolean check = sql.updateProgress(AssignmentID, StudentID, getScore());
-            if (!check) {
-                JOptionPane.showMessageDialog(null, "Điểm lần này thấp hơn lần trước (" + getScore() + " ) ,nên kết quả sẽ không được lưu lại.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(null, "Điểm của bạn đtaj được: " + getScore() + "\n" + "Kết quả đã được lưu lại.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            int op=JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn nộp bài? Hãy chắc chắn bạn không bỏ  sót bài nào ", "Xác nhận", JOptionPane.YES_NO_OPTION);
+            if(op==JOptionPane.YES_OPTION){
+                boolean check = sql.updateProgress(AssignmentID, StudentID, getScore());
+                if (!check) {
+                    JOptionPane.showMessageDialog(null, "Điểm lần này thấp hơn lần trước (" + getScore() + " ) ,nên kết quả sẽ không được lưu lại.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Điểm của bạn đtaj được: " + getScore() + "\n" + "Kết quả đã được lưu lại.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
 
+                }
+                root.getBg().removeAll();
+                root.init();
+                root.revalidate();
+                root.repaint();
             }
-            root.getBg().removeAll();
-            root.init();
-            root.revalidate();
-            root.repaint();
         });
         BQList= new BQPanel[numOfBQ];
         L=new JLabel[numOfBQ];

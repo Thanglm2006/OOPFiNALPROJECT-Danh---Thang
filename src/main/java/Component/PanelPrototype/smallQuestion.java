@@ -29,14 +29,31 @@ public class smallQuestion extends JPanel {
         }
         return sc;
     }
+    private String wrapText(String text, int maxLineLength) {
+        StringBuilder wrappedText = new StringBuilder();
+        wrappedText.append("<html>");
+        String[] words = text.split(" ");
+        int currentLength = 0;
+        for (String word : words) {
+            if (currentLength + word.length() > maxLineLength) {
+                wrappedText.append("<br>");
+                wrappedText.append("&nbsp;");
+                currentLength = 1;
+            }
+            wrappedText.append(word).append(" ");
+            currentLength += word.length() + 1;
+        }
+        wrappedText.append("</html>");
+        return wrappedText.toString().trim();
+    }
     public smallQuestion(String question,ArrayList<Pair<String,Integer>> selections, String audioString) {
         setBackground(new Color(255,255,255));
         AudioString=audioString;
-        audiobar= new AudioBar(300,AudioString);
+        audiobar= new AudioBar(1200,AudioString);
         Question = question;
         this.selections = selections;
         AudioString = audioString;
-        txt= new JLabel(Question);
+        txt= new JLabel(wrapText(Question, 110));
         txt.setFont(new Font("Milford",Font.BOLD,20));
         txt.setAlignmentX(LEFT_ALIGNMENT);
 
@@ -85,7 +102,7 @@ public class smallQuestion extends JPanel {
         setBackground(new Color(255,255,255));
         Question = question;
         this.selections = selections;
-        txt= new JLabel(Question);
+        txt= new JLabel(wrapText(Question, 110));
         txt.setFont(new Font("Times New Roman",Font.BOLD,20));
         txt.setAlignmentX(LEFT_ALIGNMENT);
 
