@@ -15,6 +15,7 @@ import java.util.Date;
 public class ProfilePanel extends JPanel {
     private JLabel ID,Name,Email,Birth,Date;
     public ProfilePanel(int st, SQLQueries sql, FrameForTeacher root) {
+        setBackground(Color.lightGray);
         setPreferredSize(new Dimension(900,800));
         String name=null,email=null,birth=null,date=null;
         int id = 0;
@@ -93,6 +94,7 @@ public class ProfilePanel extends JPanel {
         setBorder(new EtchedBorder());
     }
 public ProfilePanel(int st, SQLQueries sql, FrameForStudent root) {
+    setBackground(Color.lightGray);
     setPreferredSize(new Dimension(900,800));
     String name=null,email=null,birth=null,date=null;
     int id = 0;

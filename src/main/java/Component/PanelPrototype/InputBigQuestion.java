@@ -21,6 +21,7 @@ public class InputBigQuestion extends JFrame {
     private MyTextField t1;
     public InputBigQuestion(int stt, ArrayList<BQ> BQQ, JPanel BQPanel, int AssignmentId, SQLQueries sql, int[] BID,int[] ID) {
         this.BQQ=BQQ;
+        setTitle("Nhập câu hỏi lớn");
         this.QBPanel=BQPanel;
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         l1 = new JLabel("Nhập nội dung câu hỏi lớn thứ " + stt + ":");

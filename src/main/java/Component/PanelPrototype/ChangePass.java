@@ -19,6 +19,7 @@ public class ChangePass extends JPanel {
     private JLabel old,New,Con;
 
     public ChangePass(int id, SQLQueries sql, FrameForStudent root) {
+        setBackground(Color.lightGray);
         setPreferredSize(new Dimension(900,700));
         Argon2 argon2 = Argon2Factory.create();
         String pass = "";
@@ -145,6 +146,7 @@ public class ChangePass extends JPanel {
         setLayout(layout);
     }
     public ChangePass(int id, SQLQueries sql, FrameForTeacher root) {
+        setBackground(Color.lightGray);
         setPreferredSize(new Dimension(900,700));
         String pass = "";
         Argon2 argon2 = Argon2Factory.create();

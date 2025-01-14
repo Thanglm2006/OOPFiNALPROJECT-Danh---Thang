@@ -54,6 +54,9 @@ public class FrameForStudent extends JFrame {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
     public void initF(){
+        ImageIcon ic;
+        ic = new ImageIcon(getClass().getResource("/Image/eln.jpg"));
+        setIconImage(ic.getImage());
         try {
             for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {

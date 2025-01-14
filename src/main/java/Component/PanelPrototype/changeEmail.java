@@ -20,6 +20,7 @@ public class changeEmail extends JPanel {
     private JLabel con,New;
     private MyButton but,change;
     public changeEmail(int id, SQLQueries sql,FrameForStudent root) {
+        setBackground(Color.lightGray);
         AutomticMail Mail= new AutomticMail(sql);
         setPreferredSize(new Dimension(900,700));
         String mail = "";
@@ -116,6 +117,7 @@ public class changeEmail extends JPanel {
         add(change,"span, center , y 90%");
     }
     public changeEmail(int id, SQLQueries sql,FrameForTeacher root) {
+        setBackground(Color.lightGray);
         setPreferredSize(new Dimension(900,700));
         String mail = "";
         AutomticMail Mail= new AutomticMail(sql);

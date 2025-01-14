@@ -82,6 +82,7 @@ public class BQuestionListPanel extends JPanel {
             int idx=0;
             while (res2.next()) {
                 int id=res2.getInt("BQuestionID");
+                String bQuestionText=res2.getNString("BQuestionText");
                 String fp=null;
                 try {
                     fp = res2.getNString("FilePath");
@@ -95,16 +96,22 @@ public class BQuestionListPanel extends JPanel {
                     BQList[idx]=new BQPanel(id,null,sql);
                 }
                 BQList[idx].setVisible(false);
-                L[idx]=new JLabel("Bài "+(idx+1));
+                L[idx]=new JLabel("Bài "+(idx+1)+": "+bQuestionText);
                 L[idx].setFont(new Font("Sansserif",1,22));
                 TP[idx]=new JPanel();
-                TP[idx].setLayout(new MigLayout("al center,wrap"));
+                TP[idx].setLayout(new MigLayout("al left ,wrap"));
                 TP[idx].setBackground(new Color(255,255,255));
                 TP[idx].add(L[idx],"center");
                 TP[idx].setVisible(false);
                 add(TP[idx],String.format("y 0%%, center, w %d",(int)(scrW*0.713)));
-                if(BQList[idx].getAU()!=null)add(BQList[idx], String.format("x 0%%,y 3.3%%,h %d, w %d",(int) (scrH*0.80),(int)(scrW*0.713) ));
-                else add(BQList[idx], String.format("x 0%%,y 3.5%%,h %d, w %d",(int) (scrH*0.80),(int)(scrW*0.713) ));
+                if(BQList[idx].getAU()!=null) {
+                    add(BQList[idx], String.format("x 0%%,y 3.3%%,h %d, w %d", (int) (scrH * 0.80), (int) (scrW * 0.713)));
+                    add(submit,String.format("y 95%%,w %d,h %d", (int)(scrW*0.705),(int)(scrH*0.05)));
+                }
+                else {
+
+                    add(BQList[idx], String.format("x 0%%,y 3.5%%,h %d, w %d", (int) (scrH * 0.812), (int) (scrW * 0.713)));
+                }
                 idx++;
             }
         } catch (SQLException e) {
@@ -113,7 +120,7 @@ public class BQuestionListPanel extends JPanel {
 
         TP[0].setVisible(true);
         BQList[0].setVisible(true);
-        add(submit,String.format("y 95%%,w %d", (int)(scrW*0.705)));
+
     }
 
     public static void main(String[] args) {

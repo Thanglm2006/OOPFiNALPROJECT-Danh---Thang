@@ -80,6 +80,9 @@ public class FrameForTeacher extends JFrame {
     }
 
     public void init() {
+        ImageIcon ic;
+        ic = new ImageIcon(getClass().getResource("/Image/eln.jpg"));
+        setIconImage(ic.getImage());
         sql= new SQLQueries();
         dictionaryPanel= new DictionaryPanel(getWidth(),getHeight(),sql,main);
         layout = new MigLayout("fill", "0[]0[100%, fill]0", "0[fill, top]0");

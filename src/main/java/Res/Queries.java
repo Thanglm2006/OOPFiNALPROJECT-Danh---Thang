@@ -60,7 +60,7 @@ public class Queries {
             "from Question left join AudioForQuestion on Question.QuestionID=AudioForQuestion.QuestionID\n" +
             "left join BigQuestion on BigQuestion.BQuestionID=Question.BQuestionID\n" +
             "where BigQuestion.BQuestionID=%d";
-    private String GetallBQ="select BigQuestion.BQuestionID,AudioForBigQuestion.FilePath \n" +
+    private String GetallBQ="select BigQuestion.BQuestionID,AudioForBigQuestion.FilePath, BigQuestion.BQuestionText \n" +
             "from BigQuestion \n" +
             "left join AudioForBigQuestion on AudioForBigQuestion.BQuestionID=BigQuestion.BQuestionID \n" +
             "where AssignmentID=%d\n";

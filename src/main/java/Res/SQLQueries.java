@@ -514,9 +514,7 @@ public class SQLQueries {
     }
     public ResultSet getQRes(int BQID){
         try {
-
             PreparedStatement st= c.prepareStatement(String.format(q.getGetQRes(),BQID));
-
             ResultSet res= st.executeQuery();
             if(!res.next()) return null;
             return st.executeQuery();

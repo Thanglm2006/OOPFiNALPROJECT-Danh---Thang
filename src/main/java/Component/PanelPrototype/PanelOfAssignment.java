@@ -30,7 +30,7 @@ public class PanelOfAssignment extends JPanel {
             menuQues = new MenuQues(numOfBQ, BQuestionPanel);
             setLayout(new MigLayout());
             setBackground(new Color(255, 255, 255));
-            add(menuQues, "y 0%, h 98.81%");
+            add(menuQues,  "y 0%, h 99%");
             add(BQuestionPanel, "h 100%");
         }else{
             JLabel noBQ = new JLabel("Có vẻ như không có câu hỏi nào trong bài tập này, hãy liên hệ với giáo viên để được hỗ trợ!");

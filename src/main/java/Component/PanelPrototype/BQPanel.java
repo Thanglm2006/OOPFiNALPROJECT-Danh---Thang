@@ -83,7 +83,7 @@ public class BQPanel extends JPanel {
         if(AU==null)add(scrollPane, String.format("h 97%%, w %d",(int)(scrW*0.75) ));
         else{
             add(AU,"w 100%");
-            add(scrollPane, String.format("h 97%%, w %d",(int)(scrW*0.75) ));
+            add(scrollPane, String.format("h 96%%, w %d",(int)(scrW*0.75) ));
         }
     }
 

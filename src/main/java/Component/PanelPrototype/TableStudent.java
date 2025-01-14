@@ -15,6 +15,8 @@ public class TableStudent extends JPanel {
     private ArrayList<Student> students;
     int Teacher,Class;
     private SQLQueries sql;
+    private JScrollPane jScrollPane1;
+    private JTable jTable1;
     public TableStudent(SQLQueries sql,int Teacher, int Class) {
         this.Teacher=Teacher;
         this.Class=Class;
@@ -107,6 +109,5 @@ public class TableStudent extends JPanel {
     }
 
 
-    private JScrollPane jScrollPane1;
-    private JTable jTable1;
+
 }

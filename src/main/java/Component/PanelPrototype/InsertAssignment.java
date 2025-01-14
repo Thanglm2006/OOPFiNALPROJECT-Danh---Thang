@@ -2,6 +2,7 @@ package Component.PanelPrototype;
 import Component.mainFrames.FrameForTeacher;
 import Object.*;
 import Res.SQLQueries;
+import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
@@ -44,7 +45,6 @@ public class InsertAssignment extends JPanel {
         JButton submit = new JButton("Hoàn thành");
         submit.setFont(new Font("Times New Roman", Font.PLAIN, 18));
         submit.setBackground(Color.BLUE);
-        submit.setMaximumSize(new Dimension(50,50));
         submit.addActionListener(e->{
             sql.saveAssignment(text,TecherID);
             for(BQ i:BQ){
@@ -58,10 +58,10 @@ public class InsertAssignment extends JPanel {
             root.repaint();
         });
         JPanel title = new JPanel();
-        title.setLayout(new BorderLayout());
-        title.add(l1, BorderLayout.WEST);
-        title.add(submit,BorderLayout.CENTER);
-        title.add(insert, BorderLayout.EAST);
+        title.setLayout(new MigLayout("fillx"));
+        title.add(l1,"span 10");
+        title.add(submit,"x 79%, span 1");
+        title.add(insert,"x 88%, span 1");
 
         BQPanel = new JPanel();
         BQPanel.setLayout(new BoxLayout(BQPanel, BoxLayout.Y_AXIS));
