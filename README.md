@@ -2,7 +2,7 @@
   This is a project developed by Me ( Lê Mạnh Thắng) and my colleague ( Nguyễn Hữu Thành Danh) for the final oop class;
   This is an English Learning application with many functions with 2 type of user is Teacher and Student;
   You can experience this by following my instruction:
-# Fist, you need to clone this repository on Intellij or similar idle to get the code;
+# Fist, you need to clone this repository on Intellij or similar IDE to get the code;
 # Second, you have to download and run the database as intructions below:
 - Go to this link: https://drive.google.com/drive/folders/1S-hVtZvi4BAqzgE1BShzuCbkzT8HcCtS?usp=sharing
 - Down load the folder and then extract 2 file inside it;
