@@ -1,6 +1,6 @@
   # OOP FiNAL PROJECT
   This is a project developed by Me ( Lê Mạnh Thắng) and my colleague ( Nguyễn Hữu Thành Danh) for the final oop class;
-  This project is an English Learning application with many functions with 2 type of user is Teacher and Student;
+  This is an English Learning application with many functions with 2 type of user is Teacher and Student;
   You can experience this by following my instruction:
 # Fist, you need to clone this repository on Intellij or similar idle to get the code;
 # Second, you have to download and run the database as intructions below:
