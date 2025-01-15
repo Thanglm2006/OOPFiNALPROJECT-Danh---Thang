@@ -71,7 +71,7 @@ public class Queries {
             "LEFT JOIN StudentProgress sp ON ca.AssignmentID = sp.AssignmentID AND cas.StudentID = sp.StudentID\n" +
             "WHERE cas.StudentID = %d\n" +
             "  AND sp.AssignmentID IS NULL;";
-    private String allStudent="select \tstudent.StudentName,\n" +
+    private String allStudent="select \tstudent.StudentName, cls.ClassID,\n" +
             "\tstudent.StudentID,\n" +
             "\tround(sum(stp.Score),2) as score\n" +
             "from \n" +
@@ -79,7 +79,7 @@ public class Queries {
             "join\tStudentProgress stp on stp.StudentID=student.StudentID\n" +
             "join ClassAndStudent cls on cls.StudentID=student.StudentID\n" +
             "where exists (select * from ClassAndStudent where StudentID=%d)\n" +
-            "group by student.StudentName,student.StudentID\n" +
+            "group by student.StudentName,student.StudentID, cls.ClassID\n" +
             "order by score desc";
     private String searchSTBySTName="select student.StudentID, student.StudentName, student.Gender, student.Email, student.BirthDate, class.ClassName\n" +
             "from Student student\n" +

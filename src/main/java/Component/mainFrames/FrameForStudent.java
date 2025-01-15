@@ -15,7 +15,7 @@ import Component.PanelPrototype.ChangePass;
 import Component.PanelPrototype.changeEmail;
 import Component.PanelPrototype.DictionaryPanel;
 import Component.PanelPrototype.ResultOfStudent;
-import Component.PanelPrototype.Rank;
+import Component.PanelPrototype.Ranking;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -84,7 +84,7 @@ public class FrameForStudent extends JFrame {
         PF[2]= new changeEmail(StudentID,sql,this);
         //
         rs= new ResultOfStudent(StudentID,sql);
-        Rank rank= new Rank(sql,StudentID);
+        Ranking rank= new Ranking(sql,StudentID);
 //        JScrollPane cont= new JScrollPane(rs,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER,ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         allAssignment=sql.getStudentAssignment(StudentID);
         ArrayList<Integer> assID= new ArrayList<>();

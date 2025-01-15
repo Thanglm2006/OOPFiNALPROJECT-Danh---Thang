@@ -423,7 +423,7 @@ public class SQLQueries {
             ResultSet res= st.executeQuery();
             return res;
         } catch (SQLException e) {
-
+            e.printStackTrace();
         }
         return null;
     }

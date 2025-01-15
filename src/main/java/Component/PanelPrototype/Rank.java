@@ -14,6 +14,7 @@ public class Rank extends JPanel {
     private SQLQueries sql;
     private int Student;
     private JPanel p1;
+    private int ClassID;
     private PieChart pieChart;
     public Rank(SQLQueries sql,int Student) {
         this.sql=sql;
@@ -26,6 +27,9 @@ public class Rank extends JPanel {
     public JTable getTable(){
         return jTable1;
     }
+    public int getClassID(){
+        return ClassID;
+    }
     private void testData(JTable table) {
 
         ResultSet res = sql.allStudent(Student);
@@ -34,6 +38,7 @@ public class Rank extends JPanel {
         try{
             int idx =1;
             while(res.next()){
+                this.ClassID=res.getInt("ClassID");
                 model.addRow(new Object[]{idx++,res.getNString("studentName"),res.getFloat("score"),false});
             }
         } catch (SQLException e) {
