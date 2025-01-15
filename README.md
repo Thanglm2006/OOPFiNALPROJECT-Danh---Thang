@@ -28,7 +28,7 @@
           you can find the ip at docker0: ... inet xxx.xx.x.xx
 # Final:
   -run the main class: src/main/java/Gui/EnglishListeningApp.java
-  # if you wanna package the project into a real app:
+#P/S: if you wanna package the project into a real app:
       + get to the pom.xml file and change this line:    <outputFile>place the path of the file you want it to appear </outputFile>
                                          for example:  <outputFile>/home/thanglm2006/OOPFINALPROJECT-1.0-SNAPSHOT.jar</outputFile>
       + install maven by some tutorials on the internet
