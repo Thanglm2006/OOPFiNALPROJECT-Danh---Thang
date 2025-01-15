@@ -82,8 +82,15 @@ public class SQLQueries {
         }
     }
     public boolean insertStudentIntoClass(int Student, int Class){
+
         int check=0;
         try {
+            PreparedStatement stt= c.prepareStatement("SELECT * FROM StudentInClass WHERE StudentID=? ");
+            stt.setInt(1,Student);
+            ResultSet res=stt.executeQuery();
+           if(res.next()){
+                return false;
+           }
             PreparedStatement st= c.prepareStatement(String.format(q.getInsertStudentIntoClass(),Student,Class));
             check=st.executeUpdate();
         } catch (SQLException e) {

@@ -58,7 +58,6 @@ public class AudioBar extends JPanel {
         play.addActionListener(e -> beginPlay());
         pause.setVisible(false);
         pause.addActionListener(e -> pausePlayback());
-
         au = new JSlider(0, (int) totalSeconds);
         au.setValue(0);
 

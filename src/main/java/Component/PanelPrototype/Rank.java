@@ -16,7 +16,6 @@ public class Rank extends JPanel {
     private JPanel p1;
     private PieChart pieChart;
     public Rank(SQLQueries sql,int Student) {
-
         this.sql=sql;
         this.Student=Student;
         initComponents();
@@ -24,7 +23,9 @@ public class Rank extends JPanel {
         TableCustom.apply(jScrollPane1, TableCustom.TableType.DEFAULT);
         testData(jTable1);
     }
-
+    public JTable getTable(){
+        return jTable1;
+    }
     private void testData(JTable table) {
 
         ResultSet res = sql.allStudent(Student);
