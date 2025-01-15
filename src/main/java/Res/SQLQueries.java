@@ -81,15 +81,15 @@ public class SQLQueries {
             e.printStackTrace();
         }
     }
-    public boolean insertStudentIntoClass(int Student, int Class){
+    public int insertStudentIntoClass(int Student, int Class){
 
         int check=0;
         try {
-            PreparedStatement stt= c.prepareStatement("SELECT * FROM StudentInClass WHERE StudentID=? ");
+            PreparedStatement stt= c.prepareStatement("SELECT * FROM ClassAndStudent WHERE StudentID=? ");
             stt.setInt(1,Student);
             ResultSet res=stt.executeQuery();
            if(res.next()){
-                return false;
+                return 0;
            }
             PreparedStatement st= c.prepareStatement(String.format(q.getInsertStudentIntoClass(),Student,Class));
             check=st.executeUpdate();
@@ -97,9 +97,9 @@ public class SQLQueries {
             e.printStackTrace();
         }
         if(check==1){
-            return true;
+            return 1;
         }
-        return false;
+        return 2;
     }
     public ArrayList<Student> getAllStudent(int Teacher, int Class){
         try{
@@ -540,6 +540,7 @@ public class SQLQueries {
             try (InputStream inputStream = getClass().getResourceAsStream("/Security/ConnectionToSQL.dat");
                  ObjectInputStream ois = new ObjectInputStream(inputStream)) {
                 connectionS = (String) ois.readObject();
+                System.out.println(connectionS);
                 this.c = DriverManager.getConnection(connectionS);
                 this.sta = c.createStatement();
             } catch (IOException | ClassNotFoundException | SQLException e) {

@@ -91,7 +91,11 @@ public class TableStudent extends JPanel {
 
         if (jTable1.getColumnModel().getColumnCount() > 0) {
             jTable1.getColumnModel().getColumn(0).setPreferredWidth(50);
-            jTable1.getColumnModel().getColumn(1).setPreferredWidth(250);
+            jTable1.getColumnModel().getColumn(1).setPreferredWidth(50);
+            jTable1.getColumnModel().getColumn(2).setPreferredWidth(250);
+            jTable1.getColumnModel().getColumn(3).setPreferredWidth(100);
+            jTable1.getColumnModel().getColumn(4).setPreferredWidth(250);
+            jTable1.getColumnModel().getColumn(5).setPreferredWidth(250);
         }
         setLayout(new BorderLayout());
         add(jScrollPane1, BorderLayout.CENTER);

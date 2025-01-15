@@ -7,7 +7,6 @@ import Component.mainFrames.FrameForTeacher;
 import Res.AutomticMail;
 import Res.SQLQueries;
 import Component.Button.Button;
-
 import de.mkammerer.argon2.Argon2;
 import de.mkammerer.argon2.Argon2Factory;
 import net.miginfocom.swing.MigLayout;

@@ -165,14 +165,18 @@ class InsertST extends JFrame {
         b1.addActionListener(e->{
             if(!t1.getText().isEmpty()){
                 int StudentID=Integer.parseInt(t1.getText().substring(5));
-                boolean check= sql.insertStudentIntoClass(StudentID,Class);
-                if(check) {
+                int check= sql.insertStudentIntoClass(StudentID,Class);
+                if(check==0) {
+                    JOptionPane.showMessageDialog(null,"Sinh viên đã tồn tại trong một lớp học");
+                }
+                else if(check==1) {
                     JOptionPane.showMessageDialog(null, "Thêm thành công");
                     table.updateTableData();
                     root.revalidate();
                     root.repaint();
 
-                }else JOptionPane.showMessageDialog(null,"Sinh viên đã tồn tại trong lớp hoặc không tồn tại ID sinh viên");
+                }else if(check==2) JOptionPane.showMessageDialog(null,"Sinh viên đã tồn tại trong lớp hoặc không tồn tại ID sinh viên");
+
                 dispose();
             }
             else{
